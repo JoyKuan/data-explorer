@@ -1228,6 +1228,19 @@
 
     </script>
 
+    <script>
+        // 統一監聽視窗縮放
+        window.addEventListener('resize', function() {
+            // 這裡列出你代碼中所有的圖表變數名稱
+            if (typeof myChart !== 'undefined') myChart.resize();
+            if (typeof myChart1 !== 'undefined') myChart1.resize();
+            if (typeof myChart2 !== 'undefined') myChart2.resize();
+            if (typeof myChart4 !== 'undefined') myChart4.resize();
+            if (typeof myChart5 !== 'undefined') myChart5.resize();
+            if (typeof myChart6 !== 'undefined') myChart6.resize();
+        });
+    </script>
+
 
 </body>
 </html>
