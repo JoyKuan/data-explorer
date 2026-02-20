@@ -231,18 +231,16 @@
                     </div>
     
                     <div class="col-md-4 col-xs-12" style="margin-bottom: 15px;">
-                        <div class="col-md-4 col-xs-12" style="margin-bottom: 15px;">
-                            <div class="dropdown">
-                                <button class="btn btn-primary dropdown-toggle btn-block" type="button" id="purposeDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" style="height: 34px;">
-                                    <span id="selected_purpose_text">Select Purpose</span>
-                                    <span class="caret"></span>
-                                </button>
-                                <ul class="dropdown-menu" aria-labelledby="purposeDropdown" id="purpose_list" style="width: 100%;">
-                                    <li><a href="javascript:void(0)" onclick="selectPurpose('')">-- All Purposes --</a></li>
-                                    <li role="separator" class="divider"></li>
-                                    </ul>
-                                <input type="hidden" id="search_item_2" value="">
-                            </div>
+                        <div class="dropdown">
+                            <button class="btn btn-primary dropdown-toggle btn-block" type="button" id="purposeDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" style="height: 34px;">
+                                <span id="selected_purpose_text">Select Purpose</span>
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="purposeDropdown" id="purpose_list" style="width: 100%;">
+                                <li><a href="javascript:void(0)" onclick="selectPurpose('')">-- All Purposes --</a></li>
+                                <li role="separator" class="divider"></li>
+                                </ul>
+                            <input type="hidden" id="search_item_2" value="">
                         </div>
                     </div>
     
@@ -1375,50 +1373,46 @@
 
     }
 
-    // 修改後的自動生成邏輯與點擊處理
-    window.addEventListener('load', function() {
-        const purposes = [
-            "Other", "Meeting", "Meal/Entertain", "Errand/Supplies", 
-            "Customer Visit", "Temporary Site", "Between Offices", 
-            "Moving", "Airport/Travel", "Charity", "Commute"
-        ];
-    
-        const listContainer = document.getElementById('purpose_list');
-        
-        if (listContainer) {
-            purposes.forEach(function(item) {
-                var li = document.createElement('li');
-                var a = document.createElement('a');
-                a.href = "javascript:void(0)";
-                a.innerHTML = item;
-                // 綁定點擊事件
-                a.onclick = function() { selectPurpose(item); };
-                li.appendChild(a);
-                listContainer.appendChild(li);
-            });
-        }
-    });
-    
-    // 新增：處理點擊下拉選項後的動作
-    function selectPurpose(val) {
-        // 1. 更新按鈕上顯示的文字
-        document.getElementById('selected_purpose_text').innerHTML = val ? val : "Select Purpose";
-        
-        // 2. 更新隱藏的 input 值，這樣你原本的 search_purpose() 才能抓到值
-        document.getElementById('search_item_2').value = val;
-        
-        // 3. 自動執行過濾邏輯
-        if (val === "") {
-            default_(); // 如果選 All，就執行 Reset
-        } else {
-            search_purpose(); // 否則執行搜尋
-        }
-    }
-
     <script>
-        // 統一監聽視窗縮放
+        // 1. 自動生成 Purpose 下拉選單
+        window.addEventListener('load', function() {
+            const purposes = [
+                "Other", "Meeting", "Meal/Entertain", "Errand/Supplies", 
+                "Customer Visit", "Temporary Site", "Between Offices", 
+                "Moving", "Airport/Travel", "Charity", "Commute"
+            ];
+    
+            const listContainer = document.getElementById('purpose_list');
+            if (listContainer) {
+                purposes.forEach(function(item) {
+                    var li = document.createElement('li');
+                    var a = document.createElement('a');
+                    a.href = "javascript:void(0)";
+                    a.innerHTML = item;
+                    // 點擊事件
+                    a.onclick = function() { selectPurpose(item); };
+                    li.appendChild(a);
+                    listContainer.appendChild(li);
+                });
+            }
+        });
+    
+        // 2. 處理點擊下拉選項後的動作
+        function selectPurpose(val) {
+            // 更新按鈕文字
+            document.getElementById('selected_purpose_text').innerHTML = val ? val : "Select Purpose";
+            // 更新隱藏 input 的值
+            document.getElementById('search_item_2').value = val;
+            
+            if (val === "") {
+                if (typeof default_ === 'function') default_();
+            } else {
+                if (typeof search_purpose === 'function') search_purpose();
+            }
+        }
+    
+        // 3. 統一監聽視窗縮放
         window.addEventListener('resize', function() {
-            // 這裡列出你代碼中所有的圖表變數名稱
             if (typeof myChart !== 'undefined') myChart.resize();
             if (typeof myChart1 !== 'undefined') myChart1.resize();
             if (typeof myChart2 !== 'undefined') myChart2.resize();
@@ -1426,8 +1420,6 @@
             if (typeof myChart5 !== 'undefined') myChart5.resize();
             if (typeof myChart6 !== 'undefined') myChart6.resize();
         });
-
-        
     </script>
 
 
