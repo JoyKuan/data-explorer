@@ -232,7 +232,9 @@
     
                     <div class="col-md-4 col-xs-12" style="margin-bottom: 15px;">
                         <div class="input-group">
-                            <input id="search_item_2" type="search" class="form-control" placeholder="Enter the purpose" style="height: 34px;">
+                            <select id="search_item_2" class="form-control" style="height: 34px;" onchange="search_purpose()">
+                                    <option value="">-- Select Purpose --</option>
+                            </select>
                             <span class="input-group-btn">
                                 <button class="btn btn-primary" type="button" onclick="search_purpose()" style="height: 34px;">Search</button>
                             </span>
@@ -1368,6 +1370,24 @@
 
     }
 
+    // 自動生成 Purpose 下拉選單
+    window.addEventListener('load', function() {
+        const purposes = [
+            "Other", "Meeting", "Meal/Entertain", "Errand/Supplies", 
+            "Customer Visit", "Temporary Site", "Between Offices", 
+            "Moving", "Airport/Travel", "Charity", "Commute"
+        ];
+    
+        const select = document.getElementById('search_item_2');
+        if (select) {
+            purposes.forEach(function(item) {
+                var opt = document.createElement('option');
+                opt.value = item;
+                opt.innerHTML = item;
+                select.appendChild(opt);
+            });
+        }
+    });    
     </script>
 
     <script>
