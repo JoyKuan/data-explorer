@@ -35,13 +35,29 @@
         .main-container {padding: 15px;}
         @media (min-width: 768px) {.main-container { padding: 30px 50px; }}
 
+        /* 讓 Banner 容器黑底，確保圖片沒填滿時不露白 */
+        .banner-wrapper {
+            background-color: black;
+            width: 100%;
+            overflow: hidden;
+        }
+
         /* 讓 Banner 圖片能隨螢幕寬度縮放 */
         .banner-img {
             width: 100%;
-            height: auto;
-            max-height: 250px;
-            object-fit: cover;
+            height: 250px;
+            object-fit: cover;   /* 關鍵：等比例縮放填滿，不壓扁 */
+            object-position: center; /* 鎖定圖片中心，確保文字 "How Uber Works" 可見 */
+            display: block;
         }
+
+        /* 手機版響應式：螢幕窄時，高度可以縮小一點，才不會佔滿整個手機畫面 */
+        @media (max-width: 768px) {
+            .banner-img {
+                height: 150px;
+            }
+        }
+
         /* 讓表格在手機上可以橫向滑動，不會撐破版面 */
         .table-responsive {
             border: none;
