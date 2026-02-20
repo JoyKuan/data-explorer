@@ -1291,86 +1291,87 @@
         });
     }
     //done
-    function search_purpose(){
-        var srearchItem = document.getElementById("search_item_2").value;
-        console.log(srearchItem)
-        var purpose_ = database.ref('/index').orderByChild('PURPOSE').equalTo(srearchItem);
-        var djson;
+    function search_purpose() {
+        // 1. 獲取當前選中的 Purpose
+        var searchItem = document.getElementById("search_item_2").value;
+        // 2. 獲取當前 Miles 的範圍
+        var small_ = parseFloat(document.getElementById("small_").value) || 0;
+        var big_ = parseFloat(document.getElementById("big_").value) || 99999;
+    
+        // 如果沒選 Purpose，就視同執行 Miles Filter
+        if (searchItem === "") {
+            range_(); 
+            return;
+        }
 
-        purpose_.on('value', function(snapshot){
-            djson_ = JSON.parse(JSON.stringify(snapshot.val()));
-
-            djson = jsonToArray(djson_)
-            console.log(djson)
-
-            // djson = djson.sort(up_compare("PURPOSE"));
-            // console.log(djson);
-            
+        var purpose_ = database.ref('/index').orderByChild('PURPOSE').equalTo(searchItem);
+    
+        purpose_.on('value', function(snapshot) {
+            var djson = snapshot.val();
             var tr = "";
             var i = 1;
-            for(x in djson){
-                if(djson[x] != null){
-                    tr += "<tr>";
-                    tr += "<td>"+i+"</td>";
-                    tr += "<td>"+djson[x]["START_DATE"]+"</td>";
-                    tr += "<td>"+djson[x]["END_DATE"]+"</td>";
-                    tr += "<td>"+djson[x]["CATEGORY"]+"</td>";
-                    tr += "<td>"+djson[x]["START"]+"</td>";
-                    tr += "<td>"+djson[x]["STOP"]+"</td>";
-                    tr += "<td>"+djson[x]["MILES"]+"</td>";
-                    tr += "<td>"+djson[x]["PURPOSE"]+"</td>";
-                    tr += "</tr>";
-                    i ++; 
-                }    
+            
+            for (var x in djson) {
+                if (djson[x] != null) {
+                    // --- 關鍵修改：在這裡同時判斷 Miles 範圍 ---
+                    var miles = parseFloat(djson[x]["MILES"]);
+                    if (miles >= small_ && miles <= big_) {
+                        tr += "<tr>";
+                        tr += "<td>" + i + "</td>";
+                        tr += "<td>" + djson[x]["START_DATE"] + "</td>";
+                        tr += "<td>" + djson[x]["END_DATE"] + "</td>";
+                        tr += "<td>" + djson[x]["CATEGORY"] + "</td>";
+                        tr += "<td>" + djson[x]["START"] + "</td>";
+                        tr += "<td>" + djson[x]["STOP"] + "</td>";
+                        tr += "<td>" + djson[x]["MILES"] + "</td>";
+                        tr += "<td>" + djson[x]["PURPOSE"] + "</td>";
+                        tr += "</tr>";
+                        i++;
+                    }
+                }
             }
             document.querySelector("table tbody").innerHTML = tr;
         });
     }
 
-    function range_(){
-        var small_ = 0;
-        var big_ = 500;
-        if(document.getElementById("small_").value != null ){
-            small_ = document.getElementById("small_").value;}
-        console.log(small_)
-
-        if(document.getElementById("big_").value != null ){
-            big_ = document.getElementById("big_").value;}
-
-        console.log(big_)
-
-        var mile_;
-        mile_ = database.ref('/index/');
-        var djson;
-        var djson_;
-
-        mile_.on('value', function(snapshot){
-            djson_ = JSON.parse(JSON.stringify(snapshot.val()));
-            djson = jsonToArray(djson_);
-            console.log(djson);
-
+    function range_() {
+        var small_ = parseFloat(document.getElementById("small_").value) || 0;
+        var big_ = parseFloat(document.getElementById("big_").value) || 99999;
+        // 獲取當前選單的值
+        var currentPurpose = document.getElementById("search_item_2").value;
+    
+        var range_val = database.ref('/index');
+        range_val.on('value', function(snapshot) {
+            var djson = snapshot.val();
             var tr = "";
             var i = 1;
-            for(x in djson){
-                if(djson[x] != null){
-                    if(djson[x]["MILES"] >= small_ && djson[x]["MILES"] <= big_){
+            for (var x in djson) {
+                if (djson[x] != null) {
+                    var miles = parseFloat(djson[x]["MILES"]);
+                    var purpose = djson[x]["PURPOSE"];
+    
+                    // --- 同時判斷 Miles 和 Purpose ---
+                    var matchMiles = (miles >= small_ && miles <= big_);
+                    var matchPurpose = (currentPurpose === "" || purpose === currentPurpose);
+    
+                    if (matchMiles && matchPurpose) {
                         tr += "<tr>";
-                        tr += "<td>"+i+"</td>";
-                        tr += "<td>"+djson[x]["START_DATE"]+"</td>";
-                        tr += "<td>"+djson[x]["END_DATE"]+"</td>";
-                        tr += "<td>"+djson[x]["CATEGORY"]+"</td>";
-                        tr += "<td>"+djson[x]["START"]+"</td>";
-                        tr += "<td>"+djson[x]["STOP"]+"</td>";
-                        tr += "<td>"+djson[x]["MILES"]+"</td>";
-                        tr += "<td>"+djson[x]["PURPOSE"]+"</td>";
+                        // ... (中間的 td 代碼與上面一致，請保留你原本的拼接方式) ...
+                        tr += "<td>" + i + "</td>";
+                        tr += "<td>" + djson[x]["START_DATE"] + "</td>";
+                        tr += "<td>" + djson[x]["END_DATE"] + "</td>";
+                        tr += "<td>" + djson[x]["CATEGORY"] + "</td>";
+                        tr += "<td>" + djson[x]["START"] + "</td>";
+                        tr += "<td>" + djson[x]["STOP"] + "</td>";
+                        tr += "<td>" + djson[x]["MILES"] + "</td>";
+                        tr += "<td>" + djson[x]["PURPOSE"] + "</td>";
                         tr += "</tr>";
-                        i ++;   
-                    }  
-                }    
+                        i++;
+                    }
+                }
             }
             document.querySelector("table tbody").innerHTML = tr;
         });
-
     }
     </script>
 
