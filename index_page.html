@@ -232,14 +232,14 @@
     
                     <div class="col-md-4 col-xs-12" style="margin-bottom: 15px;">
                         <div class="dropdown">
-                            <button class="btn btn-primary dropdown-toggle btn-block" type="button" id="purposeDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" style="height: 34px;">
+                            <button class="btn btn-primary dropdown-toggle btn-block" type="button" data-toggle="dropdown" style="height: 34px;">
                                 <span id="selected_purpose_text">Select Purpose</span>
                                 <span class="caret"></span>
                             </button>
-                            <ul class="dropdown-menu" aria-labelledby="purposeDropdown" id="purpose_list" style="width: 100%;">
+                            <ul class="dropdown-menu" id="purpose_list" style="width: 100%; max-height: 300px; overflow-y: auto;">
                                 <li><a href="javascript:void(0)" onclick="selectPurpose('')">-- All Purposes --</a></li>
                                 <li role="separator" class="divider"></li>
-                                </ul>
+                            </ul>
                             <input type="hidden" id="search_item_2" value="">
                         </div>
                     </div>
@@ -1374,52 +1374,53 @@
     }
 
     <script>
-        // 1. 自動生成 Purpose 下拉選單
-        window.addEventListener('load', function() {
-            const purposes = [
-                "Other", "Meeting", "Meal/Entertain", "Errand/Supplies", 
-                "Customer Visit", "Temporary Site", "Between Offices", 
-                "Moving", "Airport/Travel", "Charity", "Commute"
-            ];
-    
-            const listContainer = document.getElementById('purpose_list');
-            if (listContainer) {
-                purposes.forEach(function(item) {
-                    var li = document.createElement('li');
-                    var a = document.createElement('a');
-                    a.href = "javascript:void(0)";
-                    a.innerHTML = item;
-                    // 點擊事件
-                    a.onclick = function() { selectPurpose(item); };
-                    li.appendChild(a);
-                    listContainer.appendChild(li);
-                });
-            }
-        });
-    
-        // 2. 處理點擊下拉選項後的動作
-        function selectPurpose(val) {
-            // 更新按鈕文字
-            document.getElementById('selected_purpose_text').innerHTML = val ? val : "Select Purpose";
-            // 更新隱藏 input 的值
-            document.getElementById('search_item_2').value = val;
-            
-            if (val === "") {
-                if (typeof default_ === 'function') default_();
-            } else {
-                if (typeof search_purpose === 'function') search_purpose();
-            }
+    // 1. 當網頁載入完成後，自動把選項塞進下拉選單
+    window.addEventListener('load', function() {
+        var purposes = [
+            "Other", "Meeting", "Meal/Entertain", "Errand/Supplies", 
+            "Customer Visit", "Temporary Site", "Between Offices", 
+            "Moving", "Airport/Travel", "Charity", "Commute"
+        ];
+
+        var listContainer = document.getElementById('purpose_list');
+        if (listContainer) {
+            purposes.forEach(function(item) {
+                var li = document.createElement('li');
+                var a = document.createElement('a');
+                a.href = "javascript:void(0)";
+                a.innerHTML = item;
+                // 點擊選項時執行 selectPurpose 函數
+                a.onclick = function() { selectPurpose(item); };
+                li.appendChild(a);
+                listContainer.appendChild(li);
+            });
         }
-    
-        // 3. 統一監聽視窗縮放
-        window.addEventListener('resize', function() {
-            if (typeof myChart !== 'undefined') myChart.resize();
-            if (typeof myChart1 !== 'undefined') myChart1.resize();
-            if (typeof myChart2 !== 'undefined') myChart2.resize();
-            if (typeof myChart4 !== 'undefined') myChart4.resize();
-            if (typeof myChart5 !== 'undefined') myChart5.resize();
-            if (typeof myChart6 !== 'undefined') myChart6.resize();
-        });
+    });
+
+    // 2. 定義點擊選項後的動作
+    function selectPurpose(val) {
+        // 更新按鈕文字
+        document.getElementById('selected_purpose_text').innerHTML = val ? val : "Select Purpose";
+        // 把值存入隱藏的 input，讓 Firebase 邏輯能抓到
+        document.getElementById('search_item_2').value = val;
+        
+        // 觸發搜尋
+        if (val === "") {
+            default_(); 
+        } else {
+            search_purpose(); 
+        }
+    }
+
+    // 3. 原有的視窗縮放邏輯
+    window.addEventListener('resize', function() {
+        if (typeof myChart !== 'undefined') myChart.resize();
+        if (typeof myChart1 !== 'undefined') myChart1.resize();
+        if (typeof myChart2 !== 'undefined') myChart2.resize();
+        if (typeof myChart4 !== 'undefined') myChart4.resize();
+        if (typeof myChart5 !== 'undefined') myChart5.resize();
+        if (typeof myChart6 !== 'undefined') myChart6.resize();
+    });
     </script>
 
 
