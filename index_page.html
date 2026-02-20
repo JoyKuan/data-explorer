@@ -123,20 +123,24 @@
 
         /* 1. 強制讓表格標題內的文字和箭頭圖示永遠排在同一行 */
         th {
-            white-space: nowrap !important; /* 禁止文字換行 */
-            word-break: keep-all !important;
+            white-space: nowrap !important; /* 確保不換行 */
             vertical-align: middle !important;
-            text-align: center !important;
-            padding: 10px 5px !important; /* 增加標題呼吸空間 */
+            padding: 12px 8px !important;   /* 增加一點寬度空間 */
         }
         
         /* 2. 讓箭頭緊隨文字，避免被擠壓 */
         th i {
+            font-size: 14px !important;    /* 放大箭頭，原本可能只有 10-12px */
+            margin-left: 5px !important;   /* 增加文字與箭頭間的距離 */
+            color: #333;                   /* 讓顏色深一點，看起來更清晰 */
             display: inline-block !important;
-            margin-left: 4px !important;
-            font-size: 12px; /* 稍微縮小圖示，更顯商務質感 */
+            vertical-align: middle !important;
         }
-        
+        /* 當滑鼠移上去時變色，增加互動感 */
+        th i:hover {
+            color: #337ab7;                /* 變成 Bootstrap 的藍色 */
+        }
+                
         /* 3. 修正表格容器，確保小螢幕可滑動但不擠壓內容 */
         .table-responsive {
             width: 100%;
