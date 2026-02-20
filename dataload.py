@@ -29,9 +29,6 @@ df.drop(df.index[-1], inplace=True)
 df = df.rename(columns=lambda x: x.replace('*', ''))
 df.PURPOSE.fillna('Other', inplace=True)
 df['PURPOSE'] = df.PURPOSE.str.replace('Charity ($)', 'Charity', regex=False)
-df['CATEGORY'] = df.CATEGORY.str.capitalize()
-df['START'] = df.START.str.title()
-df['STOP'] = df.STOP.str.title()
 
 # Address 'Kar?chi' and 'R?walpindi' problems
 df['START'] = df.START.str.replace('Kar?chi', 'Karachi', regex=False)
@@ -40,6 +37,10 @@ df['START'] = df.START.str.replace('R?walpindi', 'Rawalpindi', regex=False)
 df['STOP'] = df.STOP.str.replace('R?walpindi', 'Rawalpindi', regex=False)
 df['START'] = df.START.str.replace('Unknown Location', 'Unknown', regex=False)
 df['STOP'] = df.STOP.str.replace('Unknown Location', 'Unknown', regex=False)
+
+df['CATEGORY'] = df.CATEGORY.str.capitalize()
+df['START'] = df.START.str.title()
+df['STOP'] = df.STOP.str.title()
 
 d = df.set_index('Trip_ID').to_dict(orient='index')
 jsondata = json.dumps(d)
