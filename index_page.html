@@ -130,15 +130,17 @@
         
         /* 2. 讓箭頭緊隨文字，避免被擠壓 */
         th i {
-            font-size: 14px !important;    /* 放大箭頭，原本可能只有 10-12px */
-            margin-left: 5px !important;   /* 增加文字與箭頭間的距離 */
+            font-size: 18px !important;    /* 放大箭頭，原本可能只有 10-12px */
+            margin-left: 6px !important;   /* 增加文字與箭頭間的距離 */
             color: #333;                   /* 讓顏色深一點，看起來更清晰 */
             display: inline-block !important;
             vertical-align: middle !important;
+            transition: transform 0.2s;    /* 增加一點點平滑動畫效果 */
         }
         /* 當滑鼠移上去時變色，增加互動感 */
         th i:hover {
             color: #337ab7;                /* 變成 Bootstrap 的藍色 */
+            transform: scale(1.2);         /* 滑鼠移上去再放大 20%，增加點擊反饋 */
         }
                 
         /* 3. 修正表格容器，確保小螢幕可滑動但不擠壓內容 */
