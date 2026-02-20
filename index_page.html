@@ -120,6 +120,36 @@
         .navbar-form .btn {
             padding: 4px 10px; /* 搜尋按鈕也稍微縮小 */
         }
+
+        /* 1. 強制讓表格標題內的文字和箭頭圖示永遠排在同一行 */
+        th {
+            white-space: nowrap !important; /* 禁止文字換行 */
+            word-break: keep-all !important;
+            vertical-align: middle !important;
+            text-align: center !important;
+            padding: 10px 5px !important; /* 增加標題呼吸空間 */
+        }
+        
+        /* 2. 讓箭頭緊隨文字，避免被擠壓 */
+        th i {
+            display: inline-block !important;
+            margin-left: 4px !important;
+            font-size: 12px; /* 稍微縮小圖示，更顯商務質感 */
+        }
+        
+        /* 3. 修正表格容器，確保小螢幕可滑動但不擠壓內容 */
+        .table-responsive {
+            width: 100%;
+            overflow-x: auto !important;
+            -webkit-overflow-scrolling: touch;
+            margin-top: 20px;
+        }
+        
+        /* 4. 給表格一個最小寬度，防止 8 個欄位擠在一起 */
+        #result {
+            min-width: 1000px !important; 
+            table-layout: auto !important;
+        }
     </style>
 
     <meta charset="utf-8">
