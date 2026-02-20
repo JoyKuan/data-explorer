@@ -25,7 +25,28 @@
     <script src="https://kit.fontawesome.com/afa3fff295.js" crossorigin="anonymous"></script>
    
     <style>
-        body{padding: 40px; position:relative;}
+        /* 移除 body 的固定 padding，改由 container 控制 */
+        body { 
+            padding: 0; 
+            margin: 0; 
+            background-color: #f5f5f5; 
+        }
+        /* 這是內容容器，在手機上間距變小，大螢幕變大 */
+        .main-container {padding: 15px;}
+        @media (min-width: 768px) {.main-container { padding: 30px 50px; }}
+
+        /* 讓 Banner 圖片能隨螢幕寬度縮放 */
+        .banner-img {
+            width: 100%;
+            height: auto;
+            max-height: 300px;
+            object-fit: cover;
+        }
+        /* 讓表格在手機上可以橫向滑動，不會撐破版面 */
+        .table-responsive {
+            border: none;
+            margin-top: 20px;
+        }
         i{cursor: pointer;}
     </style>
 
