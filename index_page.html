@@ -40,15 +40,36 @@
             background-color: black;
             width: 100%;
             overflow: hidden;
+            text-align: center;
         }
 
         /* 讓 Banner 圖片能隨螢幕寬度縮放 */
         .banner-img {
             width: 100%;
+            max-width: 1200px;  /* 限制最大寬度，避免在大螢幕過度拉伸 */
             height: 250px;
-            object-fit: cover;   /* 關鍵：等比例縮放填滿，不壓扁 */
-            object-position: center; /* 鎖定圖片中心，確保文字 "How Uber Works" 可見 */
+            object-fit: contain;     /* 關鍵：等比例縮放填滿，不壓扁 */
+            margin: 0 auto;
             display: block;
+        }
+
+        /* 強制功能列容器字體正常，避免繼承 36px */
+        .filter-row {
+            margin-top: 30px;
+            padding: 0 15px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;    /* 垂直居中 */
+            justify-content: center; /* 水平居中 */
+            font-size: 14px;         /* 重設正常字體大小 */
+        }
+    
+        /* 讓 col 區塊在 Flex 模式下不要亂跑 */
+        .filter-item {
+            margin-bottom: 15px;
+            padding: 0 10px;
+            display: flex;
+            align-items: center;
         }
 
         /* 手機版響應式：螢幕窄時，高度可以縮小一點，才不會佔滿整個手機畫面 */
@@ -103,7 +124,7 @@
     </header>
 
     <!-- Dataset Area -->
-    <div style="font-size:36px" class="tab-content">
+    <div class="tab-content">
         <div id="menu1" class="tab-pane fade in active">
             <div style="background: black; overflow: hidden;">
                 <img src="uber_pic.png" class="banner-img" alt="Uber Trip Banner">
