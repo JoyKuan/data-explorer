@@ -129,27 +129,29 @@
             <div style="background: black; overflow: hidden;">
                 <img src="uber_pic.png" class="banner-img" alt="Uber Trip Banner">
             </div>
-            <div class="row" style="margin-top: 30px; padding: 0 15px; display: flex; flex-wrap: wrap; align-items: center; justify-content: center;">
-            
-                <div class="col-md-2 col-xs-12" style="margin-bottom: 15px;">
-                    <button type="button" class="btn btn-default btn-block" onclick="default_()" style="height: 34px;">Default</button>
-                </div>
-
-                <div class="col-md-4 col-xs-12" style="margin-bottom: 15px;">
-                    <div class="input-group">
-                        <input id="search_item_2" type="search" class="form-control" placeholder="Enter the purpose" style="height: 34px;">
-                        <span class="input-group-btn">
-                            <button class="btn btn-primary" type="button" onclick="search_purpose()" style="height: 34px;">Search</button>
-                        </span>
+            <div style="width: 80%; margin: 0 auto;">
+                <div class="row" style="margin-top: 30px; padding: 0 15px; display: flex; flex-wrap: wrap; align-items: center; justify-content: center;">
+                
+                    <div class="col-md-2 col-xs-12" style="margin-bottom: 15px;">
+                        <button type="button" class="btn btn-default btn-block" onclick="default_()" style="height: 34px;">Default</button>
                     </div>
-                </div>
-
-                <div class="col-md-4 col-xs-12" style="margin-bottom: 15px;">
-                    <div style="display: flex; align-items: center; gap: 5px; height: 34px;">
-                        <input id="small_" type="number" class="form-control" style="width: 80px; height: 34px;" value="0">
-                        <span style="font-size: 18px; line-height: 1;">~</span>
-                        <input id="big_" type="number" class="form-control" style="width: 80px; height: 34px;" value="500">
-                        <button class="btn btn-info" type="button" onclick="range_()" style="height: 34px;">Miles Filter</button>
+    
+                    <div class="col-md-4 col-xs-12" style="margin-bottom: 15px;">
+                        <div class="input-group">
+                            <input id="search_item_2" type="search" class="form-control" placeholder="Enter the purpose" style="height: 34px;">
+                            <span class="input-group-btn">
+                                <button class="btn btn-primary" type="button" onclick="search_purpose()" style="height: 34px;">Search</button>
+                            </span>
+                        </div>
+                    </div>
+    
+                    <div class="col-md-4 col-xs-12" style="margin-bottom: 15px;">
+                        <div style="display: flex; align-items: center; gap: 5px; height: 34px;">
+                            <input id="small_" type="number" class="form-control" style="width: 80px; height: 34px;" value="0">
+                            <span style="font-size: 18px; line-height: 1;">~</span>
+                            <input id="big_" type="number" class="form-control" style="width: 80px; height: 34px;" value="500">
+                            <button class="btn btn-info" type="button" onclick="range_()" style="height: 34px;">Miles Filter</button>
+                        </div>
                     </div>
                 </div>
             </div>
