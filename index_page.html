@@ -85,6 +85,41 @@
             margin-top: 20px;
         }
         i{cursor: pointer;}
+
+        /* --- 導覽列縮減樣式 --- */
+
+        /* 1. 調整導覽列整體最小高度 (原本預設是 50px) */
+        .navbar {
+            min-height: 40px !important;
+        }
+
+        /* 2. 縮小左側 "My Uber" 的字體與邊距 */
+        .navbar-brand {
+            font-size: 14px !important;    /* 縮小字體 */
+            padding: 10px 15px !important; /* 縮減上下內邊距 (10px) */
+            height: 40px !important;       /* 配合 navbar 高度 */
+        }
+
+        /* 3. 縮小 "DATASET" 選單的字體與邊距 */
+        .navbar-nav > li > a {
+            font-size: 13px !important;    /* 縮小字體 */
+            padding-top: 10px !important;    /* 縮減上方間距 */
+            padding-bottom: 10px !important; /* 縮減下方間距 */
+        }
+
+        /* 4. 修正右側搜尋框的位置，讓它在變窄的導覽列中垂直置中 */
+        .navbar-form {
+            margin-top: 3px !important;
+            margin-bottom: 3px !important;
+        }
+        
+        .navbar-form .form-control {
+            height: 30px; /* 搜尋框也稍微變矮一點點才協調 */
+        }
+        
+        .navbar-form .btn {
+            padding: 4px 10px; /* 搜尋按鈕也稍微縮小 */
+        }
     </style>
 
     <meta charset="utf-8">
@@ -99,7 +134,7 @@
             <!-- Logo-->
             <div class="container-fluid">
                 <div class="navbar-header">
-                    <a class="navbar-brand" href="#">Ｍy Uber</a>
+                    <a class="navbar-brand" href="#">Ｍy Trip</a>
                 </div>
                 <!-- 選單內容 -->
                 <div>
