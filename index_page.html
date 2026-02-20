@@ -716,30 +716,44 @@
     </script>
     <script>
     //done
-    function default_(){
-        var database = firebase.database();
-        var myuber = database.ref('/index/');
-        var djson;
-
-        myuber.on('value', function(snapshot){
-            djson = JSON.parse(JSON.stringify(snapshot.val()));
-            console.log(djson);
+    function default_() {
+    // 1. 回復 Miles 輸入框的顯示數值
+        document.getElementById("small_").value = 0;
+        document.getElementById("big_").value = 500;
+    
+        // 2. 回復 Purpose 下拉選單的顯示文字
+        var selectedText = document.getElementById('selected_purpose_text');
+        if (selectedText) {
+            selectedText.innerHTML = "Select Purpose";
+        }
+    
+        // 3. 清空隱藏的搜尋數值 (search_item_2)
+        var hiddenInput = document.getElementById("search_item_2");
+        if (hiddenInput) {
+            hiddenInput.value = "";
+        }
+    
+        // 4. 執行原有的資料重載邏輯
+        var index_ = database.ref('/index');
+        index_.on('value', function(snapshot) {
+            var djson = snapshot.val();
             var tr = "";
-            for(x in djson){
-                if(djson[x] != null){
+            var i = 1;
+            for (var x in djson) {
+                if (djson[x] != null) {
                     tr += "<tr>";
-                    tr += "<td>"+x+"</td>";
-                    tr += "<td>"+djson[x]["START_DATE"]+"</td>";
-                    tr += "<td>"+djson[x]["END_DATE"]+"</td>";
-                    tr += "<td>"+djson[x]["CATEGORY"]+"</td>";
-                    tr += "<td>"+djson[x]["START"]+"</td>";
-                    tr += "<td>"+djson[x]["STOP"]+"</td>";
-                    tr += "<td>"+djson[x]["MILES"]+"</td>";
-                    tr += "<td>"+djson[x]["PURPOSE"]+"</td>";
+                    tr += "<td>" + i + "</td>";
+                    tr += "<td>" + djson[x]["START_DATE"] + "</td>";
+                    tr += "<td>" + djson[x]["END_DATE"] + "</td>";
+                    tr += "<td>" + djson[x]["CATEGORY"] + "</td>";
+                    tr += "<td>" + djson[x]["START"] + "</td>";
+                    tr += "<td>" + djson[x]["STOP"] + "</td>";
+                    tr += "<td>" + djson[x]["MILES"] + "</td>";
+                    tr += "<td>" + djson[x]["PURPOSE"] + "</td>";
                     tr += "</tr>";
-                }    
+                    i++;
+                }
             }
-
             document.querySelector("table tbody").innerHTML = tr;
         });
     }
