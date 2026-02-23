@@ -445,7 +445,7 @@
                         </th>
                     <!--3 catalogy -->
                     <th>
-                        <div id="main2" style="width: 100px; height: 100px; margin-left: auto; margin-right: 0;"></div>
+                        <div id="main2" style="width: 100px; height: 100px; margin: 0 auto;"></div>
                         <script type="text/javascript">
                             var myChart = echarts.init(document.getElementById('main2'));
                             var option = {
@@ -461,11 +461,18 @@
                                 series: [{
                                     name: 'Category',
                                     type: 'pie',
-                                    radius: ['45%', '75%'], 
                                     center: ['50%', '50%'],
+                                    radius: ['35%', '80%'], 
                                     avoidLabelOverlap: false,
-                                    label: {show: false},
-                                    emphasis: {scale: true, scaleSize: 6, label: { show: false } },
+                                    label: {
+                                        show: false, 
+                                        position: 'inner', 
+                                        formatter: '{d}%', 
+                                        fontSize: 10,
+                                        color: '#fff',
+                                        fontWeight: 'bold',
+                                        position: 'center'},
+                                    emphasis: {scale: true, scaleSize: 4, label: { show: false, fontSize: 12 } },
                                     labelLine: {show: false},
                                     data: [
                                         {value: 1078, name: 'Business'},
