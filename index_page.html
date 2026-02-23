@@ -452,23 +452,13 @@
                         <script type="text/javascript">
                             var myChart = echarts.init(document.getElementById('main2'));
                             var option = {
-                                title: {},
-                                tooltip: {},
-                                legend: {
-                                    show: false 
-                                },
-                                xAxis: {
-                                    show: false 
-                                    // data: ["Business","Personal"]
-                                },
-                                yAxis: {    
-                                        show: false 
-                                    },
                                 series: [{
                                     type: 'pie',
-                                    data: [{value:1078, name:'Business'},
-                                            {value:77, name:'Personal'}]
-                                    // color:['Lightblue']
+                                    radius: ['50%', '100%'], // 環狀效果
+                                    center: ['50%', '50%'],
+                                    avoidLabelOverlap: false,
+                                    label: { show: false }, // 表格內圖表不顯示文字
+                                    data: count_category
                                 }]
                             };
                             myChart.setOption(option);
