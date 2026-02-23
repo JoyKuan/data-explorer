@@ -379,10 +379,7 @@
                                 }
                                 document.querySelector("table tbody").innerHTML = tr;
                             });
-
-
                             }
-
                         </script>
                     </th>
                     <!-- 1 start date -->
@@ -452,13 +449,36 @@
                         <script type="text/javascript">
                             var myChart = echarts.init(document.getElementById('main2'));
                             var option = {
+                                title: {},
+                                tooltip: {
+                                    trigger: 'item',
+                                    formatter: '{b}: {c} ({d}%)' // 滑鼠移上去時顯示詳細數據
+                                },
+                                legend: {show: false},
+                                xAxis: {show: false},
+                                yAxis: {show: false},
                                 series: [{
+                                    name: 'Category',
                                     type: 'pie',
-                                    radius: ['50%', '100%'], // 環狀效果
-                                    center: ['50%', '50%'],
+                                    // 關鍵修改：設定內半徑和外半徑，形成環狀
+                                    radius: ['50%', '85%'], 
                                     avoidLabelOverlap: false,
-                                    label: { show: false }, // 表格內圖表不顯示文字
-                                    data: count_category
+                                    label: {
+                                        show: false, // 因為表格空間小，建議隱藏標籤，靠 Tooltip 顯示
+                                        position: 'center'
+                                    },
+                                    emphasis: {
+                                        label: {
+                                            show: true,
+                                            fontSize: '12',
+                                            fontWeight: 'bold'
+                                        }
+                                    },
+                                    labelLine: {show: false},
+                                    data: [
+                                        {value: 1078, name: 'Business'},
+                                        {value: 77, name: 'Personal'}
+                                    ]
                                 }]
                             };
                             myChart.setOption(option);
