@@ -462,18 +462,22 @@
                                     name: 'Category',
                                     type: 'pie',
                                     center: ['50%', '50%'],
-                                    radius: ['35%', '80%'], 
-                                    avoidLabelOverlap: false,
+                                    radius: ['50%', '70%'], 
+                                    avoidLabelOverlap: true,
                                     label: {
                                         show: true, 
-                                        position: 'inner', 
+                                        position: 'outside', 
                                         formatter: '{d}%', 
                                         fontSize: 10,
-                                        color: '#ffffff',
-                                        fontWeight: 'bold'
+                                        color: '#333'
                                     },
-                                    emphasis: {scale: true, scaleSize: 3, label: { show: false, fontSize: 11 } },
-                                    labelLine: {show: false},
+                                    labelLine: {
+                                        show: true,
+                                        length: 5,       // 第一段線長度
+                                        length2: 8,      // 第二段線長度
+                                        smooth: true     // 讓線條有點弧度更高級
+                                    },
+                                    emphasis: {scale: true, scaleSize: 3},
                                     data: [
                                         {value: 1078, name: 'Business'},
                                         {value: 77, name: 'Personal'}
