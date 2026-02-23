@@ -445,7 +445,7 @@
                         </th>
                     <!--3 catalogy -->
                     <th>
-                        <div id="main2" style="width: 80px;height:80px;"></div>
+                        <div id="main2" style="width: 100px;height:100px;"></div>
                         <script type="text/javascript">
                             var myChart = echarts.init(document.getElementById('main2'));
                             var option = {
@@ -455,24 +455,17 @@
                                     formatter: '{b}: {c} ({d}%)' // 滑鼠移上去時顯示詳細數據
                                 },
                                 legend: {show: false},
+                                grid: {top: 0,bottom: 0,left: 0,right: 0},
                                 xAxis: {show: false},
                                 yAxis: {show: false},
-
-                                // 2. 放置 grid 的位置（與 tooltip 平級）
-                                grid: {
-                                    top: 0,
-                                    bottom: 0,
-                                    left: 0,
-                                    right: 0
-                                },
                                 series: [{
                                     name: 'Category',
                                     type: 'pie',
-                                    radius: ['45%', '95%'], 
-                                    center: ['50%', '50%'],
+                                    radius: ['45%', '80%'], 
+                                    center: ['60%', '50%'],
                                     avoidLabelOverlap: false,
                                     label: {show: false},
-                                    emphasis: { label: { show: false } },
+                                    emphasis: {scale: true, scaleSize: 6, label: { show: false } },
                                     labelLine: {show: false},
                                     data: [
                                         {value: 1078, name: 'Business'},
