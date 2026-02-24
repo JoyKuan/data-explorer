@@ -481,16 +481,27 @@
                         </script>
                     </th>
                     <!-- 4 start -->
-                    <th>
-                            <div id="main3" style="width: 160px;height:80px;"></div>
+                    <th style="position: relative; width: 160px; height: 80px; padding: 0; vertical-align: top;">
+                            <div id="main3" style="width: 100%; height: 100%;"></div>
+                            <div id="unknown-info" style="
+                                position: absolute; 
+                                bottom: 2px; 
+                                width: 100%; 
+                                text-align: center; 
+                                font-size: 10px; 
+                                color: #999; 
+                                pointer-events: none;
+                                line-height: 12px;
+                                background: rgba(255,255,255,0.7);">
+                            </div>
                             <script type="text/javascript">
                                 var myChart4 = echarts.init(document.getElementById('main3'));
-                                // 1. 原始數據
+
                                 var rawNames = ["Cary", "Unknown Location", "Morrisville", "Whitebridge", "Islamabad", "Durham", "Lahore", "Raleigh", "Karachi", "Apex"];
                                 var rawValues = [201, 148, 85, 68, 57, 37, 36, 28, 27, 17];
+                                var total = 1155; // 這裡手動設定為你資料集的總行數
                                 
                                 // 2. 計算比例
-                                var total = 1155; // 這裡手動設定為你資料集的總行數
                                 var unknownIdx = rawNames.indexOf("Unknown Location");
                                 var unknownValue = unknownIdx > -1 ? rawValues[unknownIdx] : 0;
                                 var unknownPercent = ((unknownValue / total) * 100).toFixed(1) + '%';
@@ -503,26 +514,18 @@
                                 var top10 = filtered.slice(0, 10).reverse(); // 反轉讓第一名在最上面
                                 
                                 var option4 = {
-                                    title: {
-                                        text: 'Unknown: ' + unknownValue + ' (' + unknownPercent + ')',
-                                        bottom: 0,
-                                        left: 'center',
-                                        textStyle: { fontSize: 10, color: '#999', fontWeight: 'normal' }
-                                    },
-                                    // 設定鼠標移入效果，就像 End Location 那樣
                                     tooltip: { 
                                         trigger: 'axis',
                                         backgroundColor: 'rgba(50, 50, 50, 0.8)',
                                         textStyle: { color: '#fff' },
                                         axisPointer: { type: 'none' },
-                                        // 自定義顯示內容：地點: 次數
                                         formatter: function(params) {
                                             return params[0].name + ': ' + params[0].value;
                                         }
                                     },
                                     grid: {
-                                        top: 2,      // 徹底壓縮留白
-                                        bottom: 18,  // 僅留底部給 Unknown 文字
+                                        top: 0,      // 徹底壓縮留白
+                                        bottom: 15,  // 僅留底部給 Unknown 文字
                                         left: 0,     // 柱子直接貼到最左邊
                                         right: 0,    // 貼到最右邊
                                         containLabel: false // 關閉標籤佔位
@@ -531,7 +534,7 @@
                                     yAxis: {
                                         type: 'category',
                                         data: top10.map(item => item.name),
-                                        show: false  // 【關鍵】徹底隱藏地名，解決「醜又擠」的問題
+                                        show: false 
                                     },
                                     series: [{
                                         type: 'bar',
