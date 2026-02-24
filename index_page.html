@@ -523,8 +523,9 @@
                                         textStyle: { color: '#fff' },
                                         axisPointer: { type: 'none' },
                                         formatter: function(params) {
+                                            var val = params[0].value;
                                             var percent = ((val / total) * 100).toFixed(2) + '%';
-                                            return params[0].name + ': ' + params[0].value + ' (' + percent + ')';
+                                            return params[0].name + ': ' + val + ' (' + percent + ')';
                                         }
                                     },
                                     grid: {
@@ -544,7 +545,7 @@
                                             show: true, 
                                             color: '#666', 
                                             fontSize: 10, 
-                                            margin: 5 // 數字與 Bar 的間距
+                                            margin: 5}
                                     },
                                     series: [{
                                         type: 'bar',
@@ -608,8 +609,9 @@
                                     textStyle: { color: '#fff' },
                                     axisPointer: { type: 'none' },
                                     formatter: function(params) {
+                                        var val = params[0].value;
                                         var percent = ((val / total) * 100).toFixed(2) + '%';
-                                        return params[0].name + ': ' + params[0].value + ' (' + percent + ')';
+                                        return params[0].name + ': ' + val + ' (' + percent + ')';
                                     }
                                 },
                                 grid: {
@@ -625,7 +627,7 @@
                                     data: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1],
                                     axisLine: { show: false },
                                     axisTick: { show: false },
-                                    axisLabel: { show: true, color: '#666', fontSize: 10, margin: 5
+                                    axisLabel: { show: true, color: '#666', fontSize: 10, margin: 5}
                                 },
                                 series: [{
                                     type: 'bar',
