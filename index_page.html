@@ -485,7 +485,7 @@
                             <div id="main3" style="width: 100%; height: 100%;"></div>
                             <div id="unknown-info" style="
                                 position: absolute; 
-                                bottom: 4px; 
+                                bottom: 10px; 
                                 width: 100%; 
                                 text-align: center; 
                                 font-size: 10px; 
@@ -552,7 +552,10 @@
                                         },
                                         label: { show: false }, // 關閉靜態數字
                                         emphasis: {
-                                            itemStyle: { color: '#4da8de' } // 移上去時稍微改變顏色亮度即可，不需要灰色背景
+                                            itemStyle: { 
+                                                disabled: false,
+                                                scale: false,
+                                                color: '#2a82b3' } // 移上去時稍微改變顏色亮度即可，不需要灰色背景
                                         }
                                     }]
                                 };
