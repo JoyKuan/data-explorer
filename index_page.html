@@ -490,7 +490,7 @@
                                 var rawValues = [201, 148, 85, 68, 57, 37, 36, 28, 27, 17];
                                 
                                 // 2. 計算比例
-                                var total = rawValues.reduce((a, b) => a + b, 0);
+                                var total = 1155; // 這裡手動設定為你資料集的總行數
                                 var unknownIdx = rawNames.indexOf("Unknown Location");
                                 var unknownValue = unknownIdx > -1 ? rawValues[unknownIdx] : 0;
                                 var unknownPercent = ((unknownValue / total) * 100).toFixed(1) + '%';
@@ -514,17 +514,17 @@
                                         trigger: 'axis',
                                         backgroundColor: 'rgba(50, 50, 50, 0.8)',
                                         textStyle: { color: '#fff' },
-                                        axisPointer: { type: 'shadow' },
+                                        axisPointer: { type: 'none' },
                                         // 自定義顯示內容：地點: 次數
                                         formatter: function(params) {
                                             return params[0].name + ': ' + params[0].value;
                                         }
                                     },
                                     grid: {
-                                        top: 5,      // 徹底壓縮留白
-                                        bottom: 25,  // 僅留底部給 Unknown 文字
+                                        top: 2,      // 徹底壓縮留白
+                                        bottom: 18,  // 僅留底部給 Unknown 文字
                                         left: 0,     // 柱子直接貼到最左邊
-                                        right: 5,    // 貼到最右邊
+                                        right: 0,    // 貼到最右邊
                                         containLabel: false // 關閉標籤佔位
                                     },
                                     xAxis: { show: false, type: 'value' },
@@ -536,14 +536,14 @@
                                     series: [{
                                         type: 'bar',
                                         data: top10.map(item => item.value),
-                                        barWidth: '75%', // 加粗柱子，減少垂直空隙
+                                        barWidth: '85%', // 加粗柱子，減少垂直空隙
                                         itemStyle: { 
                                             color: '#37A2DA', 
                                             borderRadius: [0, 2, 2, 0] 
                                         },
                                         label: { show: false }, // 關閉靜態數字
                                         emphasis: {
-                                            itemStyle: { color: '#1f6e96' } // 移上去變深色，增加回饋感
+                                            itemStyle: { color: '#4da8de' } // 移上去時稍微改變顏色亮度即可，不需要灰色背景
                                         }
                                     }]
                                 };
