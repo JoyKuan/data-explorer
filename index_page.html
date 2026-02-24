@@ -462,22 +462,20 @@
                                     name: 'Category',
                                     type: 'pie',
                                     center: ['50%', '50%'],
-                                    radius: ['50%', '70%'], 
-                                    avoidLabelOverlap: true,
-                                    label: {
-                                        show: true, 
-                                        position: 'outside', 
-                                        formatter: '{d}%', 
-                                        fontSize: 10,
-                                        color: '#333'
+                                    radius: ['55%', '90%'], 
+                                    avoidLabelOverlap: false,
+                                    label: {show: false},
+                                    labelLine: {show: false},
+                                    emphasis: {
+                                        scale: true, 
+                                        scaleSize: 3,
+                                        label: {
+                                            show: true,
+                                            fontSize: '18',      // 大字體確保看得到
+                                            fontWeight: 'bold',
+                                            formatter: '{d}%'    // 顯示百分比
+                                        }
                                     },
-                                    labelLine: {
-                                        show: true,
-                                        length: 5,       // 第一段線長度
-                                        length2: 8,      // 第二段線長度
-                                        smooth: true     // 讓線條有點弧度更高級
-                                    },
-                                    emphasis: {scale: true, scaleSize: 3},
                                     data: [
                                         {value: 1078, name: 'Business'},
                                         {value: 77, name: 'Personal'}
