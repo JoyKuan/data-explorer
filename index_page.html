@@ -607,7 +607,7 @@
                                     formatter: function(params) {
                                         var val = params[0].value;
                                         var percent = ((val / total) * 100).toFixed(2) + '%';
-                                        return params[0].name + ': ' + val + ' (' + percent + ')';
+                                        return params[0].data.name + ': ' + val + ' (' + percent + ')';
                                     }
                                 },
                                 grid: {
@@ -627,7 +627,7 @@
                                 },
                                 series: [{
                                     type: 'bar',
-                                    data: top10End.map(item => item.value),
+                                    data: top10End.map(item => ({ name: item.name, value: item.value })),
                                     barWidth: '85%', 
                                     itemStyle: { 
                                         color: '#37A2DA', 
