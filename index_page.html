@@ -485,40 +485,63 @@
                             <div id="main3" style="width: 160px;height:80px;"></div>
                             <script type="text/javascript">
                                 var myChart4 = echarts.init(document.getElementById('main3'));
+                                // 1. 原始數據
+                                var rawNames = ["Cary", "Unknown Location", "Morrisville", "Whitebridge", "Islamabad", "Durham", "Lahore", "Raleigh", "Karachi", "Apex", "Westpark Place"];
+                                var rawValues = [201, 148, 85, 68, 57, 37, 36, 28, 27, 17, 16];
+                                
+                                // 2. 找出 Unknown 的數值
+                                var unknownIdx = rawNames.indexOf("Unknown Location");
+                                var unknownValue = unknownIdx > -1 ? rawValues[unknownIdx] : 0;
+                                
+                                // 3. 過濾掉 Unknown，並取剩下的前 10 名
+                                var filteredData = [];
+                                for (var i = 0; i < rawNames.length; i++) {
+                                    if (rawNames[i] !== "Unknown Location") {
+                                        filteredData.push({name: rawNames[i], value: rawValues[i]});
+                                    }
+                                }
+                                var top10 = filteredData.slice(0, 10).reverse(); // 反轉順序供橫向圖使用
+                                
                                 var option4 = {
-                                    // 鼠標移過去顯示完整資訊
+                                    // 在右上角單獨顯示 Unknown 數值
+                                    title: {
+                                        text: 'Unknown: ' + unknownValue,
+                                        right: 10,
+                                        top: 0,
+                                        textStyle: {
+                                            fontSize: 11,
+                                            color: '#999',
+                                            fontWeight: 'normal'
+                                        }
+                                    },
                                     tooltip: { 
                                         trigger: 'axis',
-                                        axisPointer: { type: 'shadow' },
-                                        formatter: '{b}: {c}次' // 顯示：地點: 次數
+                                        axisPointer: { type: 'shadow' }
                                     },
                                     grid: {
-                                        top: 10,
-                                        bottom: 10,
-                                        left: 80,   // 這裡留一點空間給 Y 軸的地名，不然會看不出哪一根是哪裡
-                                        right: 10,
+                                        top: 25, // 給標題留點空間
+                                        bottom: 5,
+                                        left: 85, 
+                                        right: 20,
                                         containLabel: true
                                     },
                                     xAxis: { show: false, type: 'value' }, 
                                     yAxis: {
                                         type: 'category',
-                                        data: ["Cary","Unknown","Morrisville","Whitebridge","Islamabad",
-                                               "Durham","Lahore","Raleigh","Karachi","Apex"].reverse(),
+                                        data: top10.map(item => item.name),
                                         axisLine: { show: false },
                                         axisTick: { show: false },
-                                        axisLabel: { fontSize: 10, color: '#666' } 
+                                        axisLabel: { fontSize: 10 }
                                     },
                                     series: [{
                                         type: 'bar',
-                                        data: [201, 148, 85, 68, 57, 37, 36, 28, 27, 17].reverse(),
-                                        barWidth: '70%',
-                                        itemStyle: { color: '#37A2DA', borderRadius: [0, 3, 3, 0] },
-                                        // 這裡就是你要的：靜態標籤關閉
-                                        label: { show: false }, 
-                                        // 移上去時的高亮效果
-                                        emphasis: {
-                                            itemStyle: { color: '#2b80ad' }
-                                        }
+                                        data: top10.map(item => item.value),
+                                        barWidth: '65%',
+                                        itemStyle: { 
+                                            color: '#37A2DA', 
+                                            borderRadius: [0, 3, 3, 0] 
+                                        },
+                                        label: { show: false }
                                     }]
                                 };
                                 myChart4.setOption(option4);
