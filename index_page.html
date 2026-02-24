@@ -488,6 +488,7 @@
                                 bottom: 10px; 
                                 width: 100%; 
                                 text-align: left; 
+                                padding-left: 20px;
                                 font-size: 10px; 
                                 color: #999; 
                                 pointer-events: none;
@@ -522,50 +523,38 @@
                                         textStyle: { color: '#fff' },
                                         axisPointer: { type: 'none' },
                                         formatter: function(params) {
-                                            var val = params[0].value;
-                                            // 計算百分比：(當前值 / 1155 * 100)
                                             var percent = ((val / total) * 100).toFixed(2) + '%';
-                                            // 顯示內容：地點: 次數 (百分比)
-                                            return params[0].name + ': ' + val + ' (' + percent + ')';
+                                            return params[0].name + ': ' + params[0].value + ' (' + percent + ')';
                                         }
                                     },
                                     grid: {
                                         top: 0,      // 徹底壓縮留白
                                         bottom: 15,  // 僅留底部給 Unknown 文字
-                                        left: 0,     // 柱子直接貼到最左邊
-                                        right: 0,    // 貼到最右邊
+                                        left: 20,     // 柱子直接貼到最左邊
+                                        right: 10,    // 貼到最右邊
                                         containLabel: false // 關閉標籤佔位
                                     },
                                     xAxis: { show: false, type: 'value' },
                                     yAxis: {
                                         type: 'category',
-                                        data: top10.map(item => item.name),
-                                        show: false 
+                                        data: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1],
+                                        axisLine: { show: false }, // 隱藏軸線
+                                        axisTick: { show: false }, // 隱藏刻度
+                                        axisLabel: { 
+                                            show: true, 
+                                            color: '#666', 
+                                            fontSize: 10, 
+                                            margin: 5 // 數字與 Bar 的間距
                                     },
                                     series: [{
                                         type: 'bar',
-                                        data: top10.map(item => item.value),
+                                        data: top10.map(item => ({name: item.name, value: item.value})),
                                         barWidth: '85%', // 加粗柱子，減少垂直空隙
                                         itemStyle: { 
                                             color: '#37A2DA', 
                                             borderRadius: [0, 2, 2, 0] 
                                         },
-                                        // --- 新增：在 Bar 內部左側顯示 1-10 排名 ---
-                                        label: {
-                                            show: true,
-                                            position: 'insideLeft', // 數字放在柱子內側左邊
-                                            distance: 4,            // 離左邊界 4px
-                                            offset: [0, 1],         // 微調垂直位置讓它置中
-                                            color: '#fff',          // 白色字在藍色底上最顯眼
-                                            fontSize: 9,
-                                            fontWeight: 'bold',
-                                            formatter: function(params) {
-                                                // 因為我們使用了 .reverse()，索引 9 才是第 1 名
-                                                // 所以用 (top10End.length - params.dataIndex) 來顯示 1, 2, 3...
-                                                return top10End.length - params.dataIndex;
-                                            }
-                                        },
-                                        // ---------------------------------------
+                                        label: {show: false},
                                         emphasis: {
                                             itemStyle: { 
                                                 disabled: false,
@@ -585,7 +574,7 @@
                             bottom: 10px; 
                             width: 100%; 
                             text-align: left; 
-                            padding-left: 5px;
+                            padding-left: 20px;
                             font-size: 10px; 
                             color: #999; 
                             pointer-events: none;
@@ -619,23 +608,24 @@
                                     textStyle: { color: '#fff' },
                                     axisPointer: { type: 'none' },
                                     formatter: function(params) {
-                                        var val = params[0].value;
                                         var percent = ((val / total) * 100).toFixed(2) + '%';
-                                        return params[0].name + ': ' + val + ' (' + percent + ')';
+                                        return params[0].name + ': ' + params[0].value + ' (' + percent + ')';
                                     }
                                 },
                                 grid: {
-                                    top: 0,
+                                    top: 5,
                                     bottom: 25, 
-                                    left: 0,
-                                    right: 5,
+                                    left: 20,
+                                    right: 10,
                                     containLabel: false
                                 },
                                 xAxis: { show: false, type: 'value' },
                                 yAxis: {
                                     type: 'category',
-                                    data: top10End.map(item => item.name),
-                                    show: false 
+                                    data: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1],
+                                    axisLine: { show: false },
+                                    axisTick: { show: false },
+                                    axisLabel: { show: true, color: '#666', fontSize: 10, margin: 5
                                 },
                                 series: [{
                                     type: 'bar',
@@ -645,22 +635,7 @@
                                         color: '#37A2DA', 
                                         borderRadius: [0, 2, 2, 0] 
                                     },
-                                    // --- 新增：在 Bar 內部左側顯示 1-10 排名 ---
-                                    label: {
-                                        show: true,
-                                        position: 'insideLeft', // 數字放在柱子內側左邊
-                                        distance: 4,            // 離左邊界 4px
-                                        offset: [0, 1],         // 微調垂直位置讓它置中
-                                        color: '#fff',          // 白色字在藍色底上最顯眼
-                                        fontSize: 9,
-                                        fontWeight: 'bold',
-                                        formatter: function(params) {
-                                            // 因為我們使用了 .reverse()，索引 9 才是第 1 名
-                                            // 所以用 (top10End.length - params.dataIndex) 來顯示 1, 2, 3...
-                                            return top10End.length - params.dataIndex;
-                                        }
-                                    },
-                                    // ---------------------------------------
+                                    label: {show: false},
                                     emphasis: {
                                         disabled: false,
                                         scale: false,
