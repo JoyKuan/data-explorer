@@ -496,8 +496,8 @@
                             <script type="text/javascript">
                                 var myChart4 = echarts.init(document.getElementById('main3'));
 
-                                var rawNames = ["Cary", "Unknown Location", "Morrisville", "Whitebridge", "Islamabad", "Durham", "Lahore", "Raleigh", "Karachi", "Apex"];
-                                var rawValues = [201, 148, 85, 68, 57, 37, 36, 28, 27, 17];
+                                var rawNames = ["Cary", "Unknown Location", "Morrisville", "Whitebridge", "Islamabad", "Durham", "Lahore", "Raleigh", "Karachi", "Apex", "Berkeley"];
+                                var rawValues = [201, 148, 85, 68, 57, 37, 36, 28, 27, 17, 16];
                                 var total = 1155; // 這裡手動設定為你資料集的總行數
                                 
                                 // 2. 計算比例
@@ -550,7 +550,22 @@
                                             color: '#37A2DA', 
                                             borderRadius: [0, 2, 2, 0] 
                                         },
-                                        label: { show: false }, // 關閉靜態數字
+                                        // --- 新增：在 Bar 內部左側顯示 1-10 排名 ---
+                                        label: {
+                                            show: true,
+                                            position: 'insideLeft', // 數字放在柱子內側左邊
+                                            distance: 4,            // 離左邊界 4px
+                                            offset: [0, 1],         // 微調垂直位置讓它置中
+                                            color: '#fff',          // 白色字在藍色底上最顯眼
+                                            fontSize: 9,
+                                            fontWeight: 'bold',
+                                            formatter: function(params) {
+                                                // 因為我們使用了 .reverse()，索引 9 才是第 1 名
+                                                // 所以用 (top10End.length - params.dataIndex) 來顯示 1, 2, 3...
+                                                return top10End.length - params.dataIndex;
+                                            }
+                                        },
+                                        // ---------------------------------------
                                         emphasis: {
                                             itemStyle: { 
                                                 disabled: false,
@@ -580,8 +595,8 @@
                         <script type="text/javascript">
                             var myChart6 = echarts.init(document.getElementById('main4'));
                             // 原始數據
-                            var rawNamesEnd = ["Cary","Unknown Location","Morrisville","Whitebridge","Islamabad","Durham","Lahore","Raleigh","Karachi","Apex"];
-                            var rawValuesEnd = [203, 149, 84, 65, 58, 36, 35, 29, 26, 17]; // 這裡稍微修正了你的原始數據格式
+                            var rawNamesEnd = ["Cary","Unknown Location","Morrisville","Whitebridge","Islamabad","Durham","Lahore","Raleigh","Karachi","Apex", "Berkeley"];
+                            var rawValuesEnd = [203, 149, 84, 65, 58, 36, 35, 29, 26, 17, 16]; // 這裡稍微修正了你的原始數據格式
                             var total = 1155; 
                     
                             // 1. 處理 Unknown 資訊
@@ -630,6 +645,22 @@
                                         color: '#37A2DA', 
                                         borderRadius: [0, 2, 2, 0] 
                                     },
+                                    // --- 新增：在 Bar 內部左側顯示 1-10 排名 ---
+                                    label: {
+                                        show: true,
+                                        position: 'insideLeft', // 數字放在柱子內側左邊
+                                        distance: 4,            // 離左邊界 4px
+                                        offset: [0, 1],         // 微調垂直位置讓它置中
+                                        color: '#fff',          // 白色字在藍色底上最顯眼
+                                        fontSize: 9,
+                                        fontWeight: 'bold',
+                                        formatter: function(params) {
+                                            // 因為我們使用了 .reverse()，索引 9 才是第 1 名
+                                            // 所以用 (top10End.length - params.dataIndex) 來顯示 1, 2, 3...
+                                            return top10End.length - params.dataIndex;
+                                        }
+                                    },
+                                    // ---------------------------------------
                                     emphasis: {
                                         disabled: false,
                                         scale: false,
