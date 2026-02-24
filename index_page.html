@@ -541,11 +541,7 @@
                                         data: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1],
                                         axisLine: { show: false }, // 隱藏軸線
                                         axisTick: { show: false }, // 隱藏刻度
-                                        axisLabel: { 
-                                            show: true, 
-                                            color: '#666', 
-                                            fontSize: 10, 
-                                            margin: 5}
+                                        axisLabel: { show: true, interval: 0, color: '#666', fontSize: 8, margin: 5}
                                     },
                                     series: [{
                                         type: 'bar',
@@ -615,8 +611,8 @@
                                     }
                                 },
                                 grid: {
-                                    top: 5,
-                                    bottom: 25, 
+                                    top: 0,
+                                    bottom: 15, 
                                     left: 20,
                                     right: 10,
                                     containLabel: false
@@ -627,7 +623,7 @@
                                     data: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1],
                                     axisLine: { show: false },
                                     axisTick: { show: false },
-                                    axisLabel: { show: true, color: '#666', fontSize: 10, margin: 5}
+                                    axisLabel: { show: true, interval: 0, color: '#666', fontSize: 8, margin: 5}
                                 },
                                 series: [{
                                     type: 'bar',
