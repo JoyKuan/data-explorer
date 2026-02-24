@@ -503,20 +503,22 @@
                                 var top10 = filtered.slice(0, 10).reverse(); // 反轉讓第一名在最上面
                                 
                                 var option4 = {
-                                    // 將 Unknown 移到下方副標題
                                     title: {
-                                        subtext: 'Unknown: ' + unknownValue + ' (' + unknownPercent + ')',
-                                        subtextStyle: { fontSize: 10, align: 'center' },
-                                        bottom: 0,
-                                        left: 'center'
+                                        text: 'Unknown: ' + unknownValue + ' (' + unknownPercent + ')',
+                                        bottom: 0,         // 貼齊底部
+                                        left: 'center',
+                                        textStyle: { 
+                                            fontSize: 10, 
+                                            color: '#999',
+                                            lineHeight: 10 
+                                        }
                                     },
-                                    tooltip: { trigger: 'axis' },
                                     grid: {
-                                        top: 5,
-                                        bottom: 25, // 給底部副標題留空間
-                                        left: 2,    // 極致縮小左邊距
-                                        right: 15,
-                                        containLabel: true
+                                        top: 5,            // 頂部幾乎不留白
+                                        bottom: 25,        // 底部留給 Unknown 文字
+                                        left: 0,           // 徹底貼左
+                                        right: 35,         // 右側留一點給數字標籤 (201, 85...)
+                                        containLabel: false // 關閉自動計算，手動控制 Y 軸寬度
                                     },
                                     xAxis: { show: false, type: 'value' },
                                     yAxis: {
@@ -525,25 +527,27 @@
                                         axisLine: { show: false },
                                         axisTick: { show: false },
                                         axisLabel: { 
-                                            fontSize: 9, 
-                                            margin: 4,
-                                            width: 50, // 限制文字寬度，剩下的全給圖表
-                                            overflow: 'truncate'
+                                            fontSize: 10,
+                                            margin: 5,      // 文字離柱子近一點
+                                            width: 50,      // 強制固定文字寬度
+                                            overflow: 'truncate',
+                                            inside: false,  // 改為 true 可以讓文字浮在柱子上方，圖表會更大，但建議先試 false
+                                            align: 'right'
                                         }
                                     },
                                     series: [{
                                         type: 'bar',
                                         data: top10.map(item => item.value),
-                                        barWidth: '60%',
+                                        barWidth: '70%',    // 柱子加粗，填滿垂直空間
                                         itemStyle: { 
                                             color: '#37A2DA', 
                                             borderRadius: [0, 2, 2, 0] 
                                         },
-                                        // 在柱子右側顯示數值，讓圖表更有存在感
                                         label: {
                                             show: true,
                                             position: 'right',
-                                            fontSize: 8,
+                                            fontSize: 9,
+                                            offset: [5, 0], // 數字離柱子右側 5px
                                             color: '#999'
                                         }
                                     }]
