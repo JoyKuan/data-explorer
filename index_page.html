@@ -503,56 +503,62 @@
                                 var top10 = filtered.slice(0, 10).reverse(); // 反轉讓第一名在最上面
                                 
                                 var option4 = {
-                                    title: {
-                                        text: 'Unknown: ' + unknownValue + ' (' + unknownPercent + ')',
-                                        bottom: 0,         // 貼齊底部
-                                        left: 'center',
-                                        textStyle: { 
-                                            fontSize: 10, 
-                                            color: '#999',
-                                            lineHeight: 10 
-                                        }
+                                title: {
+                                    text: 'Unknown: ' + unknownValue + ' (' + unknownPercent + ')',
+                                    bottom: 0,
+                                    left: 'center',
+                                    textStyle: { fontSize: 10, color: '#999', fontWeight: 'normal' }
+                                },
+                                tooltip: { 
+                                    trigger: 'axis',
+                                    backgroundColor: 'rgba(50, 50, 50, 0.7)',
+                                    textStyle: { color: '#fff' },
+                                    formatter: '{b}: {c}次' // 鼠標移過去顯示地點、次數
+                                },
+                                grid: {
+                                    top: 10,     // 稍微縮減頂部
+                                    bottom: 25,  // 留給 Unknown
+                                    left: 5,     // 幾乎貼邊
+                                    right: 40,   // 留一點空間給右側數字標籤
+                                    containLabel: false
+                                },
+                                xAxis: { show: false, type: 'value' },
+                                yAxis: {
+                                    type: 'category',
+                                    data: top10.map(item => item.name),
+                                    axisLine: { show: false },
+                                    axisTick: { show: false },
+                                    axisLabel: { 
+                                        inside: true,       // 【關鍵】文字往右移，直接浮在柱子上方
+                                        verticalAlign: 'middle',
+                                        textAlign: 'left',
+                                        padding: [0, 0, 15, 0], // 將文字往上推，避免擋住柱子中心
+                                        fontSize: 10,
+                                        color: '#555',      // 文字顏色稍微加深
+                                        textBorderColor: '#fff', // 加個白色邊框，防止在藍色柱子上看不清
+                                        textBorderWidth: 1
                                     },
-                                    grid: {
-                                        top: 5,            // 頂部幾乎不留白
-                                        bottom: 25,        // 底部留給 Unknown 文字
-                                        left: 0,           // 徹底貼左
-                                        right: 35,         // 右側留一點給數字標籤 (201, 85...)
-                                        containLabel: false // 關閉自動計算，手動控制 Y 軸寬度
+                                    z: 10 // 確保文字在柱子上面
+                                },
+                                series: [{
+                                    type: 'bar',
+                                    data: top10.map(item => item.value),
+                                    barWidth: '70%',
+                                    itemStyle: { 
+                                        color: '#37A2DA', 
+                                        borderRadius: [0, 3, 3, 0],
+                                        opacity: 0.8 // 稍微透明一點點，讓背景字體更清晰
                                     },
-                                    xAxis: { show: false, type: 'value' },
-                                    yAxis: {
-                                        type: 'category',
-                                        data: top10.map(item => item.name),
-                                        axisLine: { show: false },
-                                        axisTick: { show: false },
-                                        axisLabel: { 
-                                            fontSize: 10,
-                                            margin: 5,      // 文字離柱子近一點
-                                            width: 50,      // 強制固定文字寬度
-                                            overflow: 'truncate',
-                                            inside: false,  // 改為 true 可以讓文字浮在柱子上方，圖表會更大，但建議先試 false
-                                            align: 'right'
-                                        }
-                                    },
-                                    series: [{
-                                        type: 'bar',
-                                        data: top10.map(item => item.value),
-                                        barWidth: '70%',    // 柱子加粗，填滿垂直空間
-                                        itemStyle: { 
-                                            color: '#37A2DA', 
-                                            borderRadius: [0, 2, 2, 0] 
-                                        },
-                                        label: {
-                                            show: true,
-                                            position: 'right',
-                                            fontSize: 9,
-                                            offset: [5, 0], // 數字離柱子右側 5px
-                                            color: '#999'
-                                        }
-                                    }]
-                                };
-                                myChart4.setOption(option4);
+                                    label: {
+                                        show: true,
+                                        position: 'right',
+                                        fontSize: 9,
+                                        color: '#888',
+                                        formatter: '{c}'
+                                    }
+                                }]
+                            };
+                            myChart4.setOption(option4);
                             </script>
                     </th>
                     <!--5 end LOCATION -->
