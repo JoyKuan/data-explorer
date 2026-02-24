@@ -486,46 +486,27 @@
                             <script type="text/javascript">
                                 var myChart4 = echarts.init(document.getElementById('main3'));
                                 var option4 = {
-                                    title: {},
-                                    tooltip: {},
-                                    grid:{
-                                    x:0.1,
-                                    y:0.1,
-                                    x2:0.1,
-                                    y2:0.1
-                                    // borderWidth:1
+                                    tooltip: { trigger: 'axis' },
+                                    grid: {
+                                        top: '10%',
+                                        bottom: '20%', // 留空間給地名
+                                        left: '20%',   // 留空間給左側地名
+                                        right: '5%',
+                                        containLabel: true
                                     },
-                                    legend: {
-                                    },
-                                    xAxis: {
-                                    data: ["Cary","Unknown Location","Morrisville","Whitebridge","Islamabad",
-                                            "Durham","Lahore","Raleigh","Kar?chi","Apex,Westpark Place",
-                                            "Berkeley","Midtown","R?walpindi,Kissimmee,Kenner",
-                                            "Emeryville,New Orleans","Downtown","Edgehill Farms,Colombo,Orlando,San Francisco,Banner Elk,Central",
-                                            "Hazelwood,The Drag,Oakland","Preston,Covington",
-                                            "Fort Pierce,Houston,Noorpur Shahan,South Congress,Sharpstown,Parkway,West Berkeley,Bryson City,Rawalpindi",
-                                            "New York,Tanglewood,Waverly Place,Wayne Ridge,Savon Height,CBD,Metairie,Karachi,Agnew,Southside",
-                                            "'Fayetteville Street': 3, 'Meredith Townes': 3, 'Northwoods': 3, 'Port Bolivar': 3, 'Menlo Park': 3, 'Huntington Woods': 3, 'Kalorama Triangle': 3",
-                                            " 'West Palm Beach': 2, 'Jamaica': 2, 'Hudson Square': 2, 'Farmington Woods': 2, 'Chapel Hill': 2, 'East Elmhurst': 2, 'Katunayaka': 2, 'Heritage Pines': 2, 'Weston': 2, 'West University': 2, 'Galveston': 2, 'Jacksonville': 2, 'Couples Glen': 2, 'Lake Reams': 2, 'Holly Springs': 2, 'Chessington': 2, 'Capitol One': 2, 'Palo Alto': 2, 'Newark': 2, 'Old City': 2, 'Kilarney Woods': 2, 'Storyville': 2, 'Pontchartrain Shores': 2, 'Mandeville': 2, 'Newland': 2, 'Boone': 2, 'Lexington Park at Amberly': 2, 'K Street': 2, 'SOMISSPO': 2, 'San Jose': 2, 'Asheville': 2, 'Topton': 2, 'Renaissance': 2, 'South': 2",
-                                            "'Elmhurst': 1, 'East Harlem': 1, 'Flatiron District': 1, 'Midtown East': 1, 'Lower Manhattan': 1, 'Hell's Kitchen': 1, 'Gulfton': 1, 'Eagan Park': 1, 'Lake Wellingborough': 1, 'Fairmont': 1, 'Eastgate': 1, 'Jackson Heights': 1, 'Long Island City': 1, 'Nugegoda': 1, 'East Austin': 1, 'Congress Ave District': 1, 'Red River District': 1, 'Georgian Acres': 1, 'North Austin': 1, 'Coxville': 1, 'Convention Center District': 1, 'Austin': 1, 'Katy': 1, 'Sugar Land': 1, 'Washington Avenue': 1, 'Briar Meadow': 1, 'Latta': 1, 'Sand Lake Commons': 1, 'Sky Lake': 1, 'Daytona Beach': 1, 'Ridgeland': 1, 'Florence': 1, 'Meredith': 1, 'Burtrose': 1, 'Mcvan': 1, 'University District': 1, 'Seattle': 1, 'Redmond': 1, 'Bellevue': 1, 'Sunnyvale': 1, 'Townes at Everett Crossing': 1, 'Seaport': 1, 'Medical Centre': 1, 'Rose Hill': 1, 'Soho': 1, 'Tribeca': 1, 'Financial District': 1, 'Lower Garden District': 1, 'Lakeview': 1, 'Chalmette': 1, 'Arabi': 1, 'Marigny': 1, 'Jamestown Court': 1, 'Summerwinds': 1, 'Parkwood': 1, 'Pontchartrain Beach': 1, 'St Thomas': 1, 'Elk Park': 1, 'Stonewater': 1, 'Arlington Park at Amberly': 1, 'Arlington': 1, 'West End': 1, 'Connecticut Avenue': 1, 'Columbia Heights': 1, 'Washington': 1, 'Wake Forest': 1, 'North Berkeley Hills': 1, 'Eagle Rock': 1, 'Winston Salem': 1, 'Hayesville': 1, 'Almond': 1, 'Mebane': 1, 'Cory': 1, 'Santa Clara': 1, 'NOMA': 1, 'Sunnyside': 1, 'Ingleside': 1, 'Tenderloin': 1, 'College Avenue': 1, 'South Berkeley': 1, 'Mountain View': 1, 'El Cerrito': 1, 'Krendle Woods': 1, 'Wake Co.': 1, 'Fuquay-Varina': 1, 'Katunayake': 1, 'Gampaha': 1"
-                                            ]
-                                    },
-                                    yAxis: {    
-                                        show: false 
+                                    xAxis: { type: 'value' }, // 改成橫向比較好讀地名
+                                    yAxis: {
+                                        type: 'category',
+                                        // 這裡只取前 10 名，並反轉順序讓第一名在最上面
+                                        data: ["Cary","Unknown Location","Morrisville","Whitebridge","Islamabad",
+                                               "Durham","Lahore","Raleigh","Karachi","Apex"].reverse()
                                     },
                                     series: [{
                                         type: 'bar',
-                                        data: [201,148,85,68,57,
-                                                37,36,28,27,17,
-                                                16,14,11,
-                                                10,9,8,
-                                                7,6, 
-                                                5,
-                                                4,
-                                                3,
-                                                2,
-                                                1],
-                                         color:['#37A2DA']
+                                        // 對應前 10 名的數值
+                                        data: [201, 148, 85, 68, 57, 37, 36, 28, 27, 17].reverse(),
+                                        color: '#37A2DA',
+                                        label: { show: true, position: 'right', fontSize: 10 }
                                     }]
                                 };
                                 myChart4.setOption(option4);
