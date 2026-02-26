@@ -685,8 +685,8 @@
                         </script>
                     </th>
                     <!--6 purpose -->
-                    <th>
-                            <div id="main6" style="width: 160px;height:80px;"></div>
+                    <th style="position: relative; width: 160px; height: 80px; padding: 0; vertical-align: top;">
+                            <div id="main6" style="width: 100%; height: 100%;"></div>
                             <script type="text/javascript">
                                 var myChart6 = echarts.init(document.getElementById('main6'));
                                 // 1. 資料定義
@@ -704,6 +704,8 @@
                                     {name: "Commute", value: 1}
                                 ];
 
+                                var totalPurpose = 1155;
+
                                 // 2. 排序並取 Top 10
                                 purposeData.sort((a, b) => b.value - a.value);
                                 var top10 = purposeData.slice(0, 10);
@@ -711,20 +713,22 @@
                                 var option6 = {
                                     tooltip: {
                                         trigger: 'axis',
-                                        backgroundColor: 'rgba(50, 50, 50, 0.9)',
+                                        backgroundColor: 'rgba(50, 50, 50, 0.8)',
                                         textStyle: { color: '#fff', fontSize: 11 },
+                                        axisPointer: { type: 'none' },
+                                        confine: true,
                                         formatter: function(params) {
                                             var i = params[0].dataIndex;
-                                            return 'No.' + (i + 1) + ' ' + top10[i].name + '<br/>Count: ' + top10[i].value;
+                                            var val = top10[i].value;
+                                            var percent = ((val / totalPurpose) * 100).toFixed(2) + '%';
+                                            return top10[i].name + ': ' + val + ' (' + percent + ')';
                                         },
-                                        // 讓 tooltip 靠近鼠標，避免在小格子裡被遮擋
-                                        confine: true
                                     },
                                     grid: {
-                                        top: 10,
-                                        bottom: 22, // 留空間給 1-10 數字
-                                        left: 5,
-                                        right: 5,
+                                        top: 5,
+                                        bottom: 18, // 留空間給 1-10 數字
+                                        left: 2,
+                                        right: 2,
                                         containLabel: false
                                     },
                                     xAxis: {
@@ -732,9 +736,10 @@
                                         data: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
                                         axisLabel: {
                                             show: true,
-                                            fontSize: 9,
-                                            color: '#888',
-                                            interval: 0
+                                            fontSize: 8,
+                                            color: '#999',
+                                            interval: 0,
+                                            margin: 4
                                         },
                                         axisLine: { show: false },
                                         axisTick: { show: false }
@@ -747,18 +752,15 @@
                                         name: 'Purpose',
                                         type: 'bar',
                                         data: top10.map(item => item.value),
-                                        barWidth: '70%',
+                                        barWidth: '85%',
                                         itemStyle: {
                                             color: '#37A2DA',
                                             borderRadius: [2, 2, 0, 0]
                                         },
                                         emphasis: {
-                                            focus: 'series', 
-                                            itemStyle: {
-                                                color: '#2a82b3', 
-                                                shadowBlur: 10,
-                                                shadowColor: 'rgba(0,0,0,0.3)'
-                                            }
+                                            disabled: false,
+                                            scale: false,
+                                            itemStyle: {color: '#2a82b3'}
                                         }
                                     }]
                                 };
