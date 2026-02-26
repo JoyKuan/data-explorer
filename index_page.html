@@ -287,7 +287,6 @@
                             var sldthumb= this.slider.querySelector('.slider-thumb');//中间按钮
                             var sldlevel= this.slider.querySelector('.slider-level');//当前值显示的进度
                             this.slider.addEventListener('input', function() {
-                                    // console.log('dddddddd');
                                     this.updateSliderLevel();
                                 }.bind(this), false);
                             
@@ -304,25 +303,16 @@
                             function slider_(){
                                 var volumn = 0;
                                 volumn = document.querySelector('#volume .slider-input').value;
-                                // volumn = sldthumb;
-                                console.log(volumn);
                                 var num=0;
                                 if(volumn != 0){num = Math.round(1155*(volumn*0.01));}
-                                console.log(num);
                             if(num == 0){
                                 var srearchItem = "HELLO"
-                                console.log(srearchItem)
                                 var purpose_ = database.ref('/index').orderByChild('PURPOSE').equalTo(srearchItem);
                                 var djson;
 
                                 purpose_.on('value', function(snapshot){
                                     djson_ = JSON.parse(JSON.stringify(snapshot.val()));
-
                                     djson = jsonToArray(djson_)
-                                    console.log(djson)
-
-                                    // djson = djson.sort(up_compare("PURPOSE"));
-                                    // console.log(djson);
                                     
                                     var tr = "";
                                     var i = 1;
@@ -795,12 +785,13 @@
 
         myuber.once('value', function(snapshot){
             djson = JSON.parse(JSON.stringify(snapshot.val()));
-            console.log(djson);
+
             var tr = "";
+            var i = 1;
             for(x in djson){
                 if(djson[x] != null){
                     tr += "<tr>";
-                    tr += "<td>"+x+"</td>";
+                    tr += "<td>"+ i +"</td>";
                     tr += "<td>"+djson[x]["START_DATE"]+"</td>";
                     tr += "<td>" + getDuration(djson[x]["START_DATE"], djson[x]["END_DATE"]) + "</td>";
                     tr += "<td>"+djson[x]["CATEGORY"]+"</td>";
@@ -809,6 +800,7 @@
                     tr += "<td>"+djson[x]["MILES"]+"</td>";
                     tr += "<td>"+djson[x]["PURPOSE"]+"</td>";
                     tr += "</tr>";
+                    i++;
                 }    
             }
             document.querySelector("table tbody").innerHTML = tr;
@@ -897,9 +889,7 @@
 
             djson_ = JSON.parse(JSON.stringify(snapshot.val()));
             djson = jsonToArray(djson_)
-            console.log(djson)
             djson = djson.sort(up_compare("MILES"));
-            console.log(djson);
 
             var tr = "";
             var i = 1;
@@ -926,14 +916,12 @@
     function mile_sort_down(){
         var mile_ = database.ref('/index/').orderByChild('MILES').limitToLast(500);
         var djson;
-        // console.log(mile_sort);
+
         mile_.on('value', function(snapshot){
 
             djson_ = JSON.parse(JSON.stringify(snapshot.val()));
             djson = jsonToArray(djson_)
-            console.log(djson)
             djson = djson.sort(down_compare("MILES"));
-            console.log(djson);
 
             var tr = "";
             var i = 1;
@@ -977,14 +965,12 @@
     function enddate_sort_up(){
         var mile_ = database.ref('/index').orderByChild('END_DATE').limitToFirst(500);
         var djson;
-        // console.log(mile_sort);
+
         mile_.on('value', function(snapshot){
 
             djson_ = JSON.parse(JSON.stringify(snapshot.val()));
             djson = jsonToArray(djson_)
-            console.log(djson)
             djson = djson.sort(up_date("END_DATE"));
-            console.log(djson);
 
             var tr = "";
             var i = 1;
@@ -1015,12 +1001,8 @@
 
         myuber.once('value', function(snapshot){
             djson_ = JSON.parse(JSON.stringify(snapshot.val()));
-            console.log(djson_);
             djson = jsonToArray(djson_)
-            console.log(djson)
             djson.sort(down_date("END_DATE"));
-            // console.log(djson);
-
 
             var tr = "";
             var i = 1;
@@ -1047,14 +1029,12 @@
     function startdate_sort_up(){
         var mile_ = database.ref('/index').orderByChild('START_DATE').limitToFirst(500);
         var djson;
-        // console.log(mile_sort);
+        
         mile_.on('value', function(snapshot){
 
             djson_ = JSON.parse(JSON.stringify(snapshot.val()));
             djson = jsonToArray(djson_)
-            console.log(djson)
             djson = djson.sort(up_date("START_DATE"));
-            console.log(djson);
 
             var tr = "";
             var i = 1;
@@ -1085,12 +1065,8 @@
 
         myuber.once('value', function(snapshot){
             djson_ = JSON.parse(JSON.stringify(snapshot.val()));
-            console.log(djson_);
             djson = jsonToArray(djson_)
-            console.log(djson)
             djson.sort(down_date("START_DATE"));
-            // console.log(djson);
-
 
             var tr = "";
             var i = 1;
@@ -1122,9 +1098,6 @@
         catalog_.on('value', function(snapshot){
             djson_ = JSON.parse(JSON.stringify(snapshot.val()));
             djson = jsonToArray(djson_)
-            console.log(djson)
-            // djson = djson.sort(up_compare("CATEGORY"));
-            // console.log(djson);
 
             var tr = "";
             var i = 1;
@@ -1154,9 +1127,7 @@
         catalog_.on('value', function(snapshot){
             djson_ = JSON.parse(JSON.stringify(snapshot.val()));
             djson = jsonToArray(djson_)
-            console.log(djson)
             djson = djson.sort(down_compare("CATEGORY"));
-            console.log(djson);
 
             var tr = "";
             var i = 1;
@@ -1203,14 +1174,14 @@
         purpose_.on('value', function(snapshot){
             djson_ = JSON.parse(JSON.stringify(snapshot.val()));
             djson = jsonToArray(djson_)
-            console.log(djson)
             djson = djson.sort(up_string("PURPOSE"));
-            console.log(djson);
+
             var tr = "";
+            var i = 1; // 新增計數器
             for(x in djson){
                 if(djson[x] != null){
                     tr += "<tr>";
-                    tr += "<td>"+x+"</td>";
+                    tr += "<td>"+ i +"</td>"; 
                     tr += "<td>"+djson[x]["START_DATE"]+"</td>";
                     tr += "<td>" + getDuration(djson[x]["START_DATE"], djson[x]["END_DATE"]) + "</td>";
                     tr += "<td>"+djson[x]["CATEGORY"]+"</td>";
@@ -1219,6 +1190,7 @@
                     tr += "<td>"+djson[x]["MILES"]+"</td>";
                     tr += "<td>"+djson[x]["PURPOSE"]+"</td>";
                     tr += "</tr>";
+                    i++;
                 }    
             }
             document.querySelector("table tbody").innerHTML = tr;
@@ -1232,12 +1204,10 @@
         purpose_.on('value', function(snapshot){
             djson_ = JSON.parse(JSON.stringify(snapshot.val()));
             djson = jsonToArray(djson_)
-            console.log(djson)
-
             djson = djson.sort(down_string("PURPOSE"));
-            console.log(djson);
+            
             var tr = "";
-            for(var i = 0; i < djson.length; i++){ // 建議用標準 for 迴圈處理陣列
+            for(var i = 0; i < djson.length; i++){ 
                 if(djson[i] != null){
                     tr += "<tr>";
                     tr += "<td>"+i+"</td>"; // 排序後的序號
@@ -1256,15 +1226,13 @@
     } 
     //done
     function start_sort_up(){
-        var purpose_ = database.ref('/index/').orderByChild('START LOCATION').limitToFirst(500);
+        var purpose_ = database.ref('/index/').orderByChild('START').limitToFirst(500);
         var djson;
 
         purpose_.on('value', function(snapshot){
             djson_ = JSON.parse(JSON.stringify(snapshot.val()));
             djson = jsonToArray(djson_)
-            console.log(djson)
             djson = djson.sort(up_string("START LOCATION"));
-            console.log(djson);
             
             var tr = "";
             var i = 1;
@@ -1288,20 +1256,20 @@
     } 
     //done
     function start_sort_down(){
-        var purpose_ = database.ref('/index/').orderByChild('START LOCATION').limitToLast(500);
+        var purpose_ = database.ref('/index/').orderByChild('START').limitToLast(500);
         var djson;
 
-        purpose_.on('value', function(snapshot){
+        purpose_.once('value', function(snapshot){
             djson_ = JSON.parse(JSON.stringify(snapshot.val()));
             djson = jsonToArray(djson_)
-            console.log(djson)
             djson = djson.sort(down_string("START LOCATION"));
-            console.log(djson);
+
             var tr = "";
+            var i = 1;
             for(x in djson){
                 if(djson[x] != null){
                     tr += "<tr>";
-                    tr += "<td>"+x+"</td>";
+                    tr += "<td>"+i+"</td>";
                     tr += "<td>"+djson[x]["START_DATE"]+"</td>";
                     tr += "<td>" + getDuration(djson[x]["START_DATE"], djson[x]["END_DATE"]) + "</td>";
                     tr += "<td>"+djson[x]["CATEGORY"]+"</td>";
@@ -1310,6 +1278,7 @@
                     tr += "<td>"+djson[x]["MILES"]+"</td>";
                     tr += "<td>"+djson[x]["PURPOSE"]+"</td>";
                     tr += "</tr>";
+                    i++;
                 }    
             }
             document.querySelector("table tbody").innerHTML = tr;
@@ -1324,9 +1293,8 @@
         purpose_.on('value', function(snapshot){
             djson_ = JSON.parse(JSON.stringify(snapshot.val()));
             djson = jsonToArray(djson_)
-            console.log(djson)
             djson = djson.sort(up_string("STOP"));
-            console.log(djson);
+
             var tr = "";
             var i = 1;
             for(x in djson){
@@ -1355,14 +1323,14 @@
         purpose_.on('value', function(snapshot){
             djson_ = JSON.parse(JSON.stringify(snapshot.val()));
             djson = jsonToArray(djson_)
-            console.log(djson)
             djson = djson.sort(down_string("STOP"));
-            console.log(djson);
+
             var tr = "";
+            var i = 1;
             for(x in djson){
                 if(djson[x] != null){
                     tr += "<tr>";
-                    tr += "<td>"+x+"</td>";
+                    tr += "<td>"+i+"</td>";
                     tr += "<td>"+djson[x]["START_DATE"]+"</td>";
                     tr += "<td>" + getDuration(djson[x]["START_DATE"], djson[x]["END_DATE"]) + "</td>";
                     tr += "<td>"+djson[x]["CATEGORY"]+"</td>";
@@ -1371,6 +1339,7 @@
                     tr += "<td>"+djson[x]["MILES"]+"</td>";
                     tr += "<td>"+djson[x]["PURPOSE"]+"</td>";
                     tr += "</tr>";
+                    i++;
                 }    
             }
             document.querySelector("table tbody").innerHTML = tr;
@@ -1380,14 +1349,12 @@
     //to be continue...
     function search_catalogy(){
         var srearchItem = document.getElementById("search_item_1").value;
-        console.log(srearchItem)
         var purpose_ = database.ref('/index').orderByChild('CATEGORY').equalTo(srearchItem);
         var djson;
 
         purpose_.on('value', function(snapshot){
             djson_ = JSON.parse(JSON.stringify(snapshot.val()));
             djson = jsonToArray(djson_)
-            console.log(djson)
 
             var tr = "";
             var i = 1;
