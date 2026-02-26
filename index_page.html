@@ -382,12 +382,12 @@
                             }
                         </script>
                     </th>
-                    <!-- 1 start date -->
+                    <!-- start date -->
                     <th>
                             <div id="main" style="width: 120px;height:80px;"></div>
                             <script type="text/javascript">
-                                var myChart5 = echarts.init(document.getElementById('main'));
-                                var option5 = {
+                                var myChart = echarts.init(document.getElementById('main'));
+                                var option = {
                                     title: {},
                                     tooltip: {},
                                     grid:{
@@ -412,11 +412,11 @@
                                         color:['#37A2DA']
                                     }]
                                 };
-                                myChart5.setOption(option5);
+                                myChart.setOption(option);
                             </script>
 
                     </th>
-                     <!--2 //End_date -->
+                     <!--1 End_date -->
                     <th>
                             <div id="main1" style="width: 120px;height:60px;"></div>
                             <script type="text/javascript">
@@ -443,12 +443,12 @@
                                 myChart1.setOption(option1);
                             </script>
                         </th>
-                    <!--3 catalogy -->
+                    <!--2 catalogy -->
                     <th>
                         <div id="main2" style="width: 120px; height: 120px; margin: 0 auto;"></div>
                         <script type="text/javascript">
-                            var myChart = echarts.init(document.getElementById('main2'));
-                            var option = {
+                            var myChart2 = echarts.init(document.getElementById('main2'));
+                            var option2 = {
                                 title: {},
                                 tooltip: {
                                     trigger: 'item',
@@ -477,10 +477,10 @@
                                     ]
                                 }]
                             };
-                            myChart.setOption(option);
+                            myChart2.setOption(option2);
                         </script>
                     </th>
-                    <!-- 4 start -->
+                    <!-- 3 start -->
                     <th style="position: relative; width: 160px; height: 80px; padding: 0; vertical-align: top;">
                             <div id="main3" style="width: 100%; height: 100%;"></div>
                             <div id="unknown-info" style="
@@ -495,7 +495,7 @@
                                 line-height: 12px;">
                             </div>
                             <script type="text/javascript">
-                                var myChart4 = echarts.init(document.getElementById('main3'));
+                                var myChart3 = echarts.init(document.getElementById('main3'));
 
                                 var rawNames = ["Cary", "Unknown Location", "Morrisville", "Whitebridge", "Islamabad", "Durham", "Lahore", "Raleigh", "Karachi", "Apex", "Berkeley"];
                                 var rawValues = [201, 148, 85, 68, 57, 37, 36, 28, 27, 17, 16];
@@ -516,7 +516,7 @@
                                 });
                                 var top10 = filtered.slice(0, 10).reverse(); // 反轉讓第一名在最上面
                                 
-                                var option4 = {
+                                var option3 = {
                                     tooltip: { 
                                         trigger: 'axis',
                                         backgroundColor: 'rgba(50, 50, 50, 0.8)',
@@ -560,10 +560,10 @@
                                         }
                                     }]
                                 };
-                            myChart4.setOption(option4);
+                            myChart3.setOption(option3);
                             </script>
                     </th>
-                    <!--5 end location -->
+                    <!--4 end location -->
                     <th style="position: relative; width: 160px; height: 80px; padding: 0; vertical-align: top;">
                         <div id="main4" style="width: 100%; height: 100%;"></div>
                         <div id="unknown-info-end" style="
@@ -579,7 +579,7 @@
                         </div>
                         
                         <script type="text/javascript">
-                            var myChart6 = echarts.init(document.getElementById('main4'));
+                            var myChart4 = echarts.init(document.getElementById('main4'));
                             // 原始數據
                             var rawNamesEnd = ["Cary","Unknown Location","Morrisville","Whitebridge","Islamabad","Durham","Lahore","Raleigh","Karachi","Apex", "Berkeley"];
                             var rawValuesEnd = [203, 149, 84, 65, 58, 36, 35, 29, 26, 17, 16]; // 這裡稍微修正了你的原始數據格式
@@ -598,7 +598,7 @@
                             });
                             var top10End = filteredEnd.slice(0, 10).reverse();
                     
-                            var option6 = {
+                            var option4 = {
                                 tooltip: { 
                                     trigger: 'axis',
                                     backgroundColor: 'rgba(50, 50, 50, 0.8)',
@@ -643,15 +643,15 @@
                                     }
                                 }]
                             };
-                            myChart6.setOption(option6);
+                            myChart4.setOption(option4);
                         </script>             
                     </th>
-                    <!--6 miles -->
+                    <!--5 miles -->
                     <th>
                         <div id="main5" style="width: 150px;height:80px;"></div>
                         <script type="text/javascript">
-                            var myChart2 = echarts.init(document.getElementById('main5'));
-                            var option2 = {
+                            var myChart5 = echarts.init(document.getElementById('main5'));
+                            var option5 = {
                                 title: {},
                                 tooltip: {},
                                 // grid:{
@@ -681,41 +681,88 @@
                                     // color:['Lightblue']
                                 }]
                             };
-                            myChart2.setOption(option2);
+                            myChart5.setOption(option5);
                         </script>
                     </th>
-                    <!--7 purpose -->
+                    <!--6 purpose -->
                     <th>
                             <div id="main6" style="width: 160px;height:80px;"></div>
                             <script type="text/javascript">
-                                var myChart3 = echarts.init(document.getElementById('main6'));
-                                var option3 = {
-                                    title: {},
-                                    tooltip: {},
-                                    grid:{
-                                    x:0.1,
-                                    y:0.1,
-                                    x2:0.1,
-                                    y2:0.1
-                                    // borderWidth:1
+                                var myChart6 = echarts.init(document.getElementById('main6'));
+                                // 1. 資料定義
+                                var purposeData = [
+                                    {name: "Other", value: 502},
+                                    {name: "Meeting", value: 187},
+                                    {name: "Meal/Entertain", value: 160},
+                                    {name: "Errand/Supplies", value: 128},
+                                    {name: "Customer Visit", value: 101},
+                                    {name: "Temporary Site", value: 50},
+                                    {name: "Between Offices", value: 18},
+                                    {name: "Moving", value: 4},
+                                    {name: "Airport/Travel", value: 3},
+                                    {name: "Charity", value: 1},
+                                    {name: "Commute", value: 1}
+                                ];
+
+                                // 2. 排序並取 Top 10
+                                purposeData.sort((a, b) => b.value - a.value);
+                                var top10 = purposeData.slice(0, 10);
+                                
+                                var option6 = {
+                                    tooltip: {
+                                        trigger: 'axis',
+                                        backgroundColor: 'rgba(50, 50, 50, 0.9)',
+                                        textStyle: { color: '#fff', fontSize: 11 },
+                                        formatter: function(params) {
+                                            var i = params[0].dataIndex;
+                                            return 'No.' + (i + 1) + ' ' + top10[i].name + '<br/>Count: ' + top10[i].value;
+                                        },
+                                        // 讓 tooltip 靠近鼠標，避免在小格子裡被遮擋
+                                        confine: true
                                     },
-                                    legend: {
+                                    grid: {
+                                        top: 10,
+                                        bottom: 22, // 留空間給 1-10 數字
+                                        left: 5,
+                                        right: 5,
+                                        containLabel: false
                                     },
                                     xAxis: {
-                                        data: ["Other","Errand/Supplies","Meeting","Customer Visit",
-                                                "Temporary Site","Between Offices","Charity ($)","Commute",
-                                                "Moving","Airport/Travel"]
+                                        type: 'category',
+                                        data: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
+                                        axisLabel: {
+                                            show: true,
+                                            fontSize: 9,
+                                            color: '#888',
+                                            interval: 0
+                                        },
+                                        axisLine: { show: false },
+                                        axisTick: { show: false }
                                     },
-                                    yAxis: {    
-                                        show: false 
+                                    yAxis: {
+                                        show: false,
+                                        type: 'value'
                                     },
                                     series: [{
+                                        name: 'Purpose',
                                         type: 'bar',
-                                        data: [160,502,128,187,101,50,18,1,1,4,3],
-                                         color:['#37A2DA']
+                                        data: top10.map(item => item.value),
+                                        barWidth: '70%',
+                                        itemStyle: {
+                                            color: '#37A2DA',
+                                            borderRadius: [2, 2, 0, 0]
+                                        },
+                                        emphasis: {
+                                            focus: 'series', 
+                                            itemStyle: {
+                                                color: '#2a82b3', 
+                                                shadowBlur: 10,
+                                                shadowColor: 'rgba(0,0,0,0.3)'
+                                            }
+                                        }
                                     }]
                                 };
-                                myChart3.setOption(option3);
+                                myChart6.setOption(option6);
                             </script>
                     </th>
                 </tr>
