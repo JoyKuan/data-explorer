@@ -670,16 +670,24 @@
                                         return formattedLabel + ': ' + params.value + ' (' + params.percent + '%)';
                                     }
                                 },
+                                // --- 關鍵修正：調整 Grid 留白 ---
+                                grid: {
+                                    top: 5,      
+                                    bottom: 5,
+                                    left: 5,     // 左右各留 5px 的緩衝空間
+                                    right: 8,    // 右邊稍微留多一點點給紅色區塊
+                                    containLabel: false
+                                },
                                 series: [{
                                     name: 'Miles Distribution',
                                     type: 'pie',
                                     roseType: 'radius',
-                                    radius: ['10%', '95%'], // 內徑與外徑，讓圖表更大
+                                    radius: ['10%', '88%'], // 內徑與外徑，讓圖表更大
                                     center: ['50%', '50%'],
                                     avoidLabelOverlap: false,
                                     label: { show: false },
                                     itemStyle: {borderRadius: 4},
-                                    emphasis: {focus: 'self', itemStyle: {shadowBlur: 10,shadowOffsetX: 0,shadowColor: 'rgba(0,0,0,0.5)'}
+                                    emphasis: {focus: 'self', itemStyle: {shadowBlur: 10, shadowOffsetX: 0, shadowColor: 'rgba(0,0,0,0.5)'}
                                     },
                                     data: milesData
                                 }]
