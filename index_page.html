@@ -664,27 +664,22 @@
                                     backgroundColor: 'rgba(50, 50, 50, 0.8)',
                                     textStyle: { color: '#fff', fontSize: 11 },
                                     confine: true,
-                                    formatter: '{b}<br/>Count: {c} ({d}%)'
+                                    formatter: function(params) {
+                                        var label = params.name.split(' ')[0]; 
+                                        var formattedLabel = '[' + label.replace('-', ', ') + ')'; 
+                                        return formattedLabel + ': ' + params.value + ' (' + params.percent + '%)';
+                                    }
                                 },
                                 series: [{
                                     name: 'Miles Distribution',
                                     type: 'pie',
-                                    // roseType: 'radius' 讓半徑隨數值變化，視覺上更填滿空間
                                     roseType: 'radius',
-                                    radius: ['15%', '90%'], // 內徑與外徑，讓圖表更大
+                                    radius: ['10%', '95%'], // 內徑與外徑，讓圖表更大
                                     center: ['50%', '50%'],
                                     avoidLabelOverlap: false,
                                     label: { show: false },
-                                    itemStyle: {
-                                        borderRadius: 4
-                                    },
-                                    emphasis: {
-                                        focus: 'self', 
-                                        itemStyle: {
-                                            shadowBlur: 10,
-                                            shadowOffsetX: 0,
-                                            shadowColor: 'rgba(0,0,0,0.5)'
-                                        }
+                                    itemStyle: {borderRadius: 4},
+                                    emphasis: {focus: 'self', itemStyle: {shadowBlur: 10,shadowOffsetX: 0,shadowColor: 'rgba(0,0,0,0.5)'}
                                     },
                                     data: milesData
                                 }]
