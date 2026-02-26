@@ -885,7 +885,7 @@
         var mile_ = database.ref('/index').orderByChild('MILES').limitToFirst(500);
         var djson;
 
-        mile_.on('value', function(snapshot){
+        mile_.once('value', function(snapshot){
 
             djson_ = JSON.parse(JSON.stringify(snapshot.val()));
             djson = jsonToArray(djson_)
@@ -966,7 +966,7 @@
         var mile_ = database.ref('/index').orderByChild('END_DATE').limitToFirst(500);
         var djson;
 
-        mile_.on('value', function(snapshot){
+        mile_.once('value', function(snapshot){
 
             djson_ = JSON.parse(JSON.stringify(snapshot.val()));
             djson = jsonToArray(djson_)
@@ -1210,7 +1210,7 @@
             for(var i = 0; i < djson.length; i++){ 
                 if(djson[i] != null){
                     tr += "<tr>";
-                    tr += "<td>"+i+"</td>"; // 排序後的序號
+                    tr += "<td>"+(i + 1)+"</td>"; // 排序後的序號
                     tr += "<td>"+djson[i]["START_DATE"]+"</td>";
                     tr += "<td>" + getDuration(djson[i]["START_DATE"], djson[i]["END_DATE"]) + "</td>";
                     tr += "<td>"+djson[i]["CATEGORY"]+"</td>";
@@ -1229,10 +1229,10 @@
         var purpose_ = database.ref('/index/').orderByChild('START').limitToFirst(500);
         var djson;
 
-        purpose_.on('value', function(snapshot){
+        purpose_.once('value', function(snapshot){
             djson_ = JSON.parse(JSON.stringify(snapshot.val()));
             djson = jsonToArray(djson_)
-            djson = djson.sort(up_string("START LOCATION"));
+            djson = djson.sort(up_string("START"));
             
             var tr = "";
             var i = 1;
@@ -1262,7 +1262,7 @@
         purpose_.once('value', function(snapshot){
             djson_ = JSON.parse(JSON.stringify(snapshot.val()));
             djson = jsonToArray(djson_)
-            djson = djson.sort(down_string("START LOCATION"));
+            djson = djson.sort(down_string("START"));
 
             var tr = "";
             var i = 1;
