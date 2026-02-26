@@ -171,7 +171,7 @@
         #result th:nth-child(4) { min-width: 120px; }      /* CATEGORY */
         #result th:nth-child(5) { min-width: 200px; }      /* START LOCATION */
         #result th:nth-child(6) { min-width: 200px; }      /* END LOCATION */
-        #result th:nth-child(7) { min-width: 100px; }      /* MILES */
+        #result th:nth-child(7) { min-width: 180px; }      /* MILES */
         #result th:nth-child(8) { min-width: 150px; }      /* PURPOSE */
         
         /* 確保內容如果太長會自動換行，不會撐開欄位 */
@@ -647,7 +647,7 @@
                         </script>             
                     </th>
                     <!--5 miles -->
-                    <th style="position: relative; width: 160px; height: 100px; padding: 0; vertical-align: top;">
+                    <th style="position: relative; width: 180px; height: 100px; padding: 0; vertical-align: top;">
                         <div id="main5" style="width: 100%; height: 100%;"></div>
                         <script type="text/javascript">
                             var myChart5 = echarts.init(document.getElementById('main5'));
@@ -682,12 +682,12 @@
                                     name: 'Miles Distribution',
                                     type: 'pie',
                                     roseType: 'radius',
-                                    radius: ['15%', '80%'], // 內徑與外徑，讓圖表更大
+                                    radius: ['15%', '85%'], // 內徑與外徑，讓圖表更大
                                     center: ['50%', '55%'],
                                     avoidLabelOverlap: false,
                                     label: { show: false },
                                     itemStyle: {borderRadius: 4},
-                                    emphasis: {focus: 'self', itemStyle: {shadowBlur: 15, shadowOffsetX: 0, shadowColor: 'rgba(0,0,0,0.5)', scaleSize: 10}
+                                    emphasis: {focus: 'self', itemStyle: {shadowBlur: 10, shadowOffsetX: 0, shadowColor: 'rgba(0,0,0,0.5)', scaleSize: 8}
                                     },
                                     data: milesData
                                 }]
@@ -696,7 +696,7 @@
                         </script>
                     </th>
                     <!--6 purpose -->
-                    <th style="position: relative; width: 160px; height: 80px; padding: 0; vertical-align: top;">
+                    <th style="position: relative; width: 160px; height: 100px; padding: 0; vertical-align: top;">
                             <div id="main6" style="width: 100%; height: 100%;"></div>
                             <script type="text/javascript">
                                 var myChart6 = echarts.init(document.getElementById('main6'));
