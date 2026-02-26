@@ -647,38 +647,46 @@
                         </script>             
                     </th>
                     <!--5 miles -->
-                    <th>
-                        <div id="main5" style="width: 150px;height:80px;"></div>
+                    <th style="position: relative; width: 160px; height: 80px; padding: 0; vertical-align: top;">
+                        <div id="main5" style="width: 100%; height: 100%;"></div>
                         <script type="text/javascript">
                             var myChart5 = echarts.init(document.getElementById('main5'));
+                            var milesData = [
+                                        {value: 496, name: '0-5 miles'},
+                                        {value: 341, name: '5-10 miles'},
+                                        {value: 234, name: '10-20 miles'},
+                                        {value: 57, name: '20-50 miles'},
+                                        {value: 27, name: '50+ miles'}];
+
                             var option5 = {
-                                title: {},
-                                tooltip: {},
-                                // grid:{
-                                //     x:1,
-                                //     y:1,
-                                //     x2:1,
-                                //     y2:1
-                                //     // borderWidth:1
-                                //     },
-                                legend: {
-                                    show: false 
-                                },
-                                xAxis: {
-                                    show: false
-                                    // data: ["[0-5)","[5-10)","[10-20)","[20-50)","[50- )"]
-                                },
-                                yAxis: {    
-                                    show: false 
+                                tooltip: {
+                                    trigger: 'item',
+                                    backgroundColor: 'rgba(50, 50, 50, 0.8)',
+                                    textStyle: { color: '#fff', fontSize: 11 },
+                                    confine: true,
+                                    formatter: '{b}<br/>Count: {c} ({d}%)'
                                 },
                                 series: [{
+                                    name: 'Miles Distribution',
                                     type: 'pie',
-                                    data: [{value:496, name:'[0,5)'},
-                                            {value:341,name:'[5.10)'},
-                                            {value:234,name:'[10,20)'},
-                                            {value:57, name:'[20,50)'},
-                                            {value:27, name:'[50, )'}]
-                                    // color:['Lightblue']
+                                    // roseType: 'radius' 讓半徑隨數值變化，視覺上更填滿空間
+                                    roseType: 'radius',
+                                    radius: ['15%', '90%'], // 內徑與外徑，讓圖表更大
+                                    center: ['50%', '50%'],
+                                    avoidLabelOverlap: false,
+                                    label: { show: false },
+                                    itemStyle: {
+                                        borderRadius: 4
+                                    },
+                                    emphasis: {
+                                        focus: 'self', 
+                                        itemStyle: {
+                                            shadowBlur: 10,
+                                            shadowOffsetX: 0,
+                                            shadowColor: 'rgba(0,0,0,0.5)'
+                                        }
+                                    },
+                                    data: milesData
                                 }]
                             };
                             myChart5.setOption(option5);
