@@ -346,35 +346,18 @@
                             }
                             else {
                                 var prec_ = database.ref('/index').orderByChild('MILES').limitToFirst(num);
-                                var djson;
-                                var djson_;
-    
                                 prec_.on('value', function(snapshot){
-                                    djson_ = JSON.parse(JSON.stringify(snapshot.val()));
-    
-                                    djson = jsonToArray(djson_)
-                                    console.log(djson)
-    
-                                    // djson = djson.sort(up_compare("PURPOSE"));
-                                    // console.log(djson);
+                                    var djson_raw = snapshot.val();
+                                    var djson = jsonToArray(djson_raw);
                                     
                                     var tr = "";
                                     var i = 1;
                                     for(x in djson){
                                         if(djson[x] != null){
-                                            // 1. 計算時長 (前端即時計算)
-                                            let startTime = new Date(djson[x]["START_DATE"]);
-                                            let endTime = new Date(djson[x]["END_DATE"]);
-                                            let diffMs = endTime - startTime; // 毫秒差
-                                            let durationMin = Math.round(diffMs / 60000); // 轉為分鐘
-                                                
-                                            // 如果數據有誤導致負數，設為 0
-                                            if(isNaN(durationMin) || durationMin < 0) durationMin = "-";
-                                                
                                             tr += "<tr>";
                                             tr += "<td>"+i+"</td>";
                                             tr += "<td>"+djson[x]["START_DATE"]+"</td>";
-                                            tr += "<td>"+durationMin+" min</td>"; // 這裡改顯示計算出的分鐘
+                                            tr += "<td>"+getDuration(djson[x]["START_DATE"], djson[x]["END_DATE"])+"</td>";
                                             tr += "<td>"+djson[x]["CATEGORY"]+"</td>";
                                             tr += "<td>"+djson[x]["START"]+"</td>";
                                             tr += "<td>"+djson[x]["STOP"]+"</td>";
@@ -1259,7 +1242,7 @@
                     tr += "<tr>";
                     tr += "<td>"+i+"</td>"; // 排序後的序號
                     tr += "<td>"+djson[i]["START_DATE"]+"</td>";
-                    tr += "<td>" + getDuration(djson[x]["START_DATE"], djson[x]["END_DATE"]) + "</td>";
+                    tr += "<td>" + getDuration(djson[i]["START_DATE"], djson[i]["END_DATE"]) + "</td>";
                     tr += "<td>"+djson[i]["CATEGORY"]+"</td>";
                     tr += "<td>"+djson[i]["START"]+"</td>";
                     tr += "<td>"+djson[i]["STOP"]+"</td>";
@@ -1282,11 +1265,13 @@
             console.log(djson)
             djson = djson.sort(up_string("START LOCATION"));
             console.log(djson);
+            
             var tr = "";
+            var i = 1;
             for(x in djson){
                 if(djson[x] != null){
                     tr += "<tr>";
-                    tr += "<td>"+x+"</td>";
+                    tr += "<td>" + i + "</td>";
                     tr += "<td>"+djson[x]["START_DATE"]+"</td>";
                     tr += "<td>" + getDuration(djson[x]["START_DATE"], djson[x]["END_DATE"]) + "</td>";
                     tr += "<td>"+djson[x]["CATEGORY"]+"</td>";
@@ -1295,6 +1280,7 @@
                     tr += "<td>"+djson[x]["MILES"]+"</td>";
                     tr += "<td>"+djson[x]["PURPOSE"]+"</td>";
                     tr += "</tr>";
+                    i++;
                 }    
             }
             document.querySelector("table tbody").innerHTML = tr;
@@ -1342,10 +1328,11 @@
             djson = djson.sort(up_string("STOP"));
             console.log(djson);
             var tr = "";
+            var i = 1;
             for(x in djson){
                 if(djson[x] != null){
                     tr += "<tr>";
-                    tr += "<td>"+x+"</td>";
+                    tr += "<td>"+i+"</td>";
                     tr += "<td>"+djson[x]["START_DATE"]+"</td>";
                     tr += "<td>" + getDuration(djson[x]["START_DATE"], djson[x]["END_DATE"]) + "</td>";
                     tr += "<td>"+djson[x]["CATEGORY"]+"</td>";
@@ -1354,6 +1341,7 @@
                     tr += "<td>"+djson[x]["MILES"]+"</td>";
                     tr += "<td>"+djson[x]["PURPOSE"]+"</td>";
                     tr += "</tr>";
+                    i++;
                 }    
             }
             document.querySelector("table tbody").innerHTML = tr;
