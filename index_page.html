@@ -181,7 +181,6 @@
         }
     </style>
 
-    <meta charset="utf-8">
     <!-- 引入 ECharts 文件 -->
     <script src="echarts.min.js"></script>
 
@@ -261,7 +260,7 @@
                     <th> </th>
                     <!-- <th>sequence <i class="fas fa-caret-square-down" onclick=""></i><i class="fas fa-caret-square-up" onclick=""></i></th> -->
                     <th>START DATE <i class="fas fa-caret-square-down" onclick="startdate_sort_down()"></i><i class="fas fa-caret-square-up" onclick="startdate_sort_up()"></i></th>
-                    <th>END DATE <i class="fas fa-caret-square-down" onclick="enddate_sort_down()"></i><i class="fas fa-caret-square-up" onclick="enddate_sort_up()"></i></th>
+                    <th>DURATION (Min) <i class="fas fa-caret-square-down" onclick="enddate_sort_down()"></i><i class="fas fa-caret-square-up" onclick="enddate_sort_up()"></i></th>
                     <th>CATEGORY <i class="fas fa-caret-square-down" onclick="catalog_sort_down()"></i><i class="fas fa-caret-square-up" onclick="catalog_sort_up()"></i></th>
                     <th>START LOCATION <i class="fas fa-caret-square-down" onclick="start_sort_down()"></i><i class="fas fa-caret-square-up" onclick="start_sort_up()"></i></th>
                     <th>END LOCATION <i class="fas fa-caret-square-down" onclick="destination_sort_down()"></i><i class="fas fa-caret-square-up" onclick="destination_sort_up()"></i></th>
@@ -303,15 +302,13 @@
                             new Slider(volumeSlider);
 
                             function slider_(){
-                            var volumn = 0;
-                            volumn = document.getElementById("volume").innerText;
-                            // volumn = sldthumb;
-                            console.log(volumn);
-                            var num=0;
-                            if(volumn != 0){
-                                num = Math.round(1155*(volumn*0.01));
-                            }
-                            console.log(num);
+                                var volumn = 0;
+                                volumn = document.querySelector('#volume .slider-input').value;
+                                // volumn = sldthumb;
+                                console.log(volumn);
+                                var num=0;
+                                if(volumn != 0){num = Math.round(1155*(volumn*0.01));}
+                                console.log(num);
                             if(num == 0){
                                 var srearchItem = "HELLO"
                                 console.log(srearchItem)
@@ -334,7 +331,7 @@
                                             tr += "<tr>";
                                             tr += "<td>"+i+"</td>";
                                             tr += "<td>"+djson[x]["START_DATE"]+"</td>";
-                                            tr += "<td>"+djson[x]["END_DATE"]+"</td>";
+                                            tr += "<td>"+getDuration(djson[x]["START_DATE"], djson[x]["END_DATE"])+"</td>"; // 改這行
                                             tr += "<td>"+djson[x]["CATEGORY"]+"</td>";
                                             tr += "<td>"+djson[x]["START"]+"</td>";
                                             tr += "<td>"+djson[x]["STOP"]+"</td>";
@@ -347,39 +344,50 @@
                                     document.querySelector("table tbody").innerHTML = tr;
                                 });
                             }
-                            var prec_ = database.ref('/index').orderByChild('MILES').limitToFirst(num);
-                            var djson;
-                            var djson_;
-
-                            prec_.on('value', function(snapshot){
-                                djson_ = JSON.parse(JSON.stringify(snapshot.val()));
-
-                                djson = jsonToArray(djson_)
-                                console.log(djson)
-
-                                // djson = djson.sort(up_compare("PURPOSE"));
-                                // console.log(djson);
-                                
-                                var tr = "";
-                                var i = 1;
-                                for(x in djson){
-                                    if(djson[x] != null){
-                                        tr += "<tr>";
-                                        tr += "<td>"+i+"</td>";
-                                        tr += "<td>"+djson[x]["CATEGORY"]+"</td>";
-                                        tr += "<td>"+djson[x]["END_DATE"]+"</td>";
-                                        tr += "<td>"+djson[x]["MILES"]+"</td>";
-                                        tr += "<td>"+djson[x]["PURPOSE"]+"</td>";
-                                        tr += "<td>"+djson[x]["START"]+"</td>";
-                                        tr += "<td>"+djson[x]["START_DATE"]+"</td>";
-                                        tr += "<td>"+djson[x]["STOP"]+"</td>";
-                                        tr += "</tr>";
-                                        i ++; 
-                                    }    
-                                }
-                                document.querySelector("table tbody").innerHTML = tr;
-                            });
+                            else {
+                                var prec_ = database.ref('/index').orderByChild('MILES').limitToFirst(num);
+                                var djson;
+                                var djson_;
+    
+                                prec_.on('value', function(snapshot){
+                                    djson_ = JSON.parse(JSON.stringify(snapshot.val()));
+    
+                                    djson = jsonToArray(djson_)
+                                    console.log(djson)
+    
+                                    // djson = djson.sort(up_compare("PURPOSE"));
+                                    // console.log(djson);
+                                    
+                                    var tr = "";
+                                    var i = 1;
+                                    for(x in djson){
+                                        if(djson[x] != null){
+                                            // 1. 計算時長 (前端即時計算)
+                                            let startTime = new Date(djson[x]["START_DATE"]);
+                                            let endTime = new Date(djson[x]["END_DATE"]);
+                                            let diffMs = endTime - startTime; // 毫秒差
+                                            let durationMin = Math.round(diffMs / 60000); // 轉為分鐘
+                                                
+                                            // 如果數據有誤導致負數，設為 0
+                                            if(isNaN(durationMin) || durationMin < 0) durationMin = "-";
+                                                
+                                            tr += "<tr>";
+                                            tr += "<td>"+i+"</td>";
+                                            tr += "<td>"+djson[x]["START_DATE"]+"</td>";
+                                            tr += "<td>"+durationMin+" min</td>"; // 這裡改顯示計算出的分鐘
+                                            tr += "<td>"+djson[x]["CATEGORY"]+"</td>";
+                                            tr += "<td>"+djson[x]["START"]+"</td>";
+                                            tr += "<td>"+djson[x]["STOP"]+"</td>";
+                                            tr += "<td>"+djson[x]["MILES"]+"</td>";
+                                            tr += "<td>"+djson[x]["PURPOSE"]+"</td>";
+                                            tr += "</tr>";
+                                            i ++; 
+                                        }    
+                                    }
+                                    document.querySelector("table tbody").innerHTML = tr;
+                                });  
                             }
+                        }
                         </script>
                     </th>
                     <!-- start date -->
@@ -388,56 +396,48 @@
                             <script type="text/javascript">
                                 var myChart = echarts.init(document.getElementById('main'));
                                 var option = {
-                                    title: {},
-                                    tooltip: {},
-                                    grid:{
-                                    x:0.1,
-                                    y:0.1,
-                                    x2:0.1,
-                                    y2:0.1
-                                    // borderWidth:1
-                                    },
-                                    legend: {
-                                    },
+                                    grid: { top: 5, bottom: 20, left: 10, right: 10 },
                                     xAxis: {
-                                        data: ["Jaunary","February","March","April","May","June","July",
-                                                "August","September","October","November","December"]
+                                        type: 'category',
+                                        data: ['0h', '2h', '4h', '6h', '8h', '10h', '12h', '14h', '16h', '18h', '20h', '22h'], // 簡化座標軸避免擁擠
+                                        axisLabel: { fontSize: 9 }
                                     },
-                                    yAxis: {    
-                                        show: false 
-                                    },
+                                    yAxis: { show: false },
                                     series: [{
                                         type: 'bar',
-                                        data: [61,115,113,54,49,108,112,133,36,106,122,146],
-                                        color:['#37A2DA']
+                                        // 這裡的數據應根據你的 1155 筆資料統計 0-23 小時的出發次數
+                                        data: [15, 5, 40, 80, 120, 90, 150, 200, 180, 110, 80, 40], 
+                                        itemStyle: {
+                                            // 使用漸變色，代表從冷門時段到熱門時段
+                                            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                                                { offset: 0, color: '#83bff6' },
+                                                { offset: 1, color: '#188df0' }
+                                            ])
+                                        }
                                     }]
                                 };
                                 myChart.setOption(option);
                             </script>
 
                     </th>
-                     <!--1 End_date -->
+                     <!--1 DURATION -->
                     <th>
                             <div id="main1" style="width: 120px;height:60px;"></div>
                             <script type="text/javascript">
                                 var myChart1 = echarts.init(document.getElementById('main1'));
                                 var option1 = {
-                                    title: {},
-                                    tooltip: {},
-                                    legend: {
-                                    },
+                                    grid: { top: 5, bottom: 20, left: 10, right: 10 },
                                     xAxis: {
-                                        data: ["Jaunary","February","March","April","May","June","July",
-                                                "August","September","October","November","December"]
+                                        type: 'category',
+                                        data: ['<10', '10-20', '20-30', '30+'],
+                                        axisLabel: { fontSize: 9, interval: 0 }
                                     },
-                                    yAxis: {    
-                                        show: false 
-                                    },
+                                    yAxis: { show: false },
                                     series: [{
                                         type: 'bar',
-                                        data: [61,115,113,54,49,108,112,133,36,106,122,146],
-                                        // color:['Lightblue']
-                                        color: ['#37A2DA', '#32C5E9', '#67E0E3', '#9FE6B8', '#FFDB5C','#ff9f7f', '#fb7293', '#E062AE', '#E690D1', '#e7bcf3', '#9d96f5', '#8378EA']
+                                        name: 'Minutes',
+                                        data: [450, 320, 150, 80], // 這裡填入統計後的時長分佈
+                                        itemStyle: { color: '#9FE6B8' }
                                     }]
                                 };
                                 myChart1.setOption(option1);
@@ -787,6 +787,13 @@
         </div>
     </div>
     <script>
+        // --- 在這裡貼上您的 getDuration 函數 ---
+        function getDuration(startStr, endStr) {
+            var start = new Date(startStr);
+            var end = new Date(endStr);
+            var diffMin = Math.round((end - start) / (1000 * 60));
+            return (isNaN(diffMin) || diffMin < 0) ? "-" : diffMin + " min";
+        }
         var config = {
             apiKey: "AIzaSyA1VQOAtkGbdNbpQKVD9hI0VYtBmRq6j8I",
             authDomain: "project551.firebaseapp.com",
@@ -803,7 +810,7 @@
         var myuber = database.ref('/index/');
         var djson;
 
-        myuber.on('value', function(snapshot){
+        myuber.once('value', function(snapshot){
             djson = JSON.parse(JSON.stringify(snapshot.val()));
             console.log(djson);
             var tr = "";
@@ -812,7 +819,7 @@
                     tr += "<tr>";
                     tr += "<td>"+x+"</td>";
                     tr += "<td>"+djson[x]["START_DATE"]+"</td>";
-                    tr += "<td>"+djson[x]["END_DATE"]+"</td>";
+                    tr += "<td>" + getDuration(djson[x]["START_DATE"], djson[x]["END_DATE"]) + "</td>";
                     tr += "<td>"+djson[x]["CATEGORY"]+"</td>";
                     tr += "<td>"+djson[x]["START"]+"</td>";
                     tr += "<td>"+djson[x]["STOP"]+"</td>";
@@ -827,7 +834,7 @@
     <script>
     //done
     function default_() {
-    // 1. 回復 Miles 輸入框的顯示數值
+        // 1. 回復 Miles 輸入框的顯示數值
         document.getElementById("small_").value = 0;
         document.getElementById("big_").value = 500;
     
@@ -852,16 +859,16 @@
             for (var x in djson) {
                 if (djson[x] != null) {
                     tr += "<tr>";
-                    tr += "<td>" + i + "</td>";
-                    tr += "<td>" + djson[x]["START_DATE"] + "</td>";
-                    tr += "<td>" + djson[x]["END_DATE"] + "</td>";
-                    tr += "<td>" + djson[x]["CATEGORY"] + "</td>";
-                    tr += "<td>" + djson[x]["START"] + "</td>";
-                    tr += "<td>" + djson[x]["STOP"] + "</td>";
-                    tr += "<td>" + djson[x]["MILES"] + "</td>";
-                    tr += "<td>" + djson[x]["PURPOSE"] + "</td>";
+                    tr += "<td>"+i+"</td>";
+                    tr += "<td>"+djson[x]["START_DATE"]+"</td>";
+                    tr += "<td>" + getDuration(djson[x]["START_DATE"], djson[x]["END_DATE"]) + "</td>";
+                    tr += "<td>"+djson[x]["CATEGORY"]+"</td>";
+                    tr += "<td>"+djson[x]["START"]+"</td>";
+                    tr += "<td>"+djson[x]["STOP"]+"</td>";
+                    tr += "<td>"+djson[x]["MILES"]+"</td>";
+                    tr += "<td>"+djson[x]["PURPOSE"]+"</td>";
                     tr += "</tr>";
-                    i++;
+                    i ++;
                 }
             }
             document.querySelector("table tbody").innerHTML = tr;
@@ -918,14 +925,14 @@
                     tr += "<tr>";
                     tr += "<td>"+i+"</td>";
                     tr += "<td>"+djson[x]["START_DATE"]+"</td>";
-                    tr += "<td>"+djson[x]["END_DATE"]+"</td>";
+                    tr += "<td>" + getDuration(djson[x]["START_DATE"], djson[x]["END_DATE"]) + "</td>";
                     tr += "<td>"+djson[x]["CATEGORY"]+"</td>";
                     tr += "<td>"+djson[x]["START"]+"</td>";
                     tr += "<td>"+djson[x]["STOP"]+"</td>";
                     tr += "<td>"+djson[x]["MILES"]+"</td>";
                     tr += "<td>"+djson[x]["PURPOSE"]+"</td>";
                     tr += "</tr>";
-                    i++;
+                    i ++;
                 }    
             }
             // tr.sort()
@@ -952,14 +959,14 @@
                     tr += "<tr>";
                     tr += "<td>"+i+"</td>";
                     tr += "<td>"+djson[x]["START_DATE"]+"</td>";
-                    tr += "<td>"+djson[x]["END_DATE"]+"</td>";
+                    tr += "<td>" + getDuration(djson[x]["START_DATE"], djson[x]["END_DATE"]) + "</td>";
                     tr += "<td>"+djson[x]["CATEGORY"]+"</td>";
                     tr += "<td>"+djson[x]["START"]+"</td>";
                     tr += "<td>"+djson[x]["STOP"]+"</td>";
                     tr += "<td>"+djson[x]["MILES"]+"</td>";
                     tr += "<td>"+djson[x]["PURPOSE"]+"</td>";
                     tr += "</tr>";
-                    i++
+                    i ++;
                 }    
             }
             // tr.sort()
@@ -1003,14 +1010,14 @@
                     tr += "<tr>";
                     tr += "<td>"+i+"</td>";
                     tr += "<td>"+djson[x]["START_DATE"]+"</td>";
-                    tr += "<td>"+djson[x]["END_DATE"]+"</td>";
+                    tr += "<td>" + getDuration(djson[x]["START_DATE"], djson[x]["END_DATE"]) + "</td>";
                     tr += "<td>"+djson[x]["CATEGORY"]+"</td>";
                     tr += "<td>"+djson[x]["START"]+"</td>";
                     tr += "<td>"+djson[x]["STOP"]+"</td>";
                     tr += "<td>"+djson[x]["MILES"]+"</td>";
                     tr += "<td>"+djson[x]["PURPOSE"]+"</td>";
                     tr += "</tr>";
-                    i++
+                    i ++;
                 }    
             }
             // tr.sort()
@@ -1023,7 +1030,7 @@
         var myuber = database.ref('/index/').orderByChild('END_DATE').limitToFirst(500);
         var djson;
 
-        myuber.on('value', function(snapshot){
+        myuber.once('value', function(snapshot){
             djson_ = JSON.parse(JSON.stringify(snapshot.val()));
             console.log(djson_);
             djson = jsonToArray(djson_)
@@ -1039,14 +1046,14 @@
                     tr += "<tr>";
                     tr += "<td>"+i+"</td>";
                     tr += "<td>"+djson[x]["START_DATE"]+"</td>";
-                    tr += "<td>"+djson[x]["END_DATE"]+"</td>";
+                    tr += "<td>" + getDuration(djson[x]["START_DATE"], djson[x]["END_DATE"]) + "</td>";
                     tr += "<td>"+djson[x]["CATEGORY"]+"</td>";
                     tr += "<td>"+djson[x]["START"]+"</td>";
                     tr += "<td>"+djson[x]["STOP"]+"</td>";
                     tr += "<td>"+djson[x]["MILES"]+"</td>";
                     tr += "<td>"+djson[x]["PURPOSE"]+"</td>";
                     tr += "</tr>";
-                    i++
+                    i ++;
                 }    
             }
 
@@ -1073,14 +1080,14 @@
                     tr += "<tr>";
                     tr += "<td>"+i+"</td>";
                     tr += "<td>"+djson[x]["START_DATE"]+"</td>";
-                    tr += "<td>"+djson[x]["END_DATE"]+"</td>";
+                    tr += "<td>" + getDuration(djson[x]["START_DATE"], djson[x]["END_DATE"]) + "</td>";
                     tr += "<td>"+djson[x]["CATEGORY"]+"</td>";
                     tr += "<td>"+djson[x]["START"]+"</td>";
                     tr += "<td>"+djson[x]["STOP"]+"</td>";
                     tr += "<td>"+djson[x]["MILES"]+"</td>";
                     tr += "<td>"+djson[x]["PURPOSE"]+"</td>";
                     tr += "</tr>";
-                    i++
+                    i ++;
                 }    
             }
             // tr.sort()
@@ -1093,7 +1100,7 @@
         var myuber = database.ref('/index/').orderByChild('START_DATE').limitToFirst(500);
         var djson;
 
-        myuber.on('value', function(snapshot){
+        myuber.once('value', function(snapshot){
             djson_ = JSON.parse(JSON.stringify(snapshot.val()));
             console.log(djson_);
             djson = jsonToArray(djson_)
@@ -1109,14 +1116,14 @@
                     tr += "<tr>";
                     tr += "<td>"+i+"</td>";
                     tr += "<td>"+djson[x]["START_DATE"]+"</td>";
-                    tr += "<td>"+djson[x]["END_DATE"]+"</td>";
+                    tr += "<td>" + getDuration(djson[x]["START_DATE"], djson[x]["END_DATE"]) + "</td>";
                     tr += "<td>"+djson[x]["CATEGORY"]+"</td>";
                     tr += "<td>"+djson[x]["START"]+"</td>";
                     tr += "<td>"+djson[x]["STOP"]+"</td>";
                     tr += "<td>"+djson[x]["MILES"]+"</td>";
                     tr += "<td>"+djson[x]["PURPOSE"]+"</td>";
                     tr += "</tr>";
-                    i++
+                    i ++;
                 }    
             }
 
@@ -1143,7 +1150,7 @@
                     tr += "<tr>";
                     tr += "<td>"+i+"</td>";
                     tr += "<td>"+djson[x]["START_DATE"]+"</td>";
-                    tr += "<td>"+djson[x]["END_DATE"]+"</td>";
+                    tr += "<td>" + getDuration(djson[x]["START_DATE"], djson[x]["END_DATE"]) + "</td>";
                     tr += "<td>"+djson[x]["CATEGORY"]+"</td>";
                     tr += "<td>"+djson[x]["START"]+"</td>";
                     tr += "<td>"+djson[x]["STOP"]+"</td>";
@@ -1175,7 +1182,7 @@
                     tr += "<tr>";
                     tr += "<td>"+i+"</td>";
                     tr += "<td>"+djson[x]["START_DATE"]+"</td>";
-                    tr += "<td>"+djson[x]["END_DATE"]+"</td>";
+                    tr += "<td>" + getDuration(djson[x]["START_DATE"], djson[x]["END_DATE"]) + "</td>";
                     tr += "<td>"+djson[x]["CATEGORY"]+"</td>";
                     tr += "<td>"+djson[x]["START"]+"</td>";
                     tr += "<td>"+djson[x]["STOP"]+"</td>";
@@ -1222,7 +1229,7 @@
                     tr += "<tr>";
                     tr += "<td>"+x+"</td>";
                     tr += "<td>"+djson[x]["START_DATE"]+"</td>";
-                    tr += "<td>"+djson[x]["END_DATE"]+"</td>";
+                    tr += "<td>" + getDuration(djson[x]["START_DATE"], djson[x]["END_DATE"]) + "</td>";
                     tr += "<td>"+djson[x]["CATEGORY"]+"</td>";
                     tr += "<td>"+djson[x]["START"]+"</td>";
                     tr += "<td>"+djson[x]["STOP"]+"</td>";
@@ -1247,17 +1254,17 @@
             djson = djson.sort(down_string("PURPOSE"));
             console.log(djson);
             var tr = "";
-            for(x in djson){
-                if(djson[x] != null){
+            for(var i = 0; i < djson.length; i++){ // 建議用標準 for 迴圈處理陣列
+                if(djson[i] != null){
                     tr += "<tr>";
-                    tr += "<td>"+x+"</td>";
-                    tr += "<td>"+djson[x]["START_DATE"]+"</td>";
-                    tr += "<td>"+djson[x]["END_DATE"]+"</td>";
-                    tr += "<td>"+djson[x]["CATEGORY"]+"</td>";
-                    tr += "<td>"+djson[x]["START"]+"</td>";
-                    tr += "<td>"+djson[x]["STOP"]+"</td>";
-                    tr += "<td>"+djson[x]["MILES"]+"</td>";
-                    tr += "<td>"+djson[x]["PURPOSE"]+"</td>";
+                    tr += "<td>"+i+"</td>"; // 排序後的序號
+                    tr += "<td>"+djson[i]["START_DATE"]+"</td>";
+                    tr += "<td>" + getDuration(djson[x]["START_DATE"], djson[x]["END_DATE"]) + "</td>";
+                    tr += "<td>"+djson[i]["CATEGORY"]+"</td>";
+                    tr += "<td>"+djson[i]["START"]+"</td>";
+                    tr += "<td>"+djson[i]["STOP"]+"</td>";
+                    tr += "<td>"+djson[i]["MILES"]+"</td>";
+                    tr += "<td>"+djson[i]["PURPOSE"]+"</td>";
                     tr += "</tr>";
                 }    
             }
@@ -1281,7 +1288,7 @@
                     tr += "<tr>";
                     tr += "<td>"+x+"</td>";
                     tr += "<td>"+djson[x]["START_DATE"]+"</td>";
-                    tr += "<td>"+djson[x]["END_DATE"]+"</td>";
+                    tr += "<td>" + getDuration(djson[x]["START_DATE"], djson[x]["END_DATE"]) + "</td>";
                     tr += "<td>"+djson[x]["CATEGORY"]+"</td>";
                     tr += "<td>"+djson[x]["START"]+"</td>";
                     tr += "<td>"+djson[x]["STOP"]+"</td>";
@@ -1310,7 +1317,7 @@
                     tr += "<tr>";
                     tr += "<td>"+x+"</td>";
                     tr += "<td>"+djson[x]["START_DATE"]+"</td>";
-                    tr += "<td>"+djson[x]["END_DATE"]+"</td>";
+                    tr += "<td>" + getDuration(djson[x]["START_DATE"], djson[x]["END_DATE"]) + "</td>";
                     tr += "<td>"+djson[x]["CATEGORY"]+"</td>";
                     tr += "<td>"+djson[x]["START"]+"</td>";
                     tr += "<td>"+djson[x]["STOP"]+"</td>";
@@ -1340,7 +1347,7 @@
                     tr += "<tr>";
                     tr += "<td>"+x+"</td>";
                     tr += "<td>"+djson[x]["START_DATE"]+"</td>";
-                    tr += "<td>"+djson[x]["END_DATE"]+"</td>";
+                    tr += "<td>" + getDuration(djson[x]["START_DATE"], djson[x]["END_DATE"]) + "</td>";
                     tr += "<td>"+djson[x]["CATEGORY"]+"</td>";
                     tr += "<td>"+djson[x]["START"]+"</td>";
                     tr += "<td>"+djson[x]["STOP"]+"</td>";
@@ -1369,7 +1376,7 @@
                     tr += "<tr>";
                     tr += "<td>"+x+"</td>";
                     tr += "<td>"+djson[x]["START_DATE"]+"</td>";
-                    tr += "<td>"+djson[x]["END_DATE"]+"</td>";
+                    tr += "<td>" + getDuration(djson[x]["START_DATE"], djson[x]["END_DATE"]) + "</td>";
                     tr += "<td>"+djson[x]["CATEGORY"]+"</td>";
                     tr += "<td>"+djson[x]["START"]+"</td>";
                     tr += "<td>"+djson[x]["STOP"]+"</td>";
@@ -1401,7 +1408,7 @@
                     tr += "<tr>";
                     tr += "<td>"+i+"</td>";
                     tr += "<td>"+djson[x]["START_DATE"]+"</td>";
-                    tr += "<td>"+djson[x]["END_DATE"]+"</td>";
+                    tr += "<td>" + getDuration(djson[x]["START_DATE"], djson[x]["END_DATE"]) + "</td>";
                     tr += "<td>"+djson[x]["CATEGORY"]+"</td>";
                     tr += "<td>"+djson[x]["START"]+"</td>";
                     tr += "<td>"+djson[x]["STOP"]+"</td>";
@@ -1443,7 +1450,7 @@
                         tr += "<tr>";
                         tr += "<td>" + i + "</td>";
                         tr += "<td>" + djson[x]["START_DATE"] + "</td>";
-                        tr += "<td>" + djson[x]["END_DATE"] + "</td>";
+                        tr += "<td>" + getDuration(djson[x]["START_DATE"], djson[x]["END_DATE"]) + "</td>";
                         tr += "<td>" + djson[x]["CATEGORY"] + "</td>";
                         tr += "<td>" + djson[x]["START"] + "</td>";
                         tr += "<td>" + djson[x]["STOP"] + "</td>";
@@ -1480,10 +1487,9 @@
     
                     if (matchMiles && matchPurpose) {
                         tr += "<tr>";
-                        // ... (中間的 td 代碼與上面一致，請保留你原本的拼接方式) ...
                         tr += "<td>" + i + "</td>";
                         tr += "<td>" + djson[x]["START_DATE"] + "</td>";
-                        tr += "<td>" + djson[x]["END_DATE"] + "</td>";
+                        tr += "<td>" + getDuration(djson[x]["START_DATE"], djson[x]["END_DATE"]) + "</td>";
                         tr += "<td>" + djson[x]["CATEGORY"] + "</td>";
                         tr += "<td>" + djson[x]["START"] + "</td>";
                         tr += "<td>" + djson[x]["STOP"] + "</td>";
