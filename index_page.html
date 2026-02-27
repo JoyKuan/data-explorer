@@ -1144,26 +1144,24 @@
         var purpose_ = database.ref('/index').orderByChild('PURPOSE');
         var djson;
 
-        purpose_.on('value', function(snapshot){
-            djson_ = JSON.parse(JSON.stringify(snapshot.val()));
-            djson = jsonToArray(djson_)
-            djson = djson.sort(up_string("PURPOSE"));
+        purpose_.once('value', function(snapshot){
+            var djson_raw = snapshot.val();
+            djson = jsonToArray(djson_raw);
+            djson.sort(up_string("PURPOSE"));
 
             var tr = "";
-            var i = 1; // 新增計數器
-            for(x in djson){
-                if(djson[x] != null){
+            for(var i = 0; i < djson.length; i++){
+               if(djson[i] != null){
                     tr += "<tr>";
-                    tr += "<td>"+ i +"</td>"; 
-                    tr += "<td>"+djson[x]["START_DATE"]+"</td>";
-                    tr += "<td>" + getDuration(djson[x]["START_DATE"], djson[x]["END_DATE"]) + "</td>";
-                    tr += "<td>"+djson[x]["CATEGORY"]+"</td>";
-                    tr += "<td>"+djson[x]["START"]+"</td>";
-                    tr += "<td>"+djson[x]["STOP"]+"</td>";
-                    tr += "<td>"+djson[x]["MILES"]+"</td>";
-                    tr += "<td>"+djson[x]["PURPOSE"]+"</td>";
+                    tr += "<td>"+(i + 1)+"</td>";
+                    tr += "<td>"+djson[i]["START_DATE"]+"</td>";
+                    tr += "<td>" + getDuration(djson[i]["START_DATE"], djson[i]["END_DATE"]) + "</td>";
+                    tr += "<td>"+djson[i]["CATEGORY"]+"</td>";
+                    tr += "<td>"+djson[i]["START"]+"</td>";
+                    tr += "<td>"+djson[i]["STOP"]+"</td>";
+                    tr += "<td>"+djson[i]["MILES"]+"</td>";
+                    tr += "<td>"+djson[i]["PURPOSE"]+"</td>";
                     tr += "</tr>";
-                    i++;
                 }    
             }
             document.querySelector("table tbody").innerHTML = tr;
@@ -1175,9 +1173,9 @@
         var djson;
 
         purpose_.on('value', function(snapshot){
-            djson_ = JSON.parse(JSON.stringify(snapshot.val()));
-            djson = jsonToArray(djson_)
-            djson = djson.sort(down_string("PURPOSE"));
+            var djson_raw = snapshot.val();
+            djson = jsonToArray(djson_raw);
+            djson.sort(down_string("PURPOSE"));
             
             var tr = "";
             for(var i = 0; i < djson.length; i++){ 
@@ -1203,25 +1201,23 @@
         var djson;
 
         purpose_.once('value', function(snapshot){
-            djson_ = JSON.parse(JSON.stringify(snapshot.val()));
-            djson = jsonToArray(djson_)
-            djson = djson.sort(up_string("START"));
+            var djson_raw = snapshot.val();
+            djson = jsonToArray(djson_raw);
+            djson.sort(up_string("START"));
             
             var tr = "";
-            var i = 1;
-            for(x in djson){
-                if(djson[x] != null){
+            for(var i = 0; i < djson.length; i++){ 
+                if(djson[i] != null){
                     tr += "<tr>";
-                    tr += "<td>" + i + "</td>";
-                    tr += "<td>"+djson[x]["START_DATE"]+"</td>";
-                    tr += "<td>" + getDuration(djson[x]["START_DATE"], djson[x]["END_DATE"]) + "</td>";
-                    tr += "<td>"+djson[x]["CATEGORY"]+"</td>";
-                    tr += "<td>"+djson[x]["START"]+"</td>";
-                    tr += "<td>"+djson[x]["STOP"]+"</td>";
-                    tr += "<td>"+djson[x]["MILES"]+"</td>";
-                    tr += "<td>"+djson[x]["PURPOSE"]+"</td>";
+                    tr += "<td>"+(i + 1)+"</td>"; // 排序後的序號
+                    tr += "<td>"+djson[i]["START_DATE"]+"</td>";
+                    tr += "<td>" + getDuration(djson[i]["START_DATE"], djson[i]["END_DATE"]) + "</td>";
+                    tr += "<td>"+djson[i]["CATEGORY"]+"</td>";
+                    tr += "<td>"+djson[i]["START"]+"</td>";
+                    tr += "<td>"+djson[i]["STOP"]+"</td>";
+                    tr += "<td>"+djson[i]["MILES"]+"</td>";
+                    tr += "<td>"+djson[i]["PURPOSE"]+"</td>";
                     tr += "</tr>";
-                    i++;
                 }    
             }
             document.querySelector("table tbody").innerHTML = tr;
@@ -1233,25 +1229,23 @@
         var djson;
 
         purpose_.once('value', function(snapshot){
-            djson_ = JSON.parse(JSON.stringify(snapshot.val()));
-            djson = jsonToArray(djson_)
-            djson = djson.sort(down_string("START"));
+            var djson_raw = snapshot.val();
+            djson = jsonToArray(djson_raw);
+            djson.sort(down_string("START"));
 
             var tr = "";
-            var i = 1;
-            for(x in djson){
-                if(djson[x] != null){
+            for(var i = 0; i < djson.length; i++){ 
+                if(djson[i] != null){
                     tr += "<tr>";
-                    tr += "<td>"+i+"</td>";
-                    tr += "<td>"+djson[x]["START_DATE"]+"</td>";
-                    tr += "<td>" + getDuration(djson[x]["START_DATE"], djson[x]["END_DATE"]) + "</td>";
-                    tr += "<td>"+djson[x]["CATEGORY"]+"</td>";
-                    tr += "<td>"+djson[x]["START"]+"</td>";
-                    tr += "<td>"+djson[x]["STOP"]+"</td>";
-                    tr += "<td>"+djson[x]["MILES"]+"</td>";
-                    tr += "<td>"+djson[x]["PURPOSE"]+"</td>";
+                    tr += "<td>"+(i + 1)+"</td>"; // 排序後的序號
+                    tr += "<td>"+djson[i]["START_DATE"]+"</td>";
+                    tr += "<td>" + getDuration(djson[i]["START_DATE"], djson[i]["END_DATE"]) + "</td>";
+                    tr += "<td>"+djson[i]["CATEGORY"]+"</td>";
+                    tr += "<td>"+djson[i]["START"]+"</td>";
+                    tr += "<td>"+djson[i]["STOP"]+"</td>";
+                    tr += "<td>"+djson[i]["MILES"]+"</td>";
+                    tr += "<td>"+djson[i]["PURPOSE"]+"</td>";
                     tr += "</tr>";
-                    i++;
                 }    
             }
             document.querySelector("table tbody").innerHTML = tr;
@@ -1264,25 +1258,23 @@
         var djson;
 
         purpose_.on('value', function(snapshot){
-            djson_ = JSON.parse(JSON.stringify(snapshot.val()));
-            djson = jsonToArray(djson_)
-            djson = djson.sort(up_string("STOP"));
+            var djson_raw = snapshot.val();
+            djson = jsonToArray(djson_raw);
+            djson.sort(up_string("STOP"));
 
             var tr = "";
-            var i = 1;
-            for(x in djson){
-                if(djson[x] != null){
+            for(var i = 0; i < djson.length; i++){ 
+                if(djson[i] != null){
                     tr += "<tr>";
-                    tr += "<td>"+i+"</td>";
-                    tr += "<td>"+djson[x]["START_DATE"]+"</td>";
-                    tr += "<td>" + getDuration(djson[x]["START_DATE"], djson[x]["END_DATE"]) + "</td>";
-                    tr += "<td>"+djson[x]["CATEGORY"]+"</td>";
-                    tr += "<td>"+djson[x]["START"]+"</td>";
-                    tr += "<td>"+djson[x]["STOP"]+"</td>";
-                    tr += "<td>"+djson[x]["MILES"]+"</td>";
-                    tr += "<td>"+djson[x]["PURPOSE"]+"</td>";
+                    tr += "<td>"+(i + 1)+"</td>"; 
+                    tr += "<td>"+djson[i]["START_DATE"]+"</td>";
+                    tr += "<td>" + getDuration(djson[i]["START_DATE"], djson[i]["END_DATE"]) + "</td>";
+                    tr += "<td>"+djson[i]["CATEGORY"]+"</td>";
+                    tr += "<td>"+djson[i]["START"]+"</td>";
+                    tr += "<td>"+djson[i]["STOP"]+"</td>";
+                    tr += "<td>"+djson[i]["MILES"]+"</td>";
+                    tr += "<td>"+djson[i]["PURPOSE"]+"</td>";
                     tr += "</tr>";
-                    i++;
                 }    
             }
             document.querySelector("table tbody").innerHTML = tr;
@@ -1294,56 +1286,51 @@
         var djson;
 
         purpose_.on('value', function(snapshot){
-            djson_ = JSON.parse(JSON.stringify(snapshot.val()));
-            djson = jsonToArray(djson_)
-            djson = djson.sort(down_string("STOP"));
+            var djson_raw = snapshot.val();
+            djson = jsonToArray(djson_raw);
+            djson.sort(down_string("STOP"));
 
             var tr = "";
-            var i = 1;
-            for(x in djson){
-                if(djson[x] != null){
+            for(var i = 0; i < djson.length; i++){ 
+                if(djson[i] != null){
                     tr += "<tr>";
-                    tr += "<td>"+i+"</td>";
-                    tr += "<td>"+djson[x]["START_DATE"]+"</td>";
-                    tr += "<td>" + getDuration(djson[x]["START_DATE"], djson[x]["END_DATE"]) + "</td>";
-                    tr += "<td>"+djson[x]["CATEGORY"]+"</td>";
-                    tr += "<td>"+djson[x]["START"]+"</td>";
-                    tr += "<td>"+djson[x]["STOP"]+"</td>";
-                    tr += "<td>"+djson[x]["MILES"]+"</td>";
-                    tr += "<td>"+djson[x]["PURPOSE"]+"</td>";
+                    tr += "<td>"+(i + 1)+"</td>"; 
+                    tr += "<td>"+djson[i]["START_DATE"]+"</td>";
+                    tr += "<td>" + getDuration(djson[i]["START_DATE"], djson[i]["END_DATE"]) + "</td>";
+                    tr += "<td>"+djson[i]["CATEGORY"]+"</td>";
+                    tr += "<td>"+djson[i]["START"]+"</td>";
+                    tr += "<td>"+djson[i]["STOP"]+"</td>";
+                    tr += "<td>"+djson[i]["MILES"]+"</td>";
+                    tr += "<td>"+djson[i]["PURPOSE"]+"</td>";
                     tr += "</tr>";
-                    i++;
                 }    
             }
             document.querySelector("table tbody").innerHTML = tr;
         });
     } 
 
-    //to be continue...
     function search_catalogy(){
         var srearchItem = document.getElementById("search_item_1").value;
         var purpose_ = database.ref('/index').orderByChild('CATEGORY').equalTo(srearchItem);
         var djson;
 
         purpose_.on('value', function(snapshot){
-            djson_ = JSON.parse(JSON.stringify(snapshot.val()));
-            djson = jsonToArray(djson_)
+            var djson_raw = snapshot.val();
+            djson = jsonToArray(djson_raw);
 
             var tr = "";
-            var i = 1;
-            for(x in djson){
-                if(djson[x] != null){
+            for(var i = 0; i < djson.length; i++){ 
+                if(djson[i] != null){
                     tr += "<tr>";
-                    tr += "<td>"+i+"</td>";
-                    tr += "<td>"+djson[x]["START_DATE"]+"</td>";
-                    tr += "<td>" + getDuration(djson[x]["START_DATE"], djson[x]["END_DATE"]) + "</td>";
-                    tr += "<td>"+djson[x]["CATEGORY"]+"</td>";
-                    tr += "<td>"+djson[x]["START"]+"</td>";
-                    tr += "<td>"+djson[x]["STOP"]+"</td>";
-                    tr += "<td>"+djson[x]["MILES"]+"</td>";
-                    tr += "<td>"+djson[x]["PURPOSE"]+"</td>";
+                    tr += "<td>"+(i + 1)+"</td>"; 
+                    tr += "<td>"+djson[i]["START_DATE"]+"</td>";
+                    tr += "<td>" + getDuration(djson[i]["START_DATE"], djson[i]["END_DATE"]) + "</td>";
+                    tr += "<td>"+djson[i]["CATEGORY"]+"</td>";
+                    tr += "<td>"+djson[i]["START"]+"</td>";
+                    tr += "<td>"+djson[i]["STOP"]+"</td>";
+                    tr += "<td>"+djson[i]["MILES"]+"</td>";
+                    tr += "<td>"+djson[i]["PURPOSE"]+"</td>";
                     tr += "</tr>";
-                    i ++; 
                 }    
             }
             document.querySelector("table tbody").innerHTML = tr;
@@ -1366,26 +1353,27 @@
         var purpose_ = database.ref('/index').orderByChild('PURPOSE').equalTo(searchItem);
     
         purpose_.on('value', function(snapshot) {
-            var djson = snapshot.val();
+            var djson_raw = snapshot.val();
+            var djson = jsonToArray(djson_raw);
             var tr = "";
-            var i = 1;
+            var displayCount = 1;
             
-            for (var x in djson) {
-                if (djson[x] != null) {
+            for (var i = 0; i < djson.length; i++) {
+                if (djson[i] != null) {
                     // --- 關鍵修改：在這裡同時判斷 Miles 範圍 ---
-                    var miles = parseFloat(djson[x]["MILES"]);
+                    var miles = parseFloat(djson[i]["MILES"]);
                     if (miles >= small_ && miles <= big_) {
                         tr += "<tr>";
-                        tr += "<td>" + i + "</td>";
-                        tr += "<td>" + djson[x]["START_DATE"] + "</td>";
-                        tr += "<td>" + getDuration(djson[x]["START_DATE"], djson[x]["END_DATE"]) + "</td>";
-                        tr += "<td>" + djson[x]["CATEGORY"] + "</td>";
-                        tr += "<td>" + djson[x]["START"] + "</td>";
-                        tr += "<td>" + djson[x]["STOP"] + "</td>";
-                        tr += "<td>" + djson[x]["MILES"] + "</td>";
-                        tr += "<td>" + djson[x]["PURPOSE"] + "</td>";
+                        tr += "<td>" + displayCount + "</td>";
+                        tr += "<td>" + djson[i]["START_DATE"] + "</td>";
+                        tr += "<td>" + getDuration(djson[i]["START_DATE"], djson[i]["END_DATE"]) + "</td>";
+                        tr += "<td>" + djson[i]["CATEGORY"] + "</td>";
+                        tr += "<td>" + djson[i]["START"] + "</td>";
+                        tr += "<td>" + djson[i]["STOP"] + "</td>";
+                        tr += "<td>" + djson[i]["MILES"] + "</td>";
+                        tr += "<td>" + djson[i]["PURPOSE"] + "</td>";
                         tr += "</tr>";
-                        i++;
+                        displayCount++;
                     }
                 }
             }
@@ -1401,13 +1389,16 @@
     
         var range_val = database.ref('/index');
         range_val.on('value', function(snapshot) {
-            var djson = snapshot.val();
+            var djson_raw = snapshot.val();
+            var djson = jsonToArray(djson_raw);
+            
             var tr = "";
-            var i = 1;
-            for (var x in djson) {
-                if (djson[x] != null) {
-                    var miles = parseFloat(djson[x]["MILES"]);
-                    var purpose = djson[x]["PURPOSE"];
+            var displayCount = 1; // 用來顯示正確的表格序號
+
+            for (var i = 0; i < djson.length; i++) {
+                if (djson[i] != null) {
+                    var miles = parseFloat(djson[i]["MILES"]);
+                    var purpose = djson[i["PURPOSE"];
     
                     // --- 同時判斷 Miles 和 Purpose ---
                     var matchMiles = (miles >= small_ && miles <= big_);
@@ -1415,16 +1406,16 @@
     
                     if (matchMiles && matchPurpose) {
                         tr += "<tr>";
-                        tr += "<td>" + i + "</td>";
-                        tr += "<td>" + djson[x]["START_DATE"] + "</td>";
-                        tr += "<td>" + getDuration(djson[x]["START_DATE"], djson[x]["END_DATE"]) + "</td>";
-                        tr += "<td>" + djson[x]["CATEGORY"] + "</td>";
-                        tr += "<td>" + djson[x]["START"] + "</td>";
-                        tr += "<td>" + djson[x]["STOP"] + "</td>";
-                        tr += "<td>" + djson[x]["MILES"] + "</td>";
-                        tr += "<td>" + djson[x]["PURPOSE"] + "</td>";
+                        tr += "<td>" + displayCount + "</td>";
+                        tr += "<td>" + djson[i]["START_DATE"] + "</td>";
+                        tr += "<td>" + getDuration(djson[i]["START_DATE"], djson[i]["END_DATE"]) + "</td>";
+                        tr += "<td>" + djson[i]["CATEGORY"] + "</td>";
+                        tr += "<td>" + djson[i]["START"] + "</td>";
+                        tr += "<td>" + djson[i]["STOP"] + "</td>";
+                        tr += "<td>" + djson[i]["MILES"] + "</td>";
+                        tr += "<td>" + djson[i]["PURPOSE"] + "</td>";
                         tr += "</tr>";
-                        i++;
+                        displayCount++; // 符合條件才增加序號
                     }
                 }
             }
