@@ -394,7 +394,7 @@
 
                     </th>
                     <!--1 DURATION -->
-                    <th style="position: relative; width: 120px; height: 100px; padding: 0; vertical-align: top;">
+                    <th style="position: relative; width: 160px; height: 80px; padding: 0; vertical-align: top;">
                             <div id="main1" style="width: 100%; height: 100%;"></div>
                             <script type="text/javascript">
                                 var myChart1 = echarts.init(document.getElementById('main1'));
@@ -412,15 +412,16 @@
                                         axisPointer: { type: 'none' }, // 使用陰影指示器更像直方圖
                                         confine: true,
                                         formatter: function(params) {
-                                            var percent = ((params.value / totalTrips) * 100).toFixed(2) + '%';
-                                            return params.name + ': ' + params.value + ' (' + percent + ')';
+                                            var p = params[0];
+                                            var percent = ((p.value / totalTrips) * 100).toFixed(2) + '%';
+                                            return p.name + ': ' + p.value + ' (' + percent + ')';
                                         }
                                     },
                                     grid: { 
                                         top: 5, 
-                                        bottom: 10, 
-                                        left: 0, 
-                                        right: 0,
+                                        bottom: 20, 
+                                        left: 10, 
+                                        right: 10,
                                         containLabel: false 
                                     },
                                     xAxis: {
@@ -432,9 +433,10 @@
                                             interval: 0,
                                             color: '#666',
                                             align: 'left',
-                                            padding: [-2, 0, 0, -8], // 這裡的負值 padding 會把文字向左拉
+                                            margin: 8,         // 增加文字與軸線的距離，避免疊在一起
+                                            padding: [0, 0, 0, -6], // 微調數字位置，讓它精確對準刻度
                                             formatter: function (value, index) {
-                                                var labels = ['0', '5', '10', '15', '20', '25', '30', '40', '50', '60', '80', '100+'];
+                                                var labels = ['0', '', '10', '', '20', '', '30', '', '50', '60', '', '100+'];
                                                 return labels[index];
                                             }
                                         },
