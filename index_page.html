@@ -1068,12 +1068,14 @@
 
     //done
     function catalog_sort_up(){
-        var catalog_ = database.ref('/index').orderByChild('CATEGORY').equalTo('Business');
+        var catalog_ = database.ref('/index').orderByChild('CATEGORY');
         var djson;
 
         catalog_.once('value', function(snapshot){
             var djson_raw = snapshot.val();
             djson = jsonToArray(djson_raw);
+
+            djson.sort(up_string("CATEGORY"));
 
             var tr = "";
             for(var i = 0; i < djson.length; i++){
@@ -1095,7 +1097,7 @@
     }
     //done
     function catalog_sort_down(){
-        var catalog_ = database.ref('/index').orderByChild('CATEGORY').equalTo('Personal');
+        var catalog_ = database.ref('/index').orderByChild('CATEGORY');
         var djson;
 
         catalog_.once('value', function(snapshot){
