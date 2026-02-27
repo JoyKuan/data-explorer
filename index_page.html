@@ -167,7 +167,7 @@
             padding: 10px 5px !important;  /* 稍微縮減內邊距，把空間留給數字 */
         }     /* 序號欄 */
         #result th:nth-child(2) { min-width: 160px; }      /* START DATE */
-        #result th:nth-child(3) { min-width: 160px; }      /* END DATE */
+        #result th:nth-child(3) { min-width: 180px; }      /* DURATION */
         #result th:nth-child(4) { min-width: 120px; }      /* CATEGORY */
         #result th:nth-child(5) { min-width: 180px; }      /* START LOCATION */
         #result th:nth-child(6) { min-width: 180px; }      /* END LOCATION */
@@ -418,10 +418,10 @@
                                         }
                                     },
                                     grid: { 
-                                        top: 25, 
-                                        bottom:25, 
-                                        left: 10, 
-                                        right: 15,
+                                        top: 15, 
+                                        bottom:20, 
+                                        left: 12, 
+                                        right: 12,
                                         containLabel: false 
                                     },
                                     xAxis: {
@@ -445,8 +445,9 @@
                                     series: [{
                                         type: 'bar',
                                         data: durationValues,
+                                        barWidth: '100%',
                                         barCategoryGap: '0%',     // 關鍵：設為 0% 讓長條緊貼，形成直方圖外觀
-                                        itemStyle: { color: '#37A2DA', borderWidth: 0},
+                                        itemStyle: { color: '#37A2DA', borderRadius: 0, borderWidth: 0},
                                         emphasis: {disabled: false, scale: false, itemStyle: {color: '#2a82b3'}}
                                     }]
                                 };
