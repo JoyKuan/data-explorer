@@ -868,10 +868,8 @@
 
     // 字典跟array的exchange
     function jsonToArray (obj) {
-        // const obj = JSON.parse(str);
         const result = [];
         for (let key in obj) {
-            // result.push(key);
             result.push(obj[key]);
         }
         return result;
@@ -902,7 +900,6 @@
                     tr += "</tr>";
                 }    
             }
-            // tr.sort()
             document.querySelector("table tbody").innerHTML = tr;
         });
     }
@@ -1398,7 +1395,7 @@
             for (var i = 0; i < djson.length; i++) {
                 if (djson[i] != null) {
                     var miles = parseFloat(djson[i]["MILES"]);
-                    var purpose = djson[i["PURPOSE"];
+                    var purpose = djson[i]["PURPOSE"];
     
                     // --- 同時判斷 Miles 和 Purpose ---
                     var matchMiles = (miles >= small_ && miles <= big_);
