@@ -398,19 +398,56 @@
                             <div id="main1" style="width: 120px;height:60px;"></div>
                             <script type="text/javascript">
                                 var myChart1 = echarts.init(document.getElementById('main1'));
+                                var totalTrips = 1155;
                                 var option1 = {
-                                    grid: { top: 5, bottom: 20, left: 10, right: 10 },
+                                    tooltip: {
+                                        trigger: 'axis',
+                                        backgroundColor: 'rgba(50, 50, 50, 0.8)',
+                                        textStyle: { color: '#fff', fontSize: 11 },
+                                        axisPointer: { type: 'shadow' }, // 使用陰影指示器更像直方圖
+                                        confine: true,
+                                        formatter: function(params) {
+                                            var p = params[0];
+                                            var percent = ((p.value / totalTrips) * 100).toFixed(2) + '%';
+                                            return p.name + ' min: ' + p.value + ' (' + percent + ')';
+                                        }
+                                    },
+                                    grid: { 
+                                        top: 10, 
+                                        bottom: 25, 
+                                        left: 10, 
+                                        right: 10,
+                                        containLabel: false 
+                                    },
                                     xAxis: {
                                         type: 'category',
-                                        data: ['<10', '10-20', '20-30', '30+'],
-                                        axisLabel: { fontSize: 9, interval: 0 }
+                                        // 標示區間邊界
+                                        data: ['0-10', '10-20', '20-30', '30+'],
+                                        axisLabel: { 
+                                            fontSize: 9, 
+                                            interval: 0,
+                                            color: '#666',
+                                            // 調整標籤位置讓它看起來更像在刻度中間
+                                            formatter: function (value) {
+                                                return value.split('-')[0]; // 僅顯示起始數字如 0, 10, 20
+                                            }
+                                        },
+                                        axisLine: { lineStyle: { color: '#ccc' } },
+                                        axisTick: { alignWithLabel: true } // 讓刻度對準長條中心
                                     },
-                                    yAxis: { show: false },
+                                    yAxis: { show: false},
                                     series: [{
                                         type: 'bar',
-                                        name: 'Minutes',
-                                        data: [450, 320, 150, 80], // 這裡填入統計後的時長分佈
-                                        itemStyle: { color: '#9FE6B8' }
+                                        data: [270, 418, 223, 244],
+                                        barCategoryGap: '0%',     // 關鍵：設為 0% 讓長條緊貼，形成直方圖外觀
+                                        itemStyle: { 
+                                            color: '#9FE6B8',
+                                            borderColor: '#fff', // 增加白色細邊框區隔長條
+                                            borderWidth: 1
+                                        },
+                                        emphasis: {
+                                            itemStyle: { color: '#88d4a4' }
+                                        }
                                     }]
                                 };
                                 myChart1.setOption(option1);
