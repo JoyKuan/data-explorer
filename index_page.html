@@ -310,7 +310,7 @@
                                 var purpose_ = database.ref('/index').orderByChild('PURPOSE').equalTo(srearchItem);
                                 var djson;
 
-                                purpose_.on('value', function(snapshot){
+                                purpose_.once('value', function(snapshot){
                                     djson_ = JSON.parse(JSON.stringify(snapshot.val()));
                                     djson = jsonToArray(djson_)
                                     
@@ -336,7 +336,7 @@
                             }
                             else {
                                 var prec_ = database.ref('/index').orderByChild('MILES').limitToFirst(num);
-                                prec_.on('value', function(snapshot){
+                                prec_.once('value', function(snapshot){
                                     var djson_raw = snapshot.val();
                                     var djson = jsonToArray(djson_raw);
                                     
@@ -826,7 +826,7 @@
     
         // 4. 執行原有的資料重載邏輯
         var index_ = database.ref('/index');
-        index_.on('value', function(snapshot) {
+        index_.once('value', function(snapshot) {
             var rawData = snapshot.val();
             var djson = jsonToArray(rawData);
             var tr = "";
@@ -1016,7 +1016,7 @@
         var mile_ = database.ref('/index').orderByChild('START_DATE');
         var djson;
         
-        mile_.on('value', function(snapshot){
+        mile_.once('value', function(snapshot){
             var djson_raw = snapshot.val();
             djson = jsonToArray(djson_raw);
             djson.sort(up_date("START_DATE"));
@@ -1172,7 +1172,7 @@
         var purpose_ = database.ref('/index').orderByChild('PURPOSE');
         var djson;
 
-        purpose_.on('value', function(snapshot){
+        purpose_.once('value', function(snapshot){
             var djson_raw = snapshot.val();
             djson = jsonToArray(djson_raw);
             djson.sort(down_string("PURPOSE"));
@@ -1257,7 +1257,7 @@
         var purpose_ = database.ref('/index/').orderByChild('STOP');
         var djson;
 
-        purpose_.on('value', function(snapshot){
+        purpose_.once('value', function(snapshot){
             var djson_raw = snapshot.val();
             djson = jsonToArray(djson_raw);
             djson.sort(up_string("STOP"));
@@ -1285,7 +1285,7 @@
         var purpose_ = database.ref('/index/').orderByChild('STOP');
         var djson;
 
-        purpose_.on('value', function(snapshot){
+        purpose_.once('value', function(snapshot){
             var djson_raw = snapshot.val();
             djson = jsonToArray(djson_raw);
             djson.sort(down_string("STOP"));
@@ -1314,7 +1314,7 @@
         var purpose_ = database.ref('/index').orderByChild('CATEGORY').equalTo(srearchItem);
         var djson;
 
-        purpose_.on('value', function(snapshot){
+        purpose_.once('value', function(snapshot){
             var djson_raw = snapshot.val();
             djson = jsonToArray(djson_raw);
 
@@ -1352,7 +1352,7 @@
 
         var purpose_ = database.ref('/index').orderByChild('PURPOSE').equalTo(searchItem);
     
-        purpose_.on('value', function(snapshot) {
+        purpose_.once('value', function(snapshot) {
             var djson_raw = snapshot.val();
             var djson = jsonToArray(djson_raw);
             var tr = "";
@@ -1388,7 +1388,7 @@
         var currentPurpose = document.getElementById("search_item_2").value;
     
         var range_val = database.ref('/index');
-        range_val.on('value', function(snapshot) {
+        range_val.once('value', function(snapshot) {
             var djson_raw = snapshot.val();
             var djson = jsonToArray(djson_raw);
             
