@@ -419,23 +419,24 @@
                                     },
                                     grid: { 
                                         top: 5, 
-                                        bottom:20, 
-                                        left: 10, 
-                                        right: 15,
+                                        bottom:25, 
+                                        left: 5, 
+                                        right: 12,
                                         containLabel: false 
                                     },
                                     xAxis: {
                                         type: 'category',
                                         data: binNames,
-                                        axisLine: { show: false, lineStyle: { color: '#eee' } }, // 移除橫穿 Bar 的線
+                                        boundaryGap: false, // 關鍵：讓數據點（Bar 的左側）直接對齊刻度
+                                        axisLine: { show: false, lineStyle: { color: '#ddd' } }, 
                                         axisTick: { 
                                             show: true, 
-                                            alignWithLabel: true, // 讓線出現在 Bar 與 Bar 之間
-                                            length: 5,            // 線的長度
-                                            lineStyle: { color: '#333', width: 1 } // 細黑色線
+                                            alignWithLabel: false, // 讓線出現在 Bar 與 Bar 之間
+                                            length: 4,            // 線的長度
+                                            lineStyle: { color: '#999', width: 1 } // 細黑色線
                                         },
                                         axisLabel: { 
-                                            fontSize: 8, 
+                                            fontSize: 7, 
                                             interval: 0,
                                             color: '#666',
                                             align: 'left',
@@ -451,8 +452,8 @@
                                         type: 'bar',
                                         data: durationValues,
                                         barWidth: '100%',
-                                        barCategoryGap: '0%',     // 關鍵：設為 0% 讓長條緊貼，形成直方圖外觀
-                                        itemStyle: { color: '#37A2DA', borderWidth: 0.5, borderRadius: 0, borderWidth: 0},
+                                        customValues: durationValues,
+                                        itemStyle: { color: '#37A2DA', borderWidth: 0.5, borderRadius: 0, borderWidth: 0.5, borderColor: '#fff'},
                                         emphasis: {disabled: false, scale: false, itemStyle: {color: '#2a82b3'}}
                                     }]
                                 };
