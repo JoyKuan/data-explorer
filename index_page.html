@@ -260,7 +260,7 @@
                     <th> </th>
                     <!-- <th>sequence <i class="fas fa-caret-square-down" onclick=""></i><i class="fas fa-caret-square-up" onclick=""></i></th> -->
                     <th>START DATE <i class="fas fa-caret-square-down" onclick="startdate_sort_down()"></i><i class="fas fa-caret-square-up" onclick="startdate_sort_up()"></i></th>
-                    <th>DURATION (Min) <i class="fas fa-caret-square-down" onclick="enddate_sort_down()"></i><i class="fas fa-caret-square-up" onclick="enddate_sort_up()"></i></th>
+                    <th>DURATION (Min) <i class="fas fa-caret-square-down" onclick="duration_sort_down()"></i><i class="fas fa-caret-square-up" onclick="duration_sort_up()"></i></th>
                     <th>CATEGORY <i class="fas fa-caret-square-down" onclick="catalog_sort_down()"></i><i class="fas fa-caret-square-up" onclick="catalog_sort_up()"></i></th>
                     <th>START LOCATION <i class="fas fa-caret-square-down" onclick="start_sort_down()"></i><i class="fas fa-caret-square-up" onclick="start_sort_up()"></i></th>
                     <th>END LOCATION <i class="fas fa-caret-square-down" onclick="destination_sort_down()"></i><i class="fas fa-caret-square-up" onclick="destination_sort_up()"></i></th>
@@ -786,23 +786,7 @@
         myuber.once('value', function(snapshot){
             var rawData = snapshot.val();
             djson = jsonToArray(rawData);
-
-            var tr = "";
-            for(var i = 0; i < djson.length; i++){
-                if(djson[i] != null){
-                    tr += "<tr>";
-                    tr += "<td>"+ (i + 1) +"</td>";
-                    tr += "<td>"+djson[i]["START_DATE"]+"</td>";
-                    tr += "<td>" + getDuration(djson[i]["START_DATE"], djson[i]["END_DATE"]) + "</td>";
-                    tr += "<td>"+djson[i]["CATEGORY"]+"</td>";
-                    tr += "<td>"+djson[i]["START"]+"</td>";
-                    tr += "<td>"+djson[i]["STOP"]+"</td>";
-                    tr += "<td>"+djson[i]["MILES"]+"</td>";
-                    tr += "<td>"+djson[i]["PURPOSE"]+"</td>";
-                    tr += "</tr>";
-                }    
-            }
-            document.querySelector("table tbody").innerHTML = tr;
+            renderTable(djson);
         });
     </script>
     <script>
@@ -829,22 +813,7 @@
         index_.once('value', function(snapshot) {
             var rawData = snapshot.val();
             var djson = jsonToArray(rawData);
-            var tr = "";
-            for (var i = 0; i < djson.length; i++) {
-                if (djson[i] != null) {
-                    tr += "<tr>";
-                    tr += "<td>"+(i + 1)+"</td>";
-                    tr += "<td>"+djson[i]["START_DATE"]+"</td>";
-                    tr += "<td>" + getDuration(djson[i]["START_DATE"], djson[i]["END_DATE"]) + "</td>";
-                    tr += "<td>"+djson[i]["CATEGORY"]+"</td>";
-                    tr += "<td>"+djson[i]["START"]+"</td>";
-                    tr += "<td>"+djson[i]["STOP"]+"</td>";
-                    tr += "<td>"+djson[i]["MILES"]+"</td>";
-                    tr += "<td>"+djson[i]["PURPOSE"]+"</td>";
-                    tr += "</tr>";
-                }
-            }
-            document.querySelector("table tbody").innerHTML = tr;
+            renderTable(djson);
         });
     }
 
@@ -884,23 +853,7 @@
             var djson_raw = snapshot.val();
             var djson = jsonToArray(djson_raw);
             djson.sort(up_compare("MILES"));
-
-            var tr = "";
-            for(var i = 0; i < djson.length; i++){
-                if(djson[i] != null){
-                    tr += "<tr>";
-                    tr += "<td>"+(i + 1)+"</td>";
-                    tr += "<td>"+djson[i]["START_DATE"]+"</td>";
-                    tr += "<td>" + getDuration(djson[i]["START_DATE"], djson[i]["END_DATE"]) + "</td>";
-                    tr += "<td>"+djson[i]["CATEGORY"]+"</td>";
-                    tr += "<td>"+djson[i]["START"]+"</td>";
-                    tr += "<td>"+djson[i]["STOP"]+"</td>";
-                    tr += "<td>"+djson[i]["MILES"]+"</td>";
-                    tr += "<td>"+djson[i]["PURPOSE"]+"</td>";
-                    tr += "</tr>";
-                }    
-            }
-            document.querySelector("table tbody").innerHTML = tr;
+            renderTable(djson);
         });
     }
     //done
@@ -909,28 +862,10 @@
         var djson;
 
         mile_.once('value', function(snapshot){
-
             var djson_raw = snapshot.val();
             djson = jsonToArray(djson_raw);
             djson.sort(down_compare("MILES"));
-
-            var tr = "";
-            for(var i = 0; i < djson.length; i++){
-                if(djson[i] != null){
-                    tr += "<tr>";
-                    tr += "<td>"+(i+1)+"</td>";
-                    tr += "<td>"+djson[i]["START_DATE"]+"</td>";
-                    tr += "<td>" + getDuration(djson[i]["START_DATE"], djson[i]["END_DATE"]) + "</td>";
-                    tr += "<td>"+djson[i]["CATEGORY"]+"</td>";
-                    tr += "<td>"+djson[i]["START"]+"</td>";
-                    tr += "<td>"+djson[i]["STOP"]+"</td>";
-                    tr += "<td>"+djson[i]["MILES"]+"</td>";
-                    tr += "<td>"+djson[i]["PURPOSE"]+"</td>";
-                    tr += "</tr>";
-                }    
-            }
-            // tr.sort()
-            document.querySelector("table tbody").innerHTML = tr;
+            renderTable(djson);
         });
     }
 
@@ -951,64 +886,6 @@
         }
     }
     //done
-    function enddate_sort_up(){
-        var mile_ = database.ref('/index').orderByChild('END_DATE');
-        var djson;
-
-        mile_.once('value', function(snapshot){
-
-            var djson_raw = snapshot.val();
-            djson = jsonToArray(djson_raw);
-            djson = djson.sort(up_date("END_DATE"));
-
-            var tr = "";
-            for(var i = 0; i < djson.length; i++){
-                if(djson[i] != null){
-                    tr += "<tr>";
-                    tr += "<td>"+(i + 1)+"</td>";
-                    tr += "<td>"+djson[i]["START_DATE"]+"</td>";
-                    tr += "<td>" + getDuration(djson[i]["START_DATE"], djson[i]["END_DATE"]) + "</td>";
-                    tr += "<td>"+djson[i]["CATEGORY"]+"</td>";
-                    tr += "<td>"+djson[i]["START"]+"</td>";
-                    tr += "<td>"+djson[i]["STOP"]+"</td>";
-                    tr += "<td>"+djson[i]["MILES"]+"</td>";
-                    tr += "<td>"+djson[i]["PURPOSE"]+"</td>";
-                    tr += "</tr>";
-                }    
-            }
-            document.querySelector("table tbody").innerHTML = tr;
-        });
-    }
-    //done
-    function enddate_sort_down(){
-        var database = firebase.database();
-        var myuber = database.ref('/index/').orderByChild('END_DATE');
-        var djson;
-
-        myuber.once('value', function(snapshot){
-            var djson_raw = snapshot.val();
-            djson = jsonToArray(djson_raw);
-            djson.sort(down_date("END_DATE"));
-
-            var tr = "";
-            for(var i = 0; i < djson.length; i++){
-                if(djson[i] != null){
-                    tr += "<tr>";
-                    tr += "<td>"+(i + 1)+"</td>";
-                    tr += "<td>"+djson[i]["START_DATE"]+"</td>";
-                    tr += "<td>" + getDuration(djson[i]["START_DATE"], djson[i]["END_DATE"]) + "</td>";
-                    tr += "<td>"+djson[i]["CATEGORY"]+"</td>";
-                    tr += "<td>"+djson[i]["START"]+"</td>";
-                    tr += "<td>"+djson[i]["STOP"]+"</td>";
-                    tr += "<td>"+djson[i]["MILES"]+"</td>";
-                    tr += "<td>"+djson[i]["PURPOSE"]+"</td>";
-                    tr += "</tr>";
-                }    
-            }
-            document.querySelector("table tbody").innerHTML = tr;
-        });
-    }
-    //done
     function startdate_sort_up(){
         var mile_ = database.ref('/index').orderByChild('START_DATE');
         var djson;
@@ -1017,23 +894,7 @@
             var djson_raw = snapshot.val();
             djson = jsonToArray(djson_raw);
             djson.sort(up_date("START_DATE"));
-
-            var tr = "";
-            for(var i = 0; i < djson.length; i++){
-               if(djson[i] != null){
-                    tr += "<tr>";
-                    tr += "<td>"+(i + 1)+"</td>";
-                    tr += "<td>"+djson[i]["START_DATE"]+"</td>";
-                    tr += "<td>" + getDuration(djson[i]["START_DATE"], djson[i]["END_DATE"]) + "</td>";
-                    tr += "<td>"+djson[i]["CATEGORY"]+"</td>";
-                    tr += "<td>"+djson[i]["START"]+"</td>";
-                    tr += "<td>"+djson[i]["STOP"]+"</td>";
-                    tr += "<td>"+djson[i]["MILES"]+"</td>";
-                    tr += "<td>"+djson[i]["PURPOSE"]+"</td>";
-                    tr += "</tr>";
-                }    
-            }
-            document.querySelector("table tbody").innerHTML = tr;
+            renderTable(djson);
         });
     }
     //done
@@ -1046,23 +907,7 @@
             var djson_raw = snapshot.val();
             djson = jsonToArray(djson_raw);
             djson.sort(down_date("START_DATE"));
-
-            var tr = "";
-            for(var i = 0; i < djson.length; i++){
-               if(djson[i] != null){
-                    tr += "<tr>";
-                    tr += "<td>"+(i + 1)+"</td>";
-                    tr += "<td>"+djson[i]["START_DATE"]+"</td>";
-                    tr += "<td>" + getDuration(djson[i]["START_DATE"], djson[i]["END_DATE"]) + "</td>";
-                    tr += "<td>"+djson[i]["CATEGORY"]+"</td>";
-                    tr += "<td>"+djson[i]["START"]+"</td>";
-                    tr += "<td>"+djson[i]["STOP"]+"</td>";
-                    tr += "<td>"+djson[i]["MILES"]+"</td>";
-                    tr += "<td>"+djson[i]["PURPOSE"]+"</td>";
-                    tr += "</tr>";
-                }    
-            }
-            document.querySelector("table tbody").innerHTML = tr;
+            renderTable(djson);
         });
     }
 
@@ -1074,25 +919,8 @@
         catalog_.once('value', function(snapshot){
             var djson_raw = snapshot.val();
             djson = jsonToArray(djson_raw);
-
             djson.sort(up_string("CATEGORY"));
-
-            var tr = "";
-            for(var i = 0; i < djson.length; i++){
-               if(djson[i] != null){
-                    tr += "<tr>";
-                    tr += "<td>"+(i + 1)+"</td>";
-                    tr += "<td>"+djson[i]["START_DATE"]+"</td>";
-                    tr += "<td>" + getDuration(djson[i]["START_DATE"], djson[i]["END_DATE"]) + "</td>";
-                    tr += "<td>"+djson[i]["CATEGORY"]+"</td>";
-                    tr += "<td>"+djson[i]["START"]+"</td>";
-                    tr += "<td>"+djson[i]["STOP"]+"</td>";
-                    tr += "<td>"+djson[i]["MILES"]+"</td>";
-                    tr += "<td>"+djson[i]["PURPOSE"]+"</td>";
-                    tr += "</tr>";
-                }    
-            }
-            document.querySelector("table tbody").innerHTML = tr;
+            renderTable(djson);
         });
     }
     //done
@@ -1103,27 +931,49 @@
         catalog_.once('value', function(snapshot){
             var djson_raw = snapshot.val();
             djson = jsonToArray(djson_raw);
-            djson.sort(down_compare("CATEGORY"));
-
-            var tr = "";
-            for(var i = 0; i < djson.length; i++){
-               if(djson[i] != null){
-                    tr += "<tr>";
-                    tr += "<td>"+(i + 1)+"</td>";
-                    tr += "<td>"+djson[i]["START_DATE"]+"</td>";
-                    tr += "<td>" + getDuration(djson[i]["START_DATE"], djson[i]["END_DATE"]) + "</td>";
-                    tr += "<td>"+djson[i]["CATEGORY"]+"</td>";
-                    tr += "<td>"+djson[i]["START"]+"</td>";
-                    tr += "<td>"+djson[i]["STOP"]+"</td>";
-                    tr += "<td>"+djson[i]["MILES"]+"</td>";
-                    tr += "<td>"+djson[i]["PURPOSE"]+"</td>";
-                    tr += "</tr>";
-                }    
-            }
-            document.querySelector("table tbody").innerHTML = tr;
+            djson.sort(down_string("CATEGORY"));
+            renderTable(djson);
+        });
+    }
+        
+    //done
+    function duration_sort_up() {
+    var rf = database.ref('/index'); 
+    rf.once('value', function(snapshot) {
+        var djson = jsonToArray(snapshot.val());
+        djson.sort(up_duration_compare());
+        renderTable(djson); 
         });
     }
 
+    function duration_sort_down() {
+        var rf = database.ref('/index');
+        rf.once('value', function(snapshot) {
+            var djson = jsonToArray(snapshot.val());
+            djson.sort(down_duration_compare());
+            renderTable(djson);
+        });
+    }
+    
+    function renderTable(dataArray) {
+        var tr = "";
+        for (var i = 0; i < dataArray.length; i++) {
+            if (dataArray[i] != null) {
+                tr += "<tr>";
+                tr += "<td>" + (i + 1) + "</td>";
+                tr += "<td>" + dataArray[i]["START_DATE"] + "</td>";
+                tr += "<td>" + getDuration(dataArray[i]["START_DATE"], dataArray[i]["END_DATE"]) + "</td>";
+                tr += "<td>" + dataArray[i]["CATEGORY"] + "</td>";
+                tr += "<td>" + dataArray[i]["START"] + "</td>";
+                tr += "<td>" + dataArray[i]["STOP"] + "</td>";
+                tr += "<td>" + dataArray[i]["MILES"] + "</td>";
+                tr += "<td>" + dataArray[i]["PURPOSE"] + "</td>";
+                tr += "</tr>";
+            }
+        }
+        document.querySelector("table tbody").innerHTML = tr;
+    }
+        
     function up_string(property){
         return function(obj1, obj2) {
             var value1 = obj1[property];
@@ -1138,6 +988,23 @@
             return (value2 > value1)?1:-1;
         }
     }
+
+    function up_duration_compare() {
+        return function(obj1, obj2) {
+            var val1 = parseFloat(getDuration(obj1["START_DATE"], obj1["END_DATE"])) || 0;
+            var val2 = parseFloat(getDuration(obj2["START_DATE"], obj2["END_DATE"])) || 0;
+            return val1 - val2;
+        };
+    }
+    
+    function down_duration_compare() {
+        return function(obj1, obj2) {
+            var val1 = parseFloat(getDuration(obj1["START_DATE"], obj1["END_DATE"])) || 0;
+            var val2 = parseFloat(getDuration(obj2["START_DATE"], obj2["END_DATE"])) || 0;
+            return val2 - val1;
+        };
+    }
+
     //done
     function purpose_sort_up(){
         var purpose_ = database.ref('/index').orderByChild('PURPOSE');
@@ -1203,23 +1070,7 @@
             var djson_raw = snapshot.val();
             djson = jsonToArray(djson_raw);
             djson.sort(up_string("START"));
-            
-            var tr = "";
-            for(var i = 0; i < djson.length; i++){ 
-                if(djson[i] != null){
-                    tr += "<tr>";
-                    tr += "<td>"+(i + 1)+"</td>"; // 排序後的序號
-                    tr += "<td>"+djson[i]["START_DATE"]+"</td>";
-                    tr += "<td>" + getDuration(djson[i]["START_DATE"], djson[i]["END_DATE"]) + "</td>";
-                    tr += "<td>"+djson[i]["CATEGORY"]+"</td>";
-                    tr += "<td>"+djson[i]["START"]+"</td>";
-                    tr += "<td>"+djson[i]["STOP"]+"</td>";
-                    tr += "<td>"+djson[i]["MILES"]+"</td>";
-                    tr += "<td>"+djson[i]["PURPOSE"]+"</td>";
-                    tr += "</tr>";
-                }    
-            }
-            document.querySelector("table tbody").innerHTML = tr;
+            renderTable(djson);
         });
     } 
     //done
@@ -1231,23 +1082,7 @@
             var djson_raw = snapshot.val();
             djson = jsonToArray(djson_raw);
             djson.sort(down_string("START"));
-
-            var tr = "";
-            for(var i = 0; i < djson.length; i++){ 
-                if(djson[i] != null){
-                    tr += "<tr>";
-                    tr += "<td>"+(i + 1)+"</td>"; // 排序後的序號
-                    tr += "<td>"+djson[i]["START_DATE"]+"</td>";
-                    tr += "<td>" + getDuration(djson[i]["START_DATE"], djson[i]["END_DATE"]) + "</td>";
-                    tr += "<td>"+djson[i]["CATEGORY"]+"</td>";
-                    tr += "<td>"+djson[i]["START"]+"</td>";
-                    tr += "<td>"+djson[i]["STOP"]+"</td>";
-                    tr += "<td>"+djson[i]["MILES"]+"</td>";
-                    tr += "<td>"+djson[i]["PURPOSE"]+"</td>";
-                    tr += "</tr>";
-                }    
-            }
-            document.querySelector("table tbody").innerHTML = tr;
+            renderTable(djson);
         });
     }
 
@@ -1260,23 +1095,7 @@
             var djson_raw = snapshot.val();
             djson = jsonToArray(djson_raw);
             djson.sort(up_string("STOP"));
-
-            var tr = "";
-            for(var i = 0; i < djson.length; i++){ 
-                if(djson[i] != null){
-                    tr += "<tr>";
-                    tr += "<td>"+(i + 1)+"</td>"; 
-                    tr += "<td>"+djson[i]["START_DATE"]+"</td>";
-                    tr += "<td>" + getDuration(djson[i]["START_DATE"], djson[i]["END_DATE"]) + "</td>";
-                    tr += "<td>"+djson[i]["CATEGORY"]+"</td>";
-                    tr += "<td>"+djson[i]["START"]+"</td>";
-                    tr += "<td>"+djson[i]["STOP"]+"</td>";
-                    tr += "<td>"+djson[i]["MILES"]+"</td>";
-                    tr += "<td>"+djson[i]["PURPOSE"]+"</td>";
-                    tr += "</tr>";
-                }    
-            }
-            document.querySelector("table tbody").innerHTML = tr;
+            renderTable(djson);
         });
     } 
     //done
@@ -1288,23 +1107,7 @@
             var djson_raw = snapshot.val();
             djson = jsonToArray(djson_raw);
             djson.sort(down_string("STOP"));
-
-            var tr = "";
-            for(var i = 0; i < djson.length; i++){ 
-                if(djson[i] != null){
-                    tr += "<tr>";
-                    tr += "<td>"+(i + 1)+"</td>"; 
-                    tr += "<td>"+djson[i]["START_DATE"]+"</td>";
-                    tr += "<td>" + getDuration(djson[i]["START_DATE"], djson[i]["END_DATE"]) + "</td>";
-                    tr += "<td>"+djson[i]["CATEGORY"]+"</td>";
-                    tr += "<td>"+djson[i]["START"]+"</td>";
-                    tr += "<td>"+djson[i]["STOP"]+"</td>";
-                    tr += "<td>"+djson[i]["MILES"]+"</td>";
-                    tr += "<td>"+djson[i]["PURPOSE"]+"</td>";
-                    tr += "</tr>";
-                }    
-            }
-            document.querySelector("table tbody").innerHTML = tr;
+            renderTable(djson);
         });
     } 
 
@@ -1316,23 +1119,7 @@
         purpose_.once('value', function(snapshot){
             var djson_raw = snapshot.val();
             djson = jsonToArray(djson_raw);
-
-            var tr = "";
-            for(var i = 0; i < djson.length; i++){ 
-                if(djson[i] != null){
-                    tr += "<tr>";
-                    tr += "<td>"+(i + 1)+"</td>"; 
-                    tr += "<td>"+djson[i]["START_DATE"]+"</td>";
-                    tr += "<td>" + getDuration(djson[i]["START_DATE"], djson[i]["END_DATE"]) + "</td>";
-                    tr += "<td>"+djson[i]["CATEGORY"]+"</td>";
-                    tr += "<td>"+djson[i]["START"]+"</td>";
-                    tr += "<td>"+djson[i]["STOP"]+"</td>";
-                    tr += "<td>"+djson[i]["MILES"]+"</td>";
-                    tr += "<td>"+djson[i]["PURPOSE"]+"</td>";
-                    tr += "</tr>";
-                }    
-            }
-            document.querySelector("table tbody").innerHTML = tr;
+            renderTable(djson);
         });
     }
     //done
