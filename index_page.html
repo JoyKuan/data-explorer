@@ -393,7 +393,7 @@
                             </script>
 
                     </th>
-                     <!--1 DURATION -->
+                    <!--1 DURATION -->
                     <th>
                             <div id="main1" style="width: 120px;height:60px;"></div>
                             <script type="text/javascript">
@@ -765,7 +765,7 @@
             var start = new Date(startStr);
             var end = new Date(endStr);
             var diffMin = Math.round((end - start) / (1000 * 60));
-            return (isNaN(diffMin) || diffMin < 0) ? "-" : diffMin + " min";
+            return (isNaN(diffMin) || diffMin < 0) ? "-" : diffMin;
         }
         var config = {
             apiKey: "AIzaSyA1VQOAtkGbdNbpQKVD9hI0VYtBmRq6j8I",
@@ -872,17 +872,17 @@
     //done
     function up_date(property){
         return function(obj1, obj2) {
-            var value1 = obj1[property];
-            var value2 = obj2[property];
-            return (value1 - value2)?-1:1;
+            var v1 = new Date(obj1[property]);
+            var v2 = new Date(obj2[property]);
+            return v1 - v2;
         }
     }
     //done
     function down_date(property){
         return function(obj1, obj2) {
-            var value1 = obj1[property];
-            var value2 = obj2[property];
-            return (value2 - value1)?1:-1;
+            var v1 = new Date(obj1[property]);
+            var v2 = new Date(obj2[property]);
+            return v2 - v1;
         }
     }
     //done
