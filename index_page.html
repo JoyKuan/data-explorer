@@ -397,7 +397,7 @@
                             },
                     
                             radiusAxis:{
-                                max:maxVal,
+                                max:maxVal+ 10,
                                 axisLine:{show:false},
                                 axisTick:{show:false},
                                 axisLabel:{show:false},
@@ -436,13 +436,13 @@
                                 // 灰底槽
                                 {
                                     type:'bar',
-                                    data:new Array(24).fill(maxVal),
+                                    data:new Array(24).fill(maxVal+10),
                                     coordinateSystem:'polar',
-                                    barWidth:'100%',
+                                    barWidth:'75%',
                                     itemStyle:{
-                                        color:'#f5f5f5',
+                                        color:'#f0f0f0',
                                         borderColor:'#fff',  // 每個 bar 外框灰色
-                                        borderWidth:1.5
+                                        borderWidth:0.8
                                     },
                                     silent:true,
                                     z:1
@@ -451,7 +451,7 @@
                                 {
                                     type:'bar',
                                     coordinateSystem:'polar',
-                                    barWidth:'100%',
+                                    barWidth:'75%',
                                     data:rawData.map(function(val){
                                         var ratio = val / maxVal;
                                         return {
