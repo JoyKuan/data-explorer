@@ -368,24 +368,13 @@
                         <div id="main" style="width: 160px; height: 160px;"></div>
                         <script type="text/javascript">
                             var myChart = echarts.init(document.getElementById('main'));
-                            var rawData = [
-                                [0, 6, 33, '#AED6F1'],
-                                [6, 9, 52, '#85C1E9'],
-                                [9, 12, 188, '#5DADE2'],
-                                [12, 14, 171, '#3498DB'],
-                                [14, 18, 370, '#2E86C1'],
-                                [18, 21, 233, '#21618C'],
-                                [21, 24, 108, '#1B4F72']
-                            ];
-
-                            // 找出數據最大值，用來設定半徑軸的上限，確保不會爆框
-                            var maxVal = Math.max(...rawData.map(d => d[2]));
-                                
+                            
+                            var timeData = [33, 52, 188, 171, 370, 233, 108];
+                            var colors = ['#AED6F1', '#85C1E9', '#5DADE2', '#3498DB', '#2E86C1', '#21618C', '#1B4F72'];
+                            var timeLabels = ['0-6', '6-9', '9-12', '12-14', '14-18', '18-21', '21-24'];
                             var totalTrips = 1155; 
-                            // var timeData = [33, 52, 188, 171, 370, 233, 108];
-                            // var timeLabels = ['0-6', '6-9', '9-12', '12-14', '14-18', '18-21', '21-24'];
-                                
-                           var option = {
+
+                            var option = {
                                 grid: { top: 0, left: 0, right: 0, bottom: 0 },
                                 graphic: [
                                     {
@@ -401,78 +390,56 @@
                                             {
                                                 type: 'path',
                                                 shape: { d: 'M 0 0 L 0 -7 M 0 0 L 4 0' },
-                                                style: { stroke: '#555', lineWidth: 1.2 },
-                                                x: 0, y: 0
+                                                style: { stroke: '#555', lineWidth: 1.2 }
                                             }
                                         ]
                                     }
                                 ],
                                 polar: {
-                                    radius: ['25%', '75%'], 
-                                    center: ['50%', '50%'] // 強制居中
+                                    radius: ['30%', '70%'], // 縮小外徑，確保 Label 有空間
+                                    center: ['50%', '50%']
                                 },
                                 angleAxis: {
-                                    type: 'value',
-                                    min: 0,
-                                    max: 24,
+                                    type: 'category',
+                                    data: timeLabels,
                                     startAngle: 90,
                                     clockwise: true,
-                                    splitNumber: 24, // 產生 24 條背景線
                                     axisLine: { show: false },
                                     axisTick: { show: false },
-                                    splitLine: { lineStyle: { color: '#f0f0f0', type: 'solid' } }, // 繪製背景分割線
+                                    splitLine: { show: true, lineStyle: { color: '#f0f0f0' } },
                                     axisLabel: {
-                                        formatter: (v) => [0, 6, 12, 18].includes(v) ? (v < 10 ? '0' + v : v) : '',
-                                        margin: 5,
-                                        fontSize: 9
+                                        interval: 0,
+                                        fontSize: 10,
+                                        color: '#999',
+                                        margin: 8,
+                                        formatter: function (value) {
+                                            // 將特定的時段標籤映射為你想要的 00, 06, 12, 18
+                                            if (value === '0-6') return '00';
+                                            if (value === '6-9') return '06';
+                                            if (value === '9-12') return '12';
+                                            if (value === '18-21') return '18';
+                                            return ''; // 其他的不顯示
+                                        }
                                     }
                                 },
                                 radiusAxis: {
                                     type: 'value',
-                                    min: 0,
-                                    max: maxVal + 20, // 重要：手動設定最大值，防止扇形撐破容器
                                     axisLine: { show: false },
                                     axisLabel: { show: false },
                                     splitLine: { show: false }
                                 },
                                 series: [{
-                                    type: 'custom',
+                                    type: 'bar',
+                                    data: timeData.map((val, idx) => ({
+                                        value: val,
+                                        itemStyle: { color: colors[idx] }
+                                    })),
                                     coordinateSystem: 'polar',
-                                    renderItem: function (params, api) {
-                                        var values = rawData[params.dataIndex];
-                                        var startHour = values[0];
-                                        var endHour = values[1];
-                                        var val = values[2];
-                                        
-                                        // 將時間轉換為座標系統需要的徑向和角度
-                                        // coord: [角度值, 半徑值]
-                                        var start = api.coord([startHour, val]);
-                                        var end = api.coord([endHour, val]);
-                                        
-                                        // 計算內圓半徑和外圓半徑
-                                        var r0 = params.coordSys.r0; // polar 設定的內徑 25%
-                                        var r = api.coord([0, val])[0]; // 根據數據計算的外徑
-                                        
-                                        return {
-                                            type: 'sector', // 繪製扇形
-                                            shape: {
-                                                cx: params.coordSys.cx,
-                                                cy: params.coordSys.cy,
-                                                r0: r0,
-                                                r: r,
-                                                // ECharts 的角度是弧度制，且 0 度在右側水平線，需轉換
-                                                startAngle: (90 - startHour * 15) * Math.PI / 180,
-                                                endAngle: (90 - endHour * 15) * Math.PI / 180,
-                                                clockwise: true
-                                            },
-                                            style: {
-                                                fill: values[3],
-                                                stroke: '#fff',
-                                                lineWidth: 1
-                                            }
-                                        };
-                                    },
-                                    data: rawData.map(d => d[2]) // 傳入數值供 api.coord 使用
+                                    barWidth: '100%', // 讓區塊之間沒有縫隙，像扇形一樣
+                                    itemStyle: {
+                                        borderColor: '#fff',
+                                        borderWidth: 1.5
+                                    }
                                 }]
                             };
                             myChart.setOption(option);
