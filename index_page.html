@@ -364,8 +364,8 @@
                         </script>
                     </th>
                     <!-- start date -->
-                    <th style="padding: 0; vertical-align: top;">
-                        <div id="main" style="width:100%; height:200px;"></div>
+                    <th style="width: 160px; height: 160px; padding: 0; position: relative;">
+                        <div id="main" style="width: 160px; height: 160px;"></div>
                         <script type="text/javascript">
                             var myChart = echarts.init(document.getElementById('main'));
                                 
@@ -374,93 +374,67 @@
                             var timeLabels = ['0-6', '6-9', '9-12', '12-14', '14-18', '18-21', '21-24'];
                                 
                            var option = {
-                                tooltip: {
-                                    trigger: 'item',
-                                    formatter: function(params){
-                                        var percent = ((params.value / totalTrips) * 100).toFixed(1);
-                                        return params.name + '<br/>' +
-                                               params.value + ' trips (' + percent + '%)';
+                                // 移除所有預設間距
+                                grid: { top: 0, left: 0, right: 0, bottom: 0 },
+                                graphic: [
+                                    {
+                                        type: 'group',
+                                        left: 'center',
+                                        top: 'center',
+                                        children: [
+                                            {
+                                                type: 'circle',
+                                                shape: { r: 12 },
+                                                style: { fill: '#fff', stroke: '#555', lineWidth: 1 }
+                                            },
+                                            {
+                                                type: 'path',
+                                                shape: { d: 'M 0 0 L 0 -7 M 0 0 L 4 0' },
+                                                style: { stroke: '#555', lineWidth: 1.2 },
+                                                x: 0, y: 0
+                                            }
+                                        ]
                                     }
-                                },
-                            
+                                ],
                                 polar: {
-                                    radius: 65,   // 固定半徑，避免裁切
-                                    center: ['50%', '50%']
+                                    radius: ['25%', '65%'], 
+                                    center: ['50%', '50%'] // 強制居中
                                 },
-                            
                                 angleAxis: {
                                     type: 'category',
                                     data: timeLabels,
                                     startAngle: 90,
                                     clockwise: true,
                                     axisLine: { show: false },
-                                    axisTick: { show: false },
                                     axisLabel: {
-                                        fontSize: 10,
-                                        color: '#666'
-                                    },
-                                    splitLine: {
-                                        show: true,
-                                        lineStyle: { color: '#eee' }
+                                        fontSize: 9,
+                                        color: '#666',
+                                        margin: 4, // 縮短標籤距離，防止被切掉
+                                        interval: 0
                                     }
                                 },
-                            
                                 radiusAxis: {
                                     type: 'value',
                                     axisLine: { show: false },
-                                    axisTick: { show: false },
                                     axisLabel: { show: false },
-                                    splitLine: {
-                                        lineStyle: { color: '#f5f5f5' }
-                                    }
+                                    splitLine: { lineStyle: { color: '#f0f0f0' } }
                                 },
-                            
-                                graphic: [
-                                    {
-                                        type: 'text',
-                                        left: 'center',
-                                        top: '46%',
-                                        style: {
-                                            text: totalTrips,
-                                            textAlign: 'center',
-                                            fill: '#333',
-                                            fontSize: 16,
-                                            fontWeight: 'bold'
-                                        }
-                                    },
-                                    {
-                                        type: 'text',
-                                        left: 'center',
-                                        top: '58%',
-                                        style: {
-                                            text: 'Trips',
-                                            textAlign: 'center',
-                                            fill: '#888',
-                                            fontSize: 10
-                                        }
-                                    }
-                                ],
-                            
                                 series: [{
                                     type: 'bar',
+                                    data: [
+                                        { value: 33, itemStyle: { color: '#AED6F1' } },
+                                        { value: 52, itemStyle: { color: '#85C1E9' } },
+                                        { value: 188, itemStyle: { color: '#5DADE2' } },
+                                        { value: 171, itemStyle: { color: '#3498DB' } },
+                                        { value: 370, itemStyle: { color: '#2E86C1' } },
+                                        { value: 233, itemStyle: { color: '#21618C' } },
+                                        { value: 108, itemStyle: { color: '#1B4F72' } }
+                                    ],
                                     coordinateSystem: 'polar',
-                                    data: timeData,
-                                    barWidth: 18,
+                                    barWidth: '90%',
                                     itemStyle: {
-                                        color: function(params) {
-                                            var colors = [
-                                                '#AED6F1',
-                                                '#85C1E9',
-                                                '#5DADE2',
-                                                '#3498DB',
-                                                '#2E86C1',
-                                                '#21618C',
-                                                '#1B4F72'
-                                            ];
-                                            return colors[params.dataIndex];
-                                        },
                                         borderColor: '#fff',
-                                        borderWidth: 2
+                                        borderWidth: 1.5
                                     }
                                 }]
                             };
