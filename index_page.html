@@ -364,8 +364,8 @@
                         </script>
                     </th>
                     <!-- start date -->
-                    <th style="position: relative; width: 320px; height: 320px; padding: 0; vertical-align: top;">
-                        <div id="main" style="width: 100%; height: 100%;"></div>
+                    <th style="padding: 0; vertical-align: top;">
+                        <div id="main" style="width:100%; height:200px;"></div>
                         <script type="text/javascript">
                             var myChart = echarts.init(document.getElementById('main'));
                                 
@@ -374,81 +374,93 @@
                             var timeLabels = ['0-6', '6-9', '9-12', '12-14', '14-18', '18-21', '21-24'];
                                 
                            var option = {
-                                // 中央時鐘圖標與數字
-                                graphic: [
-                                    {
-                                        type: 'group',
-                                        left: 'center',
-                                        top: 'center',
-                                        children: [
-                                            {
-                                                type: 'circle',
-                                                shape: { r: 15 },
-                                                style: { fill: '#fff', stroke: '#333', lineWidth: 1 }
-                                            },
-                                            {
-                                                type: 'path',
-                                                shape: { d: 'M 0 0 L 0 -8 M 0 0 L 5 0' }, // 時針指針
-                                                style: { stroke: '#333', lineWidth: 1.5 },
-                                                x: 0, y: 0
-                                            }
-                                        ]
-                                    }
-                                ],
                                 tooltip: {
                                     trigger: 'item',
-                                    confine: true,
-                                    formatter: '{b}h: {c} trips'
+                                    formatter: function(params){
+                                        var percent = ((params.value / totalTrips) * 100).toFixed(1);
+                                        return params.name + '<br/>' +
+                                               params.value + ' trips (' + percent + '%)';
+                                    }
                                 },
+                            
                                 polar: {
-                                    radius: ['30%', '80%'], // 留出中心圓孔與外部標籤空間
+                                    radius: 65,   // 固定半徑，避免裁切
                                     center: ['50%', '50%']
                                 },
+                            
                                 angleAxis: {
                                     type: 'category',
                                     data: timeLabels,
-                                    startAngle: 90, // 00 點從正上方開始
+                                    startAngle: 90,
                                     clockwise: true,
                                     axisLine: { show: false },
                                     axisTick: { show: false },
                                     axisLabel: {
-                                        fontSize: 9,
-                                        color: '#666',
-                                        interval: 0,
-                                        margin: 5
+                                        fontSize: 10,
+                                        color: '#666'
                                     },
-                                    splitLine: { 
-                                        show: true, 
-                                        lineStyle: { color: '#eee', width: 1 } 
+                                    splitLine: {
+                                        show: true,
+                                        lineStyle: { color: '#eee' }
                                     }
                                 },
+                            
                                 radiusAxis: {
                                     type: 'value',
                                     axisLine: { show: false },
+                                    axisTick: { show: false },
                                     axisLabel: { show: false },
-                                    splitLine: { 
-                                        lineStyle: { color: '#f5f5f5', type: 'solid' } 
+                                    splitLine: {
+                                        lineStyle: { color: '#f5f5f5' }
                                     }
                                 },
+                            
+                                graphic: [
+                                    {
+                                        type: 'text',
+                                        left: 'center',
+                                        top: '46%',
+                                        style: {
+                                            text: totalTrips,
+                                            textAlign: 'center',
+                                            fill: '#333',
+                                            fontSize: 16,
+                                            fontWeight: 'bold'
+                                        }
+                                    },
+                                    {
+                                        type: 'text',
+                                        left: 'center',
+                                        top: '58%',
+                                        style: {
+                                            text: 'Trips',
+                                            textAlign: 'center',
+                                            fill: '#888',
+                                            fontSize: 10
+                                        }
+                                    }
+                                ],
+                            
                                 series: [{
                                     type: 'bar',
-                                    data: [
-                                        { value: 33, itemStyle: { color: '#AED6F1' } }, // 凌晨
-                                        { value: 52, itemStyle: { color: '#85C1E9' } }, // 早上
-                                        { value: 188, itemStyle: { color: '#5DADE2' } }, // 中午
-                                        { value: 171, itemStyle: { color: '#3498DB' } }, // 下午
-                                        { value: 370, itemStyle: { color: '#2E86C1' } }, // 傍晚
-                                        { value: 233, itemStyle: { color: '#21618C' } }, // 晚上
-                                        { value: 108, itemStyle: { color: '#1B4F72' } }  // 深夜
-                                    ],
                                     coordinateSystem: 'polar',
-                                    barWidth: '95%', // 讓區塊接近填滿
+                                    data: timeData,
+                                    barWidth: 18,
                                     itemStyle: {
-                                        borderColor: '#fff', // 區塊間的白色輪廓線
+                                        color: function(params) {
+                                            var colors = [
+                                                '#AED6F1',
+                                                '#85C1E9',
+                                                '#5DADE2',
+                                                '#3498DB',
+                                                '#2E86C1',
+                                                '#21618C',
+                                                '#1B4F72'
+                                            ];
+                                            return colors[params.dataIndex];
+                                        },
+                                        borderColor: '#fff',
                                         borderWidth: 2
-                                    },
-                                    emphasis: {
-                                        itemStyle: { borderColor: '#333', borderWidth: 1 }
                                     }
                                 }]
                             };
