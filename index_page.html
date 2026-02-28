@@ -364,54 +364,60 @@
                         </script>
                     </th>
                     <!-- start date -->
-                    <th style="position: relative; width: 160px; height: 180px; padding: 0; vertical-align: top;">
+                    <th style="position: relative; width: 160px; height: 120px; padding: 0; vertical-align: top;">
                         <div id="main" style="width: 100%; height: 100%;"></div>
                         <script type="text/javascript">
                             var myChart = echarts.init(document.getElementById('main'));
                                 
                             var totalTrips = 1155; 
                             var timeData = [33, 52, 188, 171, 370, 233, 108];
-                            var timeLabels = ['[0, 6)', '[6, 9)', '[9, 12)', '[12, 14)', '[14, 18)', '[18, 21)', '[21, 24)'];
+                            // var timeLabels = ['[0, 6)', '[6, 9)', '[9, 12)', '[12, 14)', '[14, 18)', '[18, 21)', '[21, 24)'];
+                            var timeLabels = ['0-6', '6-9', '9-12', '12-14', '14-18', '18-21', '21-24'];
                                 
                             var option = {
                                 tooltip: {
-                                    trigger: 'axis',
+                                    trigger: 'item', // 極座標建議用 item
                                     backgroundColor: 'rgba(50, 50, 50, 0.8)',
-                                    textStyle: { color: '#fff', fontSize: 11 },
-                                    axisPointer: { type: 'none' },
+                                    textStyle: { color: '#fff', fontSize: 10 },
                                     confine: true,
-                                    formatter: function(params) {
-                                        var p = params[0];
-                                        var percent = ((p.value / totalTrips) * 100).toFixed(2) + '%';
-                                        return p.name + p.value + ' (' + percent + ')';
+                                    formatter: function(p) {
+                                        var percent = ((p.value / totalTrips) * 100).toFixed(1) + '%';
+                                        return p.name + 'h<br/>' + p.value + ' (' + percent + ')';
                                     }
                                 },
-                                grid: { top: 15, bottom: 20, left: 5, right: 5, containLabel: false},
-                                xAxis: {
+                                // 極座標系配置
+                                polar: {
+                                    radius: ['20%', '75%'], // 內圈 20% 留空，外圈 75% 留給標籤
+                                    center: ['50%', '50%']
+                                },
+                                // 角度軸 (對應原本的 X 軸)
+                                angleAxis: {
                                     type: 'category',
                                     data: timeLabels,
-                                    axisLine: { show: true, lineStyle: { color: '#eee' } },
-                                    axisTick: { show: true, alignWithLabel: true },
-                                    axisLabel: { 
-                                        fontSize: 8, 
+                                    boundaryGap: true,
+                                    axisLabel: {
+                                        fontSize: 8,
                                         color: '#666',
-                                        interval: 0,
-                                        rotate: 35 // 標籤傾斜 35 度，防止 7 個區間擠在一起
-                                    }
+                                        interval: 0
+                                    },
+                                    axisLine: { lineStyle: { color: '#eee' } }
                                 },
-                                yAxis: { show: false },
+                                // 半徑軸 (對應原本的 Y 軸)
+                                radiusAxis: {
+                                    show: false // 隱藏半徑刻度使畫面乾淨
+                                },
                                 series: [{
                                     type: 'bar',
                                     data: timeData,
-                                    barWidth: '80%',
+                                    coordinateSystem: 'polar', // 指定使用極座標
+                                    name: 'Trips',
                                     itemStyle: { 
-                                        color: '#37A2DA', // 統一使用藍色
-                                        borderRadius: [2, 2, 0, 0] 
+                                        color: '#37A2DA',
+                                        shadowBlur: 2,
+                                        shadowColor: 'rgba(0,0,0,0.1)'
                                     },
                                     emphasis: {
-                                        disabled: false,
-                                        scale: false,
-                                        itemStyle: { color: '#2a82b3' } // 懸停時變深藍，與其他欄位一致
+                                        itemStyle: { color: '#2a82b3' }
                                     }
                                 }]
                             };
