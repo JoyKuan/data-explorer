@@ -377,6 +377,9 @@
                                 [18, 21, 233, '#21618C'],
                                 [21, 24, 108, '#1B4F72']
                             ];
+
+                            // 找出數據最大值，用來設定半徑軸的上限，確保不會爆框
+                            var maxVal = Math.max(...rawData.map(d => d[2]));
                                 
                             var totalTrips = 1155; 
                             // var timeData = [33, 52, 188, 171, 370, 233, 108];
@@ -405,7 +408,7 @@
                                     }
                                 ],
                                 polar: {
-                                    radius: ['25%', '65%'], 
+                                    radius: ['25%', '75%'], 
                                     center: ['50%', '50%'] // 強制居中
                                 },
                                 angleAxis: {
@@ -419,24 +422,18 @@
                                     axisTick: { show: false },
                                     splitLine: { lineStyle: { color: '#f0f0f0', type: 'solid' } }, // 繪製背景分割線
                                     axisLabel: {
-                                        formatter: function(value) {
-                                            // 只顯示 00, 06, 12, 18
-                                            if ([0, 6, 12, 18, 24].includes(value)) {
-                                                var label = value === 24 ? 0 : value;
-                                                return label < 10 ? '0' + label : label;
-                                            }
-                                            return '';
-                                        },
-                                        color: '#999',
-                                        margin: 8,
-                                        fontSize: 10
+                                        formatter: (v) => [0, 6, 12, 18].includes(v) ? (v < 10 ? '0' + v : v) : '',
+                                        margin: 5,
+                                        fontSize: 9
                                     }
                                 },
                                 radiusAxis: {
                                     type: 'value',
+                                    min: 0,
+                                    max: maxVal + 20, // 重要：手動設定最大值，防止扇形撐破容器
                                     axisLine: { show: false },
                                     axisLabel: { show: false },
-                                    splitLine: { lineStyle: { color: '#f0f0f0' } }
+                                    splitLine: { show: false }
                                 },
                                 series: [{
                                     type: 'custom',
