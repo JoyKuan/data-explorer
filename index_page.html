@@ -375,6 +375,13 @@
                             var totalTrips = 1155; 
 
                             var option = {
+                                tooltip: {
+                                    trigger: 'item',
+                                    formatter: function (params) {
+                                        var percent = ((params.value / totalTrips) * 100).toFixed(1);
+                                        return params.name + ': ' + params.value + ' (' + percent + ')';
+                                    }
+                                },
                                 grid: { top: 0, left: 0, right: 0, bottom: 0 },
                                 graphic: [
                                     {
@@ -385,12 +392,12 @@
                                             {
                                                 type: 'circle',
                                                 shape: { r: 10},
-                                                style: { fill: '#fff', stroke: '#555', lineWidth: 1 }
+                                                style: { fill: '#fff', stroke: '#333', lineWidth: 1.5 }
                                             },
                                             {
                                                 type: 'path',
-                                                shape: { d: 'M 0 0 L 0 -7 M 0 0 L 4 0' },
-                                                style: { stroke: '#555', lineWidth: 1.2 }
+                                                shape: { d: 'M 0 0 L 0 -6 M 0 0 L 3 0' },
+                                                style: { stroke: '#333', lineWidth: 1.5 }
                                             }
                                         ]
                                     }
@@ -404,9 +411,9 @@
                                     data: timeLabels,
                                     startAngle: 90,
                                     clockwise: true,
-                                    axisLine: { show: false },
-                                    axisTick: { show: false },
-                                    splitLine: { show: true, lineStyle: { color: '#f0f0f0' } },
+                                    axisLine: { show: false, lineStyle: { color: '#333' } },
+                                    axisTick: { show: false, lineStyle: { color: '#333' } },
+                                    splitLine: { show: true, lineStyle: { color: '#666', type: 'dashed' } },
                                     axisLabel: {
                                         interval: 0,
                                         fontSize: 9,
@@ -419,20 +426,31 @@
                                     type: 'value',
                                     axisLine: { show: false },
                                     axisLabel: { show: false },
-                                    splitLine: { show: false }
+                                    splitLine: { 
+                                        show: true, 
+                                        lineStyle: { color: '#ccc' } 
+                                    }
                                 },
                                 series: [{
                                     type: 'bar',
                                     data: timeData.map((val, idx) => ({
                                         value: val,
+                                        name: timeLabels[idx],
                                         itemStyle: { color: colors[idx] }
                                     })),
                                     coordinateSystem: 'polar',
                                     barWidth: '100%', // 讓區塊之間沒有縫隙，像扇形一樣
                                     itemStyle: {
-                                        borderColor: '#fff',
-                                        borderWidth: 1
+                                       borderColor: '#333', // 【關鍵】每個扇形的邊框改為深灰色/黑色
+                                       borderWidth: 1
                                     }
+                                    emphasis: {
+                                        itemStyle: {
+                                            borderWidth: 2,
+                                            shadowBlur: 10,
+                                            shadowColor: 'rgba(0,0,0,0.5)'
+                                        }
+                                    }   
                                 }]
                             };
                             myChart.setOption(option);
