@@ -380,7 +380,7 @@
                     
                         var option = {
                     
-                            // ✅ 外框灰色輪廓
+                            // 外框灰色輪廓
                             polar: {
                                 radius: ['30%','85%'],
                                 center: ['50%','50%']
@@ -393,11 +393,7 @@
                                 axisLine:{show:false},
                                 axisTick:{show:false},
                                 splitLine:{show:false},
-                                axisLabel:{
-                                    interval:5,
-                                    fontSize:10,
-                                    color:'#666'
-                                }
+                                axisLabel:{show: false}
                             },
                     
                             radiusAxis:{
@@ -405,43 +401,35 @@
                                 axisLine:{show:false},
                                 axisTick:{show:false},
                                 axisLabel:{show:false},
-                                splitLine:{
-                                    show:true,
-                                    lineStyle:{
-                                        color:'#ddd',   // 灰色輪廓線
-                                        width:1
-                                    }
-                                }
+                                splitLine:{show: false}
                             },
-                    
-                            // ✅ 中間小時鐘
+                            // 中間小時鐘
                             graphic: [
+                                // 中間的小時鐘圓圈
+                                {
+                                    type: 'circle',
+                                    shape: { r: 18 },
+                                    style: { fill: '#fff', stroke: '#333', lineWidth: 1.5 },
+                                    left: 'center',
+                                    top: 'center',
+                                    z: 10
+                                },
+                                // 時鐘指針圖示
                                 {
                                     type: 'group',
                                     left: 'center',
                                     top: 'center',
+                                    z: 11,
                                     children: [
-                                        {
-                                            type: 'circle',
-                                            shape: { r: 14 },
-                                            style: {
-                                                fill: '#fff',
-                                                stroke: '#888',
-                                                lineWidth: 2
-                                            }
-                                        },
-                                        {
-                                            type: 'line',
-                                            shape: { x1: 0, y1: 0, x2: 0, y2: -6 },
-                                            style: { stroke: '#444', lineWidth: 2 }
-                                        },
-                                        {
-                                            type: 'line',
-                                            shape: { x1: 0, y1: 0, x2: 5, y2: 0 },
-                                            style: { stroke: '#444', lineWidth: 2 }
-                                        }
+                                        { type: 'line', shape: { x1: 0, y1: 0, x2: 0, y2: -8 }, style: { stroke: '#333', lineWidth: 2 } },
+                                        { type: 'line', shape: { x1: 0, y1: 0, x2: 6, y2: 0 }, style: { stroke: '#333', lineWidth: 2 } }
                                     ]
-                                }
+                                },
+                                // 00, 06, 12, 18 刻度文字
+                                { type: 'text', left: 'center', top: '23%', style: { text: '00', fontSize: 10, fill: '#888' } },
+                                { type: 'text', left: 'center', bottom: '23%', style: { text: '12', fontSize: 10, fill: '#888' } },
+                                { type: 'text', left: '68%', top: 'center', style: { text: '06', fontSize: 10, fill: '#888' } },
+                                { type: 'text', left: '23%', top: 'center', style: { text: '18', fontSize: 10, fill: '#888' } }
                             ],
                     
                             series:[
@@ -450,11 +438,11 @@
                                     type:'bar',
                                     data:new Array(24).fill(maxVal),
                                     coordinateSystem:'polar',
-                                    barWidth:'70%',
+                                    barWidth:'100%',
                                     itemStyle:{
-                                        color:'#f0f0f0',
-                                        borderColor:'#ccc',  // 每個 bar 外框灰色
-                                        borderWidth:0.5
+                                        color:'#f5f5f5',
+                                        borderColor:'#fff',  // 每個 bar 外框灰色
+                                        borderWidth:1.5
                                     },
                                     silent:true,
                                     z:1
@@ -463,7 +451,7 @@
                                 {
                                     type:'bar',
                                     coordinateSystem:'polar',
-                                    barWidth:'70%',
+                                    barWidth:'100%',
                                     data:rawData.map(function(val){
                                         var ratio = val / maxVal;
                                         return {
