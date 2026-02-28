@@ -382,7 +382,7 @@
                     
                             // 外框灰色輪廓
                             polar: {
-                                radius: ['30%','85%'],
+                                radius: ['45%','85%'],
                                 center: ['50%','50%']
                             },
                     
@@ -397,7 +397,7 @@
                             },
                     
                             radiusAxis:{
-                                max:maxVal+ 10,
+                                max:maxVal,
                                 axisLine:{show:false},
                                 axisTick:{show:false},
                                 axisLabel:{show:false},
@@ -411,15 +411,6 @@
                                     top: 'center',
                                     zlevel: 10,   // 確保在最上層
                                     children: [
-                                        {
-                                            type: 'circle',
-                                            shape: { r: 14 },
-                                            style: {
-                                                fill: '#fff',
-                                                stroke: '#888',
-                                                lineWidth: 2
-                                            }
-                                        },
                                         // 時針
                                         {
                                             type: 'line',
@@ -432,71 +423,19 @@
                                             shape: { x1: 0, y1: 0, x2: 5, y2: 0 },
                                             style: { stroke: '#444', lineWidth: 2 }
                                         },
-                                        // ===== 刻度文字 =====
-                                        // 00 (上)
-                                        {
-                                            type: 'text',
-                                            style: {
-                                                text: '00',
-                                                fill: '#888',
-                                                fontSize: 10,
-                                                textAlign: 'center',
-                                                textVerticalAlign: 'middle'
-                                            },
-                                            x: 0,
-                                            y: -50
-                                        },
-                            
-                                        // 06 (右)
-                                        {
-                                            type: 'text',
-                                            style: {
-                                                text: '06',
-                                                fill: '#888',
-                                                fontSize: 10,
-                                                textAlign: 'center',
-                                                textVerticalAlign: 'middle'
-                                            },
-                                            x: 50,
-                                            y: 0
-                                        },
-                            
-                                        // 12 (下)
-                                        {
-                                            type: 'text',
-                                            style: {
-                                                text: '12',
-                                                fill: '#888',
-                                                fontSize: 10,
-                                                textAlign: 'center',
-                                                textVerticalAlign: 'middle'
-                                            },
-                                            x: 0,
-                                            y: 50
-                                        },
-                            
-                                        // 18 (左)
-                                        {
-                                            type: 'text',
-                                            style: {
-                                                text: '18',
-                                                fill: '#888',
-                                                fontSize: 10,
-                                                textAlign: 'center',
-                                                textVerticalAlign: 'middle'
-                                            },
-                                            x: -50,
-                                            y: 0
-                                        }
+                                        // 刻度文字
+                                        { type: 'text', style: { text:'00', fill:'#888', fontSize:11, textAlign:'center', textVerticalAlign:'middle' }, x:0,  y:-65 },
+                                        { type: 'text', style: { text:'06', fill:'#888', fontSize:11, textAlign:'center', textVerticalAlign:'middle' }, x:65, y:0 },
+                                        { type: 'text', style: { text:'12', fill:'#888', fontSize:11, textAlign:'center', textVerticalAlign:'middle' }, x:0,  y:65 },
+                                        { type: 'text', style: { text:'18', fill:'#888', fontSize:11, textAlign:'center', textVerticalAlign:'middle' }, x:-65,y:0 }
                                     ]
                                 }
                             ],
-                    
                             series:[
                                 // 灰底槽
                                 {
                                     type:'bar',
-                                    data:new Array(24).fill(maxVal+10),
+                                    data:new Array(24).fill(maxVal),
                                     coordinateSystem:'polar',
                                     barWidth:'90%',
                                     itemStyle:{
