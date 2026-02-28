@@ -364,8 +364,8 @@
                         </script>
                     </th>
                     <!-- start date -->
-                    <th style="position: relative; width: 160px; height: 160px; padding: 0; vertical-align: top;">
-                        <div id="main" style="width: 160px; height: 160px;"></div>
+                    <th style="position: relative; width: 160px; height: 160px; padding: 0; vertical-align: top; display: table-cell;">
+                        <div id="main" style="width: 160px; height: 160px; margin: 0 auto;"></div>
                         <script type="text/javascript">
                             var myChart = echarts.init(document.getElementById('main'));
                             
@@ -379,9 +379,8 @@
                                     trigger: 'item',
                                     confine: true, // 確保提示框不會超出 160px 的小容器
                                     formatter: function (params) {
-                                        var p = params[0];
-                                        var percent = ((p.value / totalTrips) * 100).toFixed(2) + '%';
-                                        return p.name + ': ' + p.value + ' (' + percent + ')';
+                                        var percent = ((params.value / totalTrips) * 100).toFixed(2) + '%';
+                                        return params.name + ': ' + params.value + ' (' + percent + ')';
                                     }
                                 },
                                 grid: { top: 0, left: 0, right: 0, bottom: 0 },
@@ -452,14 +451,14 @@
                                 }]
                             };
                             myChart.setOption(option);
+                            
                             // 解決縮成一角與顯示問題
-                            function resizeChart() {
-                                myChart.resize();
-                            }
-                            window.addEventListener('load', resizeChart);
-                            window.addEventListener('resize', resizeChart);
-                            // 強制立即執行一次
-                            setTimeout(resizeChart, 100);
+                            function doResize() {myChart.resize();}
+                            
+                            window.addEventListener('load', doResize);
+                            window.addEventListener('resize', doResize);
+                            // 強制在頁面渲染後的 200ms 再次修正大小
+                            setTimeout(resizeChart, 20);
                         </script>
                     </th>
                     <!--1 DURATION -->
