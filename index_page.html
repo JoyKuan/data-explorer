@@ -377,9 +377,10 @@
                             var option = {
                                 tooltip: {
                                     trigger: 'item',
+                                    confine: true, // 確保提示框不會超出 160px 的小容器
                                     formatter: function (params) {
                                         var percent = ((params.value / totalTrips) * 100).toFixed(1);
-                                        return params.name + ': ' + params.value + ' (' + percent + ')';
+                                        return '時段: ' + params.name + '<br/>數量: ' + params.value + '<br/>比例: ' + percent + '%';
                                     }
                                 },
                                 grid: { top: 0, left: 0, right: 0, bottom: 0 },
@@ -391,7 +392,7 @@
                                         children: [
                                             {
                                                 type: 'circle',
-                                                shape: { r: 10},
+                                                shape: { r: 10 },
                                                 style: { fill: '#fff', stroke: '#333', lineWidth: 1.5 }
                                             },
                                             {
@@ -403,7 +404,7 @@
                                     }
                                 ],
                                 polar: {
-                                    radius: ['30%', '65%'], // 縮小外徑，確保 Label 有空間
+                                    radius: ['30%', '65%'],
                                     center: ['50%', '50%']
                                 },
                                 angleAxis: {
@@ -411,25 +412,21 @@
                                     data: timeLabels,
                                     startAngle: 90,
                                     clockwise: true,
-                                    axisLine: { show: false, lineStyle: { color: '#333' } },
-                                    axisTick: { show: false, lineStyle: { color: '#333' } },
-                                    splitLine: { show: true, lineStyle: { color: '#666', type: 'dashed' } },
+                                    axisLine: { show: true, lineStyle: { color: '#333' } }, // 改為顯示黑色外圈線
+                                    axisTick: { show: true },
+                                    splitLine: { show: true, lineStyle: { color: '#666', type: 'dashed' } }, // 放射線改為灰色虛線
                                     axisLabel: {
                                         interval: 0,
                                         fontSize: 9,
-                                        color: '#888',
-                                        margin: 4,
-                                        formatter: '{value}'
+                                        color: '#333',
+                                        margin: 6
                                     }
                                 },
                                 radiusAxis: {
                                     type: 'value',
                                     axisLine: { show: false },
                                     axisLabel: { show: false },
-                                    splitLine: { 
-                                        show: true, 
-                                        lineStyle: { color: '#ccc' } 
-                                    }
+                                    splitLine: { show: true, lineStyle: { color: '#ccc' } } // 圓形環狀線
                                 },
                                 series: [{
                                     type: 'bar',
@@ -439,24 +436,29 @@
                                         itemStyle: { color: colors[idx] }
                                     })),
                                     coordinateSystem: 'polar',
-                                    barWidth: '100%', // 讓區塊之間沒有縫隙，像扇形一樣
+                                    barWidth: '100%',
                                     itemStyle: {
-                                       borderColor: '#333', // 【關鍵】每個扇形的邊框改為深灰色/黑色
-                                       borderWidth: 1
-                                    }
-                                    emphasis: {
+                                        borderColor: '#333', // 區間之間的黑色分隔線
+                                        borderWidth: 1
+                                    },
+                                    emphasis: { // 修正：上方補上了逗號，鼠標移入效果
                                         itemStyle: {
                                             borderWidth: 2,
                                             shadowBlur: 10,
                                             shadowColor: 'rgba(0,0,0,0.5)'
                                         }
-                                    }   
+                                    }
                                 }]
                             };
                             myChart.setOption(option);
-
-                            window.addEventListener('load', function() {myChart.resize();})
-                            window.addEventListener('resize', function() {myChart.resize();});
+                            // 解決縮成一角與顯示問題
+                            function resizeChart() {
+                                myChart.resize();
+                            }
+                            window.addEventListener('load', resizeChart);
+                            window.addEventListener('resize', resizeChart);
+                            // 強制立即執行一次
+                            setTimeout(resizeChart, 100);
                         </script>
                     </th>
                     <!--1 DURATION -->
