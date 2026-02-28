@@ -378,42 +378,37 @@
                             var maxVal = Math.max(...rawData);
 
                             var option = {
-                                tooltip: {
-                                    trigger: 'item',
-                                    confine: true,
-                                    formatter: '{b}:00 : {c} trips'
-                                },
+                                // 設定極座標，調整半徑比例
                                 polar: {
-                                    radius: ['30%', '85%'], // 調整內圈大小給 Label 空間
+                                    radius: ['35%', '92%'], 
                                     center: ['50%', '50%']
                                 },
                                 angleAxis: {
                                     type: 'category',
                                     data: hours,
-                                    startAngle: 90, 
+                                    startAngle: 90, // 從正上方開始
                                     boundaryGap: true,
-                                    splitLine: { show: false },
                                     axisLine: { show: false },
                                     axisTick: { show: false },
+                                    splitLine: { show: false },
                                     axisLabel: {
                                         show: true,
-                                        interval: 5, // 顯示 0, 6, 12, 18
-                                        margin: -30, // 將文字往圓心內推
-                                        fontSize: 11,
-                                        color: '#555',
+                                        interval: 5, // 只顯示 00, 06, 12, 18
+                                        margin: -32, // 將數字推到灰底槽位內側
+                                        fontSize: 10,
+                                        color: '#444',
                                         fontWeight: 'bold',
-                                        z: 10 // 確保文字在圖層最上方
+                                        z: 100 // 確保文字在最上層
                                     }
                                 },
                                 radiusAxis: {
-                                    min: 0,
-                                    max: maxVal + 10,
-                                    axisLabel: { show: false },
+                                    max: maxVal + 5,
                                     axisLine: { show: false },
+                                    axisLabel: { show: false },
                                     splitLine: { show: false }
                                 },
                                 graphic: [
-                                    // 中心的小時鐘圖標
+                                    // 中心裝飾小時鐘
                                     {
                                         type: 'group',
                                         left: 'center',
@@ -421,61 +416,61 @@
                                         children: [
                                             {
                                                 type: 'circle',
-                                                shape: { r: 16 },
-                                                style: { fill: '#fff', stroke: '#444', lineWidth: 2 }
+                                                shape: { r: 14 },
+                                                style: { fill: '#fff', stroke: '#333', lineWidth: 2 }
                                             },
                                             {
                                                 type: 'path',
-                                                shape: { d: 'M 0 0 L 0 -8 M 0 0 L 6 0' },
-                                                style: { stroke: '#444', lineWidth: 2, lineCap: 'round' }
+                                                shape: { d: 'M 0 0 L 0 -7 M 0 0 L 5 0' }, // 繪製 L 型指針
+                                                style: { stroke: '#333', lineWidth: 2, lineCap: 'round' }
                                             }
                                         ]
                                     }
                                 ],
                                 series: [
-                                    // 第一層：淺灰色底槽
+                                    // 系列 1：灰底背後槽位
                                     {
                                         type: 'bar',
-                                        data: hours.map(() => maxVal + 10),
+                                        data: hours.map(() => maxVal + 5),
                                         coordinateSystem: 'polar',
-                                        barWidth: '92%',
-                                        itemStyle: { color: '#F0F0F0' },
-                                        silent: true
+                                        barWidth: '94%',
+                                        itemStyle: { color: '#f0f0f0' },
+                                        silent: true,
+                                        animation: false,
+                                        z: 1
                                     },
-                                    // 第二層：實際數據，顏色深淺隨數值變化
+                                    // 系列 2：實際藍色數據 (根據佔比決定深淺)
                                     {
                                         type: 'bar',
-                                        data: rawData.map((val) => {
-                                            // 計算佔比 (0.2 ~ 1.0 之間)，確保最小值不會完全透明
-                                            let ratio = val / maxVal;
+                                        data: rawData.map(function(val) {
+                                            var ratio = val / maxVal;
                                             return {
                                                 value: val,
                                                 itemStyle: {
-                                                    // 使用 RGB 調整深淺，佔比越高越接近深藍 (#21618C)
-                                                    color: `rgba(33, 97, 140, ${ratio * 0.8 + 0.2})`,
+                                                    // 顏色深淺 = (數值/最大值) * 透明度係數
+                                                    color: 'rgba(33, 97, 140, ' + (ratio * 0.8 + 0.2) + ')',
                                                     borderColor: '#fff',
-                                                    borderWidth: 1
+                                                    borderWidth: 0.5
                                                 }
                                             };
                                         }),
                                         coordinateSystem: 'polar',
-                                        barWidth: '92%',
-                                        emphasis: {
-                                            itemStyle: { opacity: 1, shadowBlur: 8, shadowColor: 'rgba(0,0,0,0.2)' }
-                                        }
+                                        barWidth: '94%',
+                                        z: 2
                                     }
                                 ]
                             };
                             myChart.setOption(option);
-                            window.addEventListener('resize', function() { myChart.resize(); });
-                            
-                            // // 解決縮成一角與顯示問題
-                            // function doResize() {myChart.resize();}
-                            
-                            // window.addEventListener('load', doResize);
-                            // window.addEventListener('resize', doResize);
-                            // // 強制在頁面渲染後的 200ms 再次修正大小
-                            // setTimeout(resizeChart, 20);
+                            // --- 關鍵：解決縮成一角的問題 ---
+                            // 在頁面加載完成、視窗縮放時都強制 resize
+                            function handleResize() {
+                                if (myChart) {
+                                    myChart.resize();
+                                }
+                            }
+                            // 延遲執行一次 resize，確保 HTML 表格已經渲染完畢並取得寬度
+                            setTimeout(handleResize, 50);
+                            window.addEventListener('resize', handleResize);
                         </script>
                     </th>
                     <!--1 DURATION -->
