@@ -374,75 +374,113 @@
                         var chartDom = document.getElementById('main');
                         var myChart = echarts.init(chartDom);
                     
-                        var rawData = [19, 5, 2, 3, 0, 4, 4, 13, 35, 51, 65, 72, 77, 94, 89, 98, 88, 95, 94, 68, 71, 51, 31, 26];
-                        var hours = [];
-                        for (var i = 0; i < 24; i++) {
-                            hours.push(i < 10 ? '0' + i : '' + i);
-                        }
-                    
-                        var maxVal = Math.max.apply(null, rawData);
+                        var rawData = [19,5,2,3,0,4,4,13,35,51,65,72,77,94,89,98,88,95,94,68,71,51,31,26];
+                        var hours = Array.from({length:24}, (_,i)=> i<10 ? '0'+i : ''+i);
+                        var maxVal = Math.max(...rawData);
                     
                         var option = {
+                    
+                            // ✅ 外框灰色輪廓
                             polar: {
-                                radius: ['30%', '85%'],
-                                center: ['50%', '50%']
+                                radius: ['30%','85%'],
+                                center: ['50%','50%']
                             },
                     
                             angleAxis: {
-                                type: 'category',
-                                data: hours,
-                                startAngle: 90,
-                                axisLine: { show: false },
-                                axisTick: { show: false },
-                                splitLine: { show: false },
-                                axisLabel: {
-                                    interval: 5,
-                                    fontSize: 10,
-                                    color: '#555'
+                                type:'category',
+                                data:hours,
+                                startAngle:90,
+                                axisLine:{show:false},
+                                axisTick:{show:false},
+                                splitLine:{show:false},
+                                axisLabel:{
+                                    interval:5,
+                                    fontSize:10,
+                                    color:'#666'
                                 }
                             },
                     
-                            radiusAxis: {
-                                max: maxVal,
-                                axisLine: { show: false },
-                                axisLabel: { show: false },
-                                splitLine: { show: false }
+                            radiusAxis:{
+                                max:maxVal,
+                                axisLine:{show:false},
+                                axisTick:{show:false},
+                                axisLabel:{show:false},
+                                splitLine:{
+                                    show:true,
+                                    lineStyle:{
+                                        color:'#ddd',   // 灰色輪廓線
+                                        width:1
+                                    }
+                                }
                             },
                     
-                            series: [
-                                // 灰色底
+                            // ✅ 中間小時鐘
+                            graphic: [
                                 {
-                                    type: 'bar',
-                                    data: new Array(24).fill(maxVal),
-                                    coordinateSystem: 'polar',
-                                    barWidth: '70%',
-                                    itemStyle: { color: '#eee' },
-                                    silent: true,
-                                    z: 1
+                                    type: 'group',
+                                    left: 'center',
+                                    top: 'center',
+                                    children: [
+                                        {
+                                            type: 'circle',
+                                            shape: { r: 14 },
+                                            style: {
+                                                fill: '#fff',
+                                                stroke: '#888',
+                                                lineWidth: 2
+                                            }
+                                        },
+                                        {
+                                            type: 'line',
+                                            shape: { x1: 0, y1: 0, x2: 0, y2: -6 },
+                                            style: { stroke: '#444', lineWidth: 2 }
+                                        },
+                                        {
+                                            type: 'line',
+                                            shape: { x1: 0, y1: 0, x2: 5, y2: 0 },
+                                            style: { stroke: '#444', lineWidth: 2 }
+                                        }
+                                    ]
+                                }
+                            ],
+                    
+                            series:[
+                                // 灰底槽
+                                {
+                                    type:'bar',
+                                    data:new Array(24).fill(maxVal),
+                                    coordinateSystem:'polar',
+                                    barWidth:'70%',
+                                    itemStyle:{
+                                        color:'#f0f0f0',
+                                        borderColor:'#ccc',  // 每個 bar 外框灰色
+                                        borderWidth:0.5
+                                    },
+                                    silent:true,
+                                    z:1
                                 },
                                 // 藍色資料
                                 {
-                                    type: 'bar',
-                                    coordinateSystem: 'polar',
-                                    barWidth: '70%',
-                                    data: rawData.map(function (val) {
+                                    type:'bar',
+                                    coordinateSystem:'polar',
+                                    barWidth:'70%',
+                                    data:rawData.map(function(val){
                                         var ratio = val / maxVal;
                                         return {
                                             value: val,
-                                            itemStyle: {
-                                                color: 'rgba(33,97,140,' + (0.3 + ratio * 0.7) + ')'
+                                            itemStyle:{
+                                                color:'rgba(33,97,140,'+(0.3+ratio*0.7)+')'
                                             }
                                         };
                                     }),
-                                    z: 2
+                                    z:2
                                 }
                             ]
                         };
                     
                         myChart.setOption(option);
                     
-                        // Resize 保險
-                        window.addEventListener('resize', function () {
+                        window.addEventListener('resize', function(){
                             myChart.resize();
                         });
                     
