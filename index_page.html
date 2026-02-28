@@ -372,52 +372,64 @@
                             var totalTrips = 1155; 
                             var timeData = [33, 52, 188, 171, 370, 233, 108];
                             // var timeLabels = ['[0, 6)', '[6, 9)', '[9, 12)', '[12, 14)', '[14, 18)', '[18, 21)', '[21, 24)'];
-                            var timeLabels = ['0-6', '6-9', '9-12', '12-14', '14-18', '18-21', '21-24'];
+                            // var timeLabels = ['0-6', '6-9', '9-12', '12-14', '14-18', '18-21', '21-24'];
+                            var timeLabels = ['0-6 AM', '6-9 AM', '9-12 AM', '12-2 PM', '2-6 PM', '6-9 PM', '9-12 PM'];
                                 
                             var option = {
                                 tooltip: {
-                                    trigger: 'item', // 極座標建議用 item
-                                    backgroundColor: 'rgba(50, 50, 50, 0.8)',
+                                    trigger: 'item',
+                                    backgroundColor: 'rgba(0, 0, 0, 0.7)',
                                     textStyle: { color: '#fff', fontSize: 10 },
                                     confine: true,
-                                    formatter: function(p) {
-                                        var percent = ((p.value / totalTrips) * 100).toFixed(1) + '%';
-                                        return p.name + 'h<br/>' + p.value + ' (' + percent + ')';
-                                    }
+                                    formatter: '{b}: {c} trips'
                                 },
-                                // 極座標系配置
                                 polar: {
-                                    radius: ['20%', '75%'], // 內圈 20% 留空，外圈 75% 留給標籤
+                                    radius: ['15%', '70%'],
                                     center: ['50%', '50%']
                                 },
-                                // 角度軸 (對應原本的 X 軸)
                                 angleAxis: {
                                     type: 'category',
                                     data: timeLabels,
-                                    boundaryGap: true,
+                                    startAngle: 90, // 12點鐘方向開始
+                                    clockwise: true,
                                     axisLabel: {
                                         fontSize: 8,
-                                        color: '#666',
-                                        interval: 0
+                                        color: '#444',
+                                        interval: 0,
+                                        margin: 8,
+                                        // 強制換行讓 AM/PM 在數字下面，節省橫向空間
+                                        formatter: function(value) {
+                                            return value.replace(' ', '\n');
+                                        }
                                     },
-                                    axisLine: { lineStyle: { color: '#eee' } }
+                                    axisLine: { lineStyle: { color: '#ccc' } },
+                                    splitLine: { show: true, lineStyle: { color: '#eee', type: 'solid' } } 
                                 },
-                                // 半徑軸 (對應原本的 Y 軸)
                                 radiusAxis: {
-                                    show: false // 隱藏半徑刻度使畫面乾淨
+                                    type: 'value',
+                                    axisLine: { show: true, lineStyle: { color: '#37A2DA', width: 1 } }, // 像時鐘指針的藍線
+                                    axisLabel: { show: false },
+                                    splitLine: { 
+                                        show: true, 
+                                        lineStyle: { color: '#f0f0f0', type: 'dashed' } 
+                                    }
                                 },
                                 series: [{
                                     type: 'bar',
                                     data: timeData,
-                                    coordinateSystem: 'polar', // 指定使用極座標
-                                    name: 'Trips',
+                                    coordinateSystem: 'polar',
                                     itemStyle: { 
-                                        color: '#37A2DA',
-                                        shadowBlur: 2,
-                                        shadowColor: 'rgba(0,0,0,0.1)'
+                                        color: 'rgba(55, 162, 218, 0.8)', // 稍微透明一點點
+                                        borderColor: '#1e6a94', // **強化輪廓線**
+                                        borderWidth: 1.5,
+                                        borderRadius: 2
                                     },
                                     emphasis: {
-                                        itemStyle: { color: '#2a82b3' }
+                                        itemStyle: { 
+                                            color: '#37A2DA',
+                                            borderColor: '#000',
+                                            borderWidth: 2
+                                        }
                                     }
                                 }]
                             };
