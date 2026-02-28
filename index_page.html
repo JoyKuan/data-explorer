@@ -370,8 +370,8 @@
                             var myChart = echarts.init(document.getElementById('main'));
                                 
                             var totalTrips = 1155; 
-                            var timeData = [33, 240, 541, 341];
-                            var timeLabels = ['[0, 6)', '[6, 12)', '[12, 18)', '[18, 24)'];
+                            var timeData = [33, 52, 188, 171, 370, 233, 108];
+                            var timeLabels = ['[0, 6)', '[6, 9)', '[9, 12)', '[12, 14)', '[14, 18)', '[18, 21)', '[21, 24)'];
                                 
                             var option = {
                                 tooltip: {
@@ -383,10 +383,10 @@
                                     formatter: function(params) {
                                         var p = params[0];
                                         var percent = ((p.value / totalTrips) * 100).toFixed(2) + '%';
-                                        return p.name + 'h: ' + p.value + ' (' + percent + ')';
+                                        return p.name + p.value + ' (' + percent + ')';
                                     }
                                 },
-                                grid: { top: 15, bottom: 20, left: 10, right: 10, containLabel: false},
+                                grid: { top: 15, bottom: 20, left: 5, right: 5, containLabel: false},
                                 xAxis: {
                                     type: 'category',
                                     data: timeLabels,
@@ -395,7 +395,8 @@
                                     axisLabel: { 
                                         fontSize: 8, 
                                         color: '#666',
-                                        interval: 0 
+                                        interval: 0,
+                                        rotate: 35 // 標籤傾斜 35 度，防止 7 個區間擠在一起
                                     }
                                 },
                                 yAxis: { show: false },
