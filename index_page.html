@@ -405,31 +405,32 @@
                             },
                             // 中間小時鐘
                             graphic: [
-                                // 中間的小時鐘圓圈
-                                {
-                                    type: 'circle',
-                                    shape: { r: 18 },
-                                    style: { fill: '#fff', stroke: '#333', lineWidth: 1.5 },
-                                    left: 'center',
-                                    top: 'center',
-                                    z: 10
-                                },
-                                // 時鐘指針圖示
                                 {
                                     type: 'group',
                                     left: 'center',
                                     top: 'center',
-                                    z: 11,
                                     children: [
-                                        { type: 'line', shape: { x1: 0, y1: 0, x2: 0, y2: -8 }, style: { stroke: '#333', lineWidth: 2 } },
-                                        { type: 'line', shape: { x1: 0, y1: 0, x2: 6, y2: 0 }, style: { stroke: '#333', lineWidth: 2 } }
+                                        {
+                                            type: 'circle',
+                                            shape: { r: 14 },
+                                            style: {
+                                                fill: '#fff',
+                                                stroke: '#888',
+                                                lineWidth: 2
+                                            }
+                                        },
+                                        {
+                                            type: 'line',
+                                            shape: { x1: 0, y1: 0, x2: 0, y2: -6 },
+                                            style: { stroke: '#444', lineWidth: 2 }
+                                        },
+                                        {
+                                            type: 'line',
+                                            shape: { x1: 0, y1: 0, x2: 5, y2: 0 },
+                                            style: { stroke: '#444', lineWidth: 2 }
+                                        }
                                     ]
-                                },
-                                // 00, 06, 12, 18 刻度文字
-                                { type: 'text', left: 'center', top: '23%', style: { text: '00', fontSize: 10, fill: '#888' } },
-                                { type: 'text', left: 'center', bottom: '23%', style: { text: '12', fontSize: 10, fill: '#888' } },
-                                { type: 'text', left: '68%', top: 'center', style: { text: '06', fontSize: 10, fill: '#888' } },
-                                { type: 'text', left: '23%', top: 'center', style: { text: '18', fontSize: 10, fill: '#888' } }
+                                }
                             ],
                     
                             series:[
