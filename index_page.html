@@ -379,8 +379,9 @@
                                     trigger: 'item',
                                     confine: true, // 確保提示框不會超出 160px 的小容器
                                     formatter: function (params) {
-                                        var percent = ((params.value / totalTrips) * 100).toFixed(1);
-                                        return params.name + ': ' + params.value + ' (' + percent + ')';
+                                        var p = params[0];
+                                        var percent = ((p.value / totalTrips) * 100).toFixed(2) + '%';
+                                        return p.name + ': ' + p.value + ' (' + percent + ')';
                                     }
                                 },
                                 grid: { top: 0, left: 0, right: 0, bottom: 0 },
