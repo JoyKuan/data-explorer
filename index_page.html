@@ -365,7 +365,7 @@
                     </th>
                     <!-- start date -->
                     <th style="width: 160px; height: 160px; padding: 0; position: relative;">
-                        <div id="main" style="width: 100px; height: 100px;"></div>
+                        <div id="main" style="width: 160px; height: 160px;"></div>
                         <script type="text/javascript">
                             var myChart = echarts.init(document.getElementById('main'));
                             
@@ -384,7 +384,7 @@
                                         children: [
                                             {
                                                 type: 'circle',
-                                                shape: { r: 12 },
+                                                shape: { r: 10},
                                                 style: { fill: '#fff', stroke: '#555', lineWidth: 1 }
                                             },
                                             {
@@ -396,7 +396,7 @@
                                     }
                                 ],
                                 polar: {
-                                    radius: ['30%', '70%'], // 縮小外徑，確保 Label 有空間
+                                    radius: ['30%', '65%'], // 縮小外徑，確保 Label 有空間
                                     center: ['50%', '50%']
                                 },
                                 angleAxis: {
@@ -409,17 +409,10 @@
                                     splitLine: { show: true, lineStyle: { color: '#f0f0f0' } },
                                     axisLabel: {
                                         interval: 0,
-                                        fontSize: 10,
-                                        color: '#999',
-                                        margin: 8,
-                                        formatter: function (value) {
-                                            // 將特定的時段標籤映射為你想要的 00, 06, 12, 18
-                                            if (value === '0-6') return '00';
-                                            if (value === '6-9') return '06';
-                                            if (value === '9-12') return '12';
-                                            if (value === '18-21') return '18';
-                                            return ''; // 其他的不顯示
-                                        }
+                                        fontSize: 9,
+                                        color: '#888',
+                                        margin: 4,
+                                        formatter: '{value}'
                                     }
                                 },
                                 radiusAxis: {
@@ -438,11 +431,14 @@
                                     barWidth: '100%', // 讓區塊之間沒有縫隙，像扇形一樣
                                     itemStyle: {
                                         borderColor: '#fff',
-                                        borderWidth: 1.5
+                                        borderWidth: 1
                                     }
                                 }]
                             };
                             myChart.setOption(option);
+
+                            window.addEventListener('load', function() {myChart.resize();})
+                            window.addEventListener('resize', function() {myChart.resize();});
                         </script>
                     </th>
                     <!--1 DURATION -->
