@@ -454,7 +454,7 @@
                                     data:rawData.map(function(val){
                                         var ratio = val / maxVal;
                                         return {
-                                            value: maxVal,
+                                            value: val,
                                             itemStyle:{
                                                 color: val === 0 ? 'transparent' : 'rgba(33,97,140,' + (0.2 + ratio * 0.8) + ')',
                                                 borderColor: '#fff', 
