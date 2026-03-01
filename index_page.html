@@ -377,96 +377,33 @@
                         var rawData = [19,5,2,3,0,4,4,13,35,51,65,72,77,94,89,98,88,95,94,68,71,51,31,26];
                         var hours = Array.from({length:24}, (_,i)=> i<10 ? '0'+i : ''+i);
                         var maxVal = Math.max(...rawData);
-                    
+
                         var option = {
-                    
-                            // 外框灰色輪廓
                             polar: {
-                                radius: ['35%', '90%'],
-                                center: ['50%','50%']
+                                radius: ['15%', '85%'] // 留一點中心圓孔比較好看
                             },
-                    
                             angleAxis: {
-                                type:'category',
-                                data:hours,
-                                startAngle:90,
-                                axisLine:{show:false},
-                                axisTick:{show:false},
-                                splitLine:{show:false},
-                                axisLabel:{show: false}
+                                type: 'category',
+                                data: Array.from({length:24}, (_,i)=> i+'h'),
+                                startAngle: 90,
+                                clockwise: true
                             },
-                    
-                            radiusAxis:{
-                                type: 'value',
-                                min: 0,           // 強制從 0 開始
-                                max: maxVal,      // 最大值固定
-                                axisLine:{show:false},
-                                axisTick:{show:false},
-                                axisLabel:{show:false},
-                                splitLine:{show: false}
+                            radiusAxis: {
+                                splitLine: { lineStyle: { type: 'dashed' } } // 加入虛線引導線
                             },
-                            // 中間小時鐘
-                            graphic: [
-                                {
-                                    type: 'group',
-                                    left: 'center',
-                                    top: 'center',
-                                    zlevel: 10,   // 確保在最上層
-                                    children: [
-                                        {type: 'line',shape: { x1: 0, y1: 0, x2: 0, y2: -8 },style: { stroke: '#444', lineWidth: 2 }},
-                                        {type: 'line',shape: { x1: 0, y1: 0, x2: 5, y2: 0 },style: { stroke: '#444', lineWidth: 2 }},
-                                        // 刻度文字
-                                        // { type: 'text', style: { text:'00', fill:'#888', fontSize:11, textAlign:'center', textVerticalAlign:'middle' }, x:0,  y:-65 },
-                                        // { type: 'text', style: { text:'06', fill:'#888', fontSize:11, textAlign:'center', textVerticalAlign:'middle' }, x:65, y:0 },
-                                        // { type: 'text', style: { text:'12', fill:'#888', fontSize:11, textAlign:'center', textVerticalAlign:'middle' }, x:0,  y:65 },
-                                        // { type: 'text', style: { text:'18', fill:'#888', fontSize:11, textAlign:'center', textVerticalAlign:'middle' }, x:-65,y:0 }
-                                    ]
+                            series: [{
+                                type: 'bar',
+                                data: rawData, // 直接用你的數據 [19, 5, 2, 3...]
+                                coordinateSystem: 'polar',
+                                itemStyle: {
+                                    // 使用漸層色，讓長柱子更有質感
+                                    color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                                        { offset: 0, color: '#21618C' },
+                                        { offset: 1, color: '#D1E9F6' }
+                                    ])
                                 }
-                            ],
-                            series:[
-                                // 灰底槽
-                                {
-                                    type:'bar',
-                                    data:new Array(24).fill(maxVal),
-                                    coordinateSystem:'polar',
-                                    barWidth:'100%',
-                                    itemStyle:{
-                                        color:'#f2f2f2',
-                                        // borderColor:'#fff',  // 每個 bar 外框灰色
-                                        // borderWidth:1
-                                    },
-                                    silent:true,
-                                    z:1
-                                },
-                                // 藍色資料
-                                {
-                                    type:'bar',
-                                    coordinateSystem:'polar',
-                                    barWidth:'100%',
-                                    data:rawData.map(function(val){
-                                        var ratio = val / maxVal;
-                                        // return {
-                                        //     value: val,
-                                        //     itemStyle:{
-                                        //         color:'rgba(33,97,140,'+(0.3+ratio*0.7)+')'
-                                        //     }
-                                        // };
-                                        return {
-                                            value: maxVal,
-                                            itemStyle: {
-                                                color: val === 0 
-                                                    ? 'transparent' 
-                                                    : 'rgba(33, 97, 140, ' + (0.2 + ratio * 0.8) + ')',
-                                                borderColor: '#fff',
-                                                borderWidth: 1.5
-                                            }
-                                        };
-                                    }),
-                                    z:2
-                                }
-                            ]
+                            }]
                         };
-                    
                         myChart.setOption(option);
                     
                         window.addEventListener('resize', function(){
