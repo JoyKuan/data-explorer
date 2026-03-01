@@ -384,6 +384,14 @@
                                 data: hours,
                                 startAngle: 90, // 00點在正上方
                                 boundaryGap: true,
+                                // --- 關鍵修改：顯示圓周的分隔線 ---
+                                splitLine: {
+                                    show: true,
+                                    lineStyle: {
+                                        color: '#fff', // 使用白色線條切分，會有「格子」感
+                                        width: 2       // 稍微加粗線條更明顯
+                                    }
+                                },
                                 axisLine: { show: true, lineStyle: { color: '#ddd' } },
                                 axisTick: { show: false },
                                 axisLabel: {
@@ -391,7 +399,13 @@
                                     interval: 5, // 只顯示 00, 06, 12, 18
                                     fontSize: 6,
                                     formatter: '{value}h',
-                                    color: '#999'
+                                    color: '#999',
+                                    formatter: function (value) {
+                                        var hour = parseInt(value);
+                                        var period = hour < 12 ? 'AM' : 'PM';
+                                        var displayHour = hour === 0 ? 12 : (hour > 12 ? hour - 12 : hour);
+                                        return displayHour + ' ' + period;
+                                    }
                                 }
                             },
                             radiusAxis: {
