@@ -405,7 +405,12 @@
                             tooltip: {
                                 show: true,
                                 trigger: 'item',
-                                formatter: '{b}點: {c} 次'
+                                formatter: function (params) {
+                                    var hour = parseInt(params.name);
+                                    var period = hour < 12 ? 'AM' : 'PM';
+                                    var displayHour = hour === 0 ? 12 : (hour > 12 ? hour - 12 : hour);
+                                    return params.marker + ' ' + displayHour + ' ' + period + ': <b>' + params.value;
+                                }
                             },
                             series: [{
                                 type: 'bar',
@@ -413,11 +418,7 @@
                                 coordinateSystem: 'polar',
                                 barWidth: '80%', // 柱子寬度
                                 itemStyle: {
-                                    // 高級感深藍漸層
-                                    color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-                                        { offset: 0, color: '#21618C' },  // 高峰深藍
-                                        { offset: 1, color: '#AED6F1' }   // 低峰淺藍
-                                    ]),
+                                    color: '#37A2DA', 
                                     borderRadius: 2 // 柱子邊角微圓潤
                                 }
                             }]
