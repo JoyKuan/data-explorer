@@ -453,10 +453,20 @@
                                     barWidth:'100%',
                                     data:rawData.map(function(val){
                                         var ratio = val / maxVal;
+                                        // return {
+                                        //     value: val,
+                                        //     itemStyle:{
+                                        //         color:'rgba(33,97,140,'+(0.3+ratio*0.7)+')'
+                                        //     }
+                                        // };
                                         return {
-                                            value: val,
-                                            itemStyle:{
-                                                color:'rgba(33,97,140,'+(0.3+ratio*0.7)+')'
+                                            value: maxVal,
+                                            itemStyle: {
+                                                color: val === 0 
+                                                    ? 'transparent' 
+                                                    : 'rgba(33,97,140,' + (0.4 + ratio * 0.6) + ')',
+                                                borderColor: '#fff',
+                                                borderWidth: 1
                                             }
                                         };
                                     }),
