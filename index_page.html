@@ -378,29 +378,52 @@
                         var hours = Array.from({length:24}, (_,i)=> i<10 ? '0'+i : ''+i);
                         var maxVal = Math.max(...rawData);
 
-                        var option = {
+                       var option = {
+                            title: {
+                                text: '24小時數據分佈',
+                                left: 'center',
+                                textStyle: { fontSize: 14, color: '#333' }
+                            },
                             polar: {
-                                radius: ['15%', '85%'] // 留一點中心圓孔比較好看
+                                radius: ['20%', '80%'] // 內圈 20% 留給時針感，外圈 80% 留給文字
                             },
                             angleAxis: {
                                 type: 'category',
-                                data: Array.from({length:24}, (_,i)=> i+'h'),
-                                startAngle: 90,
-                                clockwise: true
+                                data: hours,
+                                startAngle: 90, // 00點在正上方
+                                boundaryGap: true,
+                                axisLine: { show: true, lineStyle: { color: '#ddd' } },
+                                axisTick: { show: true },
+                                axisLabel: {
+                                    show: true,
+                                    interval: 5, // 只顯示 00, 06, 12, 18
+                                    formatter: '{value}h',
+                                    color: '#666'
+                                }
                             },
                             radiusAxis: {
-                                splitLine: { lineStyle: { type: 'dashed' } } // 加入虛線引導線
+                                max: maxVal + 10, // 稍微留白避免頂到邊緣
+                                axisLine: { show: false },
+                                axisLabel: { show: false },
+                                splitLine: { lineStyle: { color: '#eee', type: 'dashed' } }
+                            },
+                            tooltip: {
+                                show: true,
+                                trigger: 'item',
+                                formatter: '{b}點: {c} 次'
                             },
                             series: [{
                                 type: 'bar',
-                                data: rawData, // 直接用你的數據 [19, 5, 2, 3...]
+                                data: rawData,
                                 coordinateSystem: 'polar',
+                                barWidth: '80%', // 柱子寬度
                                 itemStyle: {
-                                    // 使用漸層色，讓長柱子更有質感
+                                    // 高級感深藍漸層
                                     color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-                                        { offset: 0, color: '#21618C' },
-                                        { offset: 1, color: '#D1E9F6' }
-                                    ])
+                                        { offset: 0, color: '#21618C' },  // 高峰深藍
+                                        { offset: 1, color: '#AED6F1' }   // 低峰淺藍
+                                    ]),
+                                    borderRadius: 2 // 柱子邊角微圓潤
                                 }
                             }]
                         };
