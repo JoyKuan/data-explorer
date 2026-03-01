@@ -382,7 +382,7 @@
                     
                             // 外框灰色輪廓
                             polar: {
-                                radius: ['20%','85%'],
+                                radius: ['35%', '90%'],
                                 center: ['50%','50%']
                             },
                     
@@ -397,7 +397,9 @@
                             },
                     
                             radiusAxis:{
-                                max:maxVal,
+                                type: 'value',
+                                min: 0,           // 強制從 0 開始
+                                max: maxVal,      // 最大值固定
                                 axisLine:{show:false},
                                 axisTick:{show:false},
                                 axisLabel:{show:false},
@@ -411,18 +413,8 @@
                                     top: 'center',
                                     zlevel: 10,   // 確保在最上層
                                     children: [
-                                        // 時針
-                                        {
-                                            type: 'line',
-                                            shape: { x1: 0, y1: 0, x2: 0, y2: -6 },
-                                            style: { stroke: '#444', lineWidth: 2 }
-                                        },
-                                        // 分針
-                                        {
-                                            type: 'line',
-                                            shape: { x1: 0, y1: 0, x2: 5, y2: 0 },
-                                            style: { stroke: '#444', lineWidth: 2 }
-                                        },
+                                        {type: 'line',shape: { x1: 0, y1: 0, x2: 0, y2: -8 },style: { stroke: '#444', lineWidth: 2 }},
+                                        {type: 'line',shape: { x1: 0, y1: 0, x2: 5, y2: 0 },style: { stroke: '#444', lineWidth: 2 }},
                                         // 刻度文字
                                         // { type: 'text', style: { text:'00', fill:'#888', fontSize:11, textAlign:'center', textVerticalAlign:'middle' }, x:0,  y:-65 },
                                         // { type: 'text', style: { text:'06', fill:'#888', fontSize:11, textAlign:'center', textVerticalAlign:'middle' }, x:65, y:0 },
@@ -464,9 +456,9 @@
                                             itemStyle: {
                                                 color: val === 0 
                                                     ? 'transparent' 
-                                                    : 'rgba(33,97,140,' + (0.4 + ratio * 0.6) + ')',
-                                                // borderColor: '#fff',
-                                                // borderWidth: 1
+                                                    : 'rgba(33,97,140,' + (0.3 + ratio * 0.7) + ')',
+                                                borderColor: '#fff',
+                                                borderWidth: 1
                                             }
                                         };
                                     }),
