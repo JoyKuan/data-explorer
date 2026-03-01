@@ -555,7 +555,7 @@
 
                                 var rawNames = ["Cary", "Unknown Location", "Morrisville", "Whitebridge", "Islamabad", "Durham", "Lahore", "Raleigh", "Karachi", "Apex", "Berkeley"];
                                 var rawValues = [201, 148, 85, 68, 57, 37, 36, 28, 27, 17, 16];
-                                var total = 1155; // 這裡手動設定為你資料集的總行數
+                                var total = 1155; 
                                 
                                 // 2. 計算比例
                                 var unknownIdx = rawNames.indexOf("Unknown Location");
@@ -597,7 +597,8 @@
                                         data: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1],
                                         axisLine: { show: false }, // 隱藏軸線
                                         axisTick: { show: false }, // 隱藏刻度
-                                        axisLabel: { show: true, interval: 0, color: '#666', fontSize: 8, margin: 5}
+                                        axisLabel: { show: false}
+                                        // axisLabel: { show: true, interval: 0, color: '#666', fontSize: 8, margin: 5}
                                     },
                                     series: [{
                                         type: 'bar',
