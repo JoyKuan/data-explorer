@@ -388,7 +388,7 @@
                                 startAngle: 90, // 00點在正上方
                                 boundaryGap: true,
                                 axisLine: { show: true, lineStyle: { color: '#ddd' } },
-                                axisTick: { show: true },
+                                axisTick: { show: false },
                                 axisLabel: {
                                     show: true,
                                     interval: 5, // 只顯示 00, 06, 12, 18
@@ -397,10 +397,10 @@
                                 }
                             },
                             radiusAxis: {
-                                max: maxVal + 10, // 稍微留白避免頂到邊緣
+                                // max: maxVal + 10, // 稍微留白避免頂到邊緣
                                 axisLine: { show: false },
                                 axisLabel: { show: false },
-                                splitLine: { lineStyle: { color: '#eee', type: 'dashed' } }
+                                splitLine: { show: false}
                             },
                             tooltip: {
                                 show: true,
