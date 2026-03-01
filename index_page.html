@@ -387,19 +387,19 @@
                                 data: hours,
                                 startAngle: 90, // 00點在正上方
                                 boundaryGap: true,
-                                axisLine: { show: true },
-                                axisTick: { show: false },
-                                axisLabel: { show: false }
-                                // axisLabel: {
-                                //     show: true,
-                                //     interval: 5, // 只顯示 00, 06, 12, 18
-                                //     formatter: '{value}h',
-                                //     color: '#666'
-                                // }
+                                axisLine: { show: true, lineStyle: { color: '#ddd' } },
+                                axisTick: { show: false }
+                                axisLabel: {
+                                    show: true,
+                                    interval: 5, // 只顯示 00, 06, 12, 18
+                                    formatter: '{value}h',
+                                    color: '#666'
+                                }
                             },
                             radiusAxis: {
                                 // max: maxVal + 10, // 稍微留白避免頂到邊緣
                                 axisLine: { show: false },
+                                axisTick: { show: false },    // 關閉軸線上的小刻度
                                 axisLabel: { show: false },
                                 splitLine: { show: false}
                             },
