@@ -378,7 +378,7 @@
                         var maxVal = Math.max(...rawData);
                         
                         var option = {
-                            polar: {radius: ['20%', '80%']},
+                            polar: {radius: ['35%', '80%']},
                             angleAxis: {
                                 type: 'category',
                                 data: hours,
@@ -399,7 +399,8 @@
                                     interval: 5, // 只顯示 00, 06, 12, 18
                                     fontSize: 8,
                                     formatter: '{value}',
-                                    color: '#999'
+                                    color: '#999',
+                                    margin: -115
                                 }
                             },
                             radiusAxis: {
