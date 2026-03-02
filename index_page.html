@@ -382,7 +382,7 @@
                             angleAxis: {
                                 type: 'category',
                                 data: hours,
-                                startAngle: 90, // 00點在正上方
+                                startAngle: 90,    // 00點在正上方
                                 clockwise: true,   // 確保是順時針旋轉，像時鐘一樣
                                 boundaryGap: true,
                                 // --- 關鍵修改：顯示圓周的分隔線 ---
@@ -395,6 +395,7 @@
                                 splitLine: {show: false},
                                 axisLine: { show: true, lineStyle: { color: '#ddd' } },
                                 axisTick: { show: false },
+                                position: 'inner', // 直接指定在內圈顯示，不要用負 margin 暴力推
                                 axisLabel: {
                                     show: true,
                                     interval: 5, // 只顯示 00, 06, 12, 18
@@ -402,7 +403,8 @@
                                     // formatter: '{value}',
                                     color: '#999',
                                     rotate: 0,         // 讓數字永遠保持水平正立，不隨圓弧旋轉
-                                    margin: -80,
+                                    // margin: -80,
+                                    margin: 10,
                                     formatter: function (value) {
                                         var hour = parseInt(value);
                                         // 直接顯示小時，00h 顯示為 12 (時鐘午夜) 或 00
