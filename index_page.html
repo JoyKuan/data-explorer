@@ -378,7 +378,7 @@
                         var maxVal = Math.max(...rawData);
                         
                         var option = {
-                            polar: {radius: ['35%', '80%']},
+                            polar: {radius: ['35%', '75%']},
                             angleAxis: {
                                 type: 'category',
                                 data: hours,
@@ -386,32 +386,25 @@
                                 clockwise: true,   // 確保是順時針旋轉，像時鐘一樣
                                 boundaryGap: true,
                                 // --- 關鍵修改：顯示圓周的分隔線 ---
-                                // splitLine: {
-                                //     show: true,
-                                //     lineStyle: {
-                                //         color: '#fff', // 使用白色線條切分，會有「格子」感
-                                //         width: 2       // 稍微加粗線條更明顯
-                                //     }
+                                splitLine: {
+                                    show: true,
+                                    lineStyle: {
+                                        color: '#eee', // 使用白色線條切分，會有「格子」感
+                                        width: 1       // 稍微加粗線條更明顯
+                                    }
+                                },
                                 splitLine: {show: false},
-                                axisLine: { show: true, lineStyle: { color: '#ddd' } },
-                                axisTick: { show: false },
-                                position: 'inner', // 直接指定在內圈顯示，不要用負 margin 暴力推
+                                // axisLine: { show: true, lineStyle: { color: '#ddd' } },
+                                axisTick: { show: true },
                                 axisLabel: {
                                     show: true,
-                                    interval: 5, // 只顯示 00, 06, 12, 18
+                                    interval: 0, // 關鍵：設為 0 表示顯示「所有」24 個數字
                                     fontSize: 7,
                                     // formatter: '{value}',
                                     color: '#999',
-                                    rotate: 0,         // 讓數字永遠保持水平正立，不隨圓弧旋轉
                                     // margin: -80,
-                                    margin: 10,
                                     formatter: function (value) {
-                                        var hour = parseInt(value);
-                                        // 直接顯示小時，00h 顯示為 12 (時鐘午夜) 或 00
-                                        if (hour === 0) return '00';
-                                        if (hour === 6) return '06';
-                                        if (hour === 12) return '12';
-                                        if (hour === 18) return '18';
+                                        return parseInt(value);
                                     }
                                 }
                             },
