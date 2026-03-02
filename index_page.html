@@ -383,6 +383,7 @@
                                 type: 'category',
                                 data: hours,
                                 startAngle: 90, // 00點在正上方
+                                clockwise: true,   // 確保是順時針旋轉，像時鐘一樣
                                 boundaryGap: true,
                                 // --- 關鍵修改：顯示圓周的分隔線 ---
                                 // splitLine: {
@@ -400,6 +401,7 @@
                                     fontSize: 7,
                                     // formatter: '{value}',
                                     color: '#999',
+                                    rotate: 0,         // 讓數字永遠保持水平正立，不隨圓弧旋轉
                                     margin: -80,
                                     formatter: function (value) {
                                         var hour = parseInt(value);
