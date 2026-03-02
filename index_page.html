@@ -397,10 +397,18 @@
                                 axisLabel: {
                                     show: true,
                                     interval: 5, // 只顯示 00, 06, 12, 18
-                                    fontSize: 8,
-                                    formatter: '{value}',
+                                    fontSize: 7,
+                                    // formatter: '{value}',
                                     color: '#999',
-                                    margin: -85
+                                    margin: -80,
+                                    formatter: function (value) {
+                                        var hour = parseInt(value);
+                                        // 直接顯示小時，00h 顯示為 12 (時鐘午夜) 或 00
+                                        if (hour === 0) return '00';
+                                        if (hour === 6) return '06';
+                                        if (hour === 12) return '12';
+                                        if (hour === 18) return '18';
+                                    }
                                 }
                             },
                             radiusAxis: {
