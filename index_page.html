@@ -378,6 +378,18 @@
                         var maxVal = Math.max(...rawData);
                         
                         var option = {
+                            // 1. 在圓心加入時鐘圖示
+                            graphic: {
+                                elements: [{
+                                    type: 'text',
+                                    left: 'center',
+                                    top: 'center',
+                                    style: {
+                                        text: '🕒', // 這裡可以用 Emoji 或圖片，模擬中心圖示
+                                        fontSize: 20
+                                    }
+                                }]
+                            },
                             polar: {radius: ['30%', '75%']},
                             angleAxis: {
                                 type: 'category',
