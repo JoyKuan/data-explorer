@@ -364,8 +364,8 @@
                         </script>
                     </th>
                     <!-- start date -->
-                    <th style="width:180px;height:180px;padding:0;vertical-align:top;">
-                        <div id="main" style="width:160px;height:160px;margin:auto;"></div>
+                    <th style="width:200px;height:180px;padding:0;vertical-align:top;">
+                        <div id="main" style="width:180px;height:160px;margin:auto;"></div>
                     </th>
                     
                     <script>
@@ -392,8 +392,8 @@
                             grid: {
                                 left: 5,
                                 right: 0,
-                                bottom: 35,
-                                top: 10,
+                                bottom: 20,
+                                top: 15,
                                 containLabel: false
                             },
                             xAxis: {
@@ -405,7 +405,7 @@
                                     interval: 3, // 檢查每一個刻度
                                     rotate: 0,   // 文字不斜放
                                     lineHeight: 6, // 設定行高讓換行更好看
-                                    margin: 0,
+                                    margin: 1,
                                     color: '#666',
                                     fontSize: 5,
                                     formatter: function (value) {
@@ -430,11 +430,7 @@
                             }]
                         };
                         myChart.setOption(option);
-                    
-                        window.addEventListener('resize', function(){
-                            myChart.resize();
-                        });
-                    
+                        window.addEventListener('resize', function(){myChart.resize();});
                     });
                     </script>
                     <!--1 DURATION -->
