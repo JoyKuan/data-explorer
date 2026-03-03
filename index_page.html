@@ -503,7 +503,7 @@
                         </th>
                     <!--2 catalogy -->
                     <th style="width:160px; height:160px; padding:0; vertical-align:top;">
-                        <div id="main2" style="width: 120px; height: 120px; margin: 0 auto;"></div>
+                        <div id="main2" style="width: 100px; height: 120px; margin: 0 auto;"></div>
                         <script type="text/javascript">
                             var myChart2 = echarts.init(document.getElementById('main2'));
                             var option2 = {
@@ -592,14 +592,13 @@
                                         top: 0,             // 靠最上
                                         textStyle: {
                                             fontSize: 12,    // 字體大小
-                                            fontWeight: 'bold',
                                             color: '#333'    // 深灰色文字
                                         }
                                     },
                                     grid: {
-                                        top: 10,      // 徹底壓縮留白
-                                        bottom: 15,  // 僅留底部給 Unknown 文字
-                                        left: 25,     // 柱子直接貼到最左邊
+                                        top: 15,      // 徹底壓縮留白
+                                        bottom: 10,  // 僅留底部給 Unknown 文字
+                                        left: 30,     // 柱子直接貼到最左邊
                                         right: 10,    // 貼到最右邊
                                         containLabel: false // 關閉標籤佔位
                                     },
@@ -610,7 +609,6 @@
                                         axisLine: { show: false }, // 隱藏軸線
                                         axisTick: { show: false }, // 隱藏刻度
                                         axisLabel: { show: false}
-                                        // axisLabel: { show: true, interval: 0, color: '#666', fontSize: 8, margin: 5}
                                     },
                                     series: [{
                                         type: 'bar',
