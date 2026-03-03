@@ -375,76 +375,62 @@
                     
                         var rawData = [19,5,2,3,0,4,4,13,35,51,65,72,77,94,89,98,88,95,94,68,71,51,31,26];
                         var hours = Array.from({length:24}, (_,i)=> i<10 ? '0'+i : ''+i);
-                        var maxVal = Math.max(...rawData);
                         
                         var option = {
-                            // 1. 在圓心加入時鐘圖示
-                            graphic: {
-                                elements: [{
-                                    type: 'text',
-                                    left: 'center',
-                                    top: 'center',
-                                    style: {
-                                        text: '🕒', // 這裡可以用 Emoji 或圖片，模擬中心圖示
-                                        fontSize: 20
-                                    }
-                                }]
-                            },
-                            polar: {radius: ['30%', '75%']},
-                            angleAxis: {
-                                type: 'category',
-                                data: hours,
-                                startAngle: 90,    // 00點在正上方
-                                clockwise: true,   // 確保是順時針旋轉，像時鐘一樣
-                                boundaryGap: true,
-                                // --- 關鍵修改：顯示圓周的分隔線 ---
-                                splitLine: {
-                                    show: true,
-                                    lineStyle: {
-                                        color: '#eee',
-                                        width: 0.3      // 稍微加粗線條更明顯
-                                    }
-                                },
-                                axisLine: { show: true, lineStyle: { color: '#999'} },
-                                axisTick: { show: true },
-                                axisLabel: {
-                                    show: true,
-                                    interval: 5, 
-                                    fontSize: 6,
-                                    // formatter: '{value}',
-                                    color: '#999',
-                                    // margin: -80,
-                                    formatter: function (value) {
-                                        return parseInt(value);
-                                    }
-                                }
-                            },
-                            radiusAxis: {
-                                // max: maxVal + 10, // 稍微留白避免頂到邊緣
-                                axisLine: { show: false },
-                                axisTick: { show: false },    // 關閉軸線上的小刻度
-                                axisLabel: { show: false },
-                                splitLine: { show: false}
-                            },
                             tooltip: {
-                                show: true,
-                                trigger: 'item',
+                                trigger: 'axis',
+                                axisPointer: { type: 'none' }, 
                                 formatter: function (params) {
-                                    var hour = parseInt(params.name);
+                                    var p = params[0];
+                                    var hour = parseInt(p.name);
                                     var period = hour < 12 ? 'AM' : 'PM';
                                     var displayHour = hour === 0 ? 12 : (hour > 12 ? hour - 12 : hour);
-                                    return params.marker + ' ' + displayHour + ' ' + period + ': <b>' + params.value;
+                                    return displayHour + ' ' + period + ': <b>' + p.value + '</b>';
+                                }
+                            },
+                            grid: {
+                                left: '3%',
+                                right: '4%',
+                                bottom: '10%',
+                                top: '10%',
+                                containLabel: true
+                            },
+                            xAxis: {
+                                type: 'category',
+                                data: hours,
+                                axisTick: { alignWithLabel: true },
+                                axisLabel: {
+                                    interval: 1, // 檢查每一個刻度
+                                    formatter: function (value) {
+                                        var hour = parseInt(value);
+                                        // 每 2 小時顯示一次 AM/PM 標籤
+                                        if (hour % 2 === 0) {
+                                            var period = hour < 12 ? 'AM' : 'PM';
+                                            var displayHour = hour === 0 ? 12 : (hour > 12 ? hour - 12 : hour);
+                                            return displayHour + period;
+                                        }
+                                        return ''; 
+                                    },
+                                    color: '#666',
+                                    fontSize: 11
+                                }
+                            },
+                            yAxis: {
+                                type: 'value',
+                                splitLine: {
+                                    lineStyle: { type: 'dashed', color: '#eee' }
                                 }
                             },
                             series: [{
                                 type: 'bar',
                                 data: rawData,
-                                coordinateSystem: 'polar',
-                                barWidth: '95%', // 柱子寬度
-                                itemStyle: {
-                                    color: '#37A2DA', 
-                                    borderRadius: 2 // 柱子邊角微圓潤
-                                }
+                                barWidth: '70%',
+                                itemStyle: {color: '#37A2DA',borderRadius: [4, 4, 0, 0]},
+                                emphasis: {
+                                    disabled: false,
+                                    scale: false, // 禁用放大效果
+                                    itemStyle: {color: '#2a82b3'}
+                               }
                             }]
                         };
                         myChart.setOption(option);
