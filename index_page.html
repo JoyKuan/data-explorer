@@ -586,10 +586,20 @@
                                             return params[0].name + ': ' + val + ' (' + percent + ')';
                                         }
                                     },
+                                    title: {
+                                        text: 'Top 10:',
+                                        left: 0,            // 靠最左
+                                        top: 0,             // 靠最上
+                                        textStyle: {
+                                            fontSize: 12,    // 字體大小
+                                            fontWeight: 'bold',
+                                            color: '#333'    // 深灰色文字
+                                        }
+                                    },
                                     grid: {
-                                        top: 0,      // 徹底壓縮留白
+                                        top: 10,      // 徹底壓縮留白
                                         bottom: 15,  // 僅留底部給 Unknown 文字
-                                        left: 20,     // 柱子直接貼到最左邊
+                                        left: 25,     // 柱子直接貼到最左邊
                                         right: 10,    // 貼到最右邊
                                         containLabel: false // 關閉標籤佔位
                                     },
