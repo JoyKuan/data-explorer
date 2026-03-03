@@ -364,7 +364,7 @@
                         </script>
                     </th>
                     <!-- start date -->
-                    <th style="width:180px;height:160px;padding:0;vertical-align:top;">
+                    <th style="width:160px;height:180px;padding:0;vertical-align:top;">
                         <div id="main" style="width:160px;height:160px;margin:auto;"></div>
                     </th>
                     
@@ -390,9 +390,9 @@
                                 }
                             },
                             grid: {
-                                left: 20,
+                                left: 5,
                                 right: 0,
-                                bottom: 45,
+                                bottom: 35,
                                 top: 10,
                                 containLabel: false
                             },
@@ -404,26 +404,23 @@
                                 axisLabel: {
                                     interval: 3, // 檢查每一個刻度
                                     rotate: 0,   // 文字不斜放
-                                    margin: 4,
+                                    lineHeight: 12, // 設定行高讓換行更好看
+                                    margin: 3,
+                                    color: '#666',
+                                    fontSize: 6,
                                     formatter: function (value) {
                                         var hour = parseInt(value);
-                                        // 每 2 小時顯示一次 AM/PM 標籤
-                                        if (hour % 2 === 0) {
-                                            var period = hour < 12 ? 'AM' : 'PM';
-                                            var displayHour = hour % 12 === 0 ? 12 : hour % 12;
-                                            return displayHour + period;
-                                        }
-                                        return ''; 
+                                        var period = hour < 12 ? 'AM' : 'PM';
+                                        var displayHour = hour % 12 === 0 ? 12 : hour % 12;
+                                        return displayHour + '\n' + period;
                                     },
-                                    color: '#666',
-                                    fontSize: 6
                                 }
                             },
                             yAxis: {show: false},
                             series: [{
                                 type: 'bar',
                                 data: rawData,
-                                barWidth: '90%',
+                                barWidth: '85%',
                                 itemStyle: {color: '#37A2DA',borderRadius: [2, 2, 0, 0]},
                                 emphasis: {
                                     disabled: false,
