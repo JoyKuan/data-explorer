@@ -399,15 +399,15 @@
                             xAxis: {
                                 type: 'category',
                                 data: hours,
-                                axisLine: { show: false }, // 移除 X 軸黑線
-                                axisTick: { show: false},
+                                axisLine: {show: false}, // 移除 X 軸黑線
+                                axisTick: {show: false},
                                 axisLabel: {
                                     interval: 3, // 檢查每一個刻度
                                     rotate: 0,   // 文字不斜放
-                                    lineHeight: 12, // 設定行高讓換行更好看
-                                    margin: 3,
+                                    lineHeight: 8, // 設定行高讓換行更好看
+                                    margin: 0,
                                     color: '#666',
-                                    fontSize: 6,
+                                    fontSize: 5,
                                     formatter: function (value) {
                                         var hour = parseInt(value);
                                         var period = hour < 12 ? 'AM' : 'PM';
