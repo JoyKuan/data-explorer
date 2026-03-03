@@ -380,33 +380,36 @@
                             tooltip: {
                                 trigger: 'axis',
                                 axisPointer: { type: 'none' }, 
+                                confine: true, // 確保小容器內 tooltip 不會被切掉
                                 formatter: function (params) {
                                     var p = params[0];
                                     var hour = parseInt(p.name);
                                     var period = hour < 12 ? 'AM' : 'PM';
-                                    var displayHour = hour === 0 ? 12 : (hour > 12 ? hour - 12 : hour);
+                                    var displayHour = hour % 12 === 0 ? 12 : hour % 12;
                                     return displayHour + ' ' + period + ': <b>' + p.value + '</b>';
                                 }
                             },
                             grid: {
-                                left: '3%',
-                                right: '4%',
-                                bottom: '10%',
-                                top: '10%',
-                                containLabel: true
+                                left: 20,
+                                right: 0,
+                                bottom: 45,
+                                top: 10,
+                                containLabel: false
                             },
                             xAxis: {
                                 type: 'category',
                                 data: hours,
-                                axisTick: { alignWithLabel: true },
+                                axisLine: { show: false }, // 移除 X 軸黑線
+                                axisTick: { show: false},
                                 axisLabel: {
-                                    interval: 1, // 檢查每一個刻度
+                                    interval: 3, // 檢查每一個刻度
+                                    rotate: 0,   // 文字不斜放
                                     formatter: function (value) {
                                         var hour = parseInt(value);
                                         // 每 2 小時顯示一次 AM/PM 標籤
                                         if (hour % 2 === 0) {
                                             var period = hour < 12 ? 'AM' : 'PM';
-                                            var displayHour = hour === 0 ? 12 : (hour > 12 ? hour - 12 : hour);
+                                            var displayHour = hour % 12 === 0 ? 12 : hour % 12;
                                             return displayHour + period;
                                         }
                                         return ''; 
@@ -419,8 +422,8 @@
                             series: [{
                                 type: 'bar',
                                 data: rawData,
-                                barWidth: '70%',
-                                itemStyle: {color: '#37A2DA',borderRadius: [4, 4, 0, 0]},
+                                barWidth: '80%',
+                                itemStyle: {color: '#37A2DA',borderRadius: [2, 2, 0, 0]},
                                 emphasis: {
                                     disabled: false,
                                     scale: false, // 禁用放大效果
