@@ -154,14 +154,16 @@
         
         /* 4. 給表格一個最小寬度，防止 8 個欄位擠在一起 */
         #result {
-            min-width: 1000px !important; 
-            table-layout: fixed !important;
+            min-width: 1050px !important; /* 稍微加大一點總寬度 */
+            table-layout: fixed !important; /* 強制執行固定寬度分配 */
+            width: 100% !important;
+            border-collapse: collapse !important;
         }
 
         /* 固定每一欄的最小寬度，防止 Reset 時數據長短造成表格跳動 */
         #result th:nth-child(1), 
         #result td:nth-child(1) { 
-            min-width: 50px !important;    /* 增加寬度到 80px，確保三位數也放得下 */
+            width: 50px !important;        /* 這裡用 width 代替 min-width */
             white-space: nowrap !important; /* 強制禁止換行，這是解決 2-6-1 變垂直的關鍵 */
             text-align: center !important; 
             padding: 10px 5px !important;  /* 稍微縮減內邊距，把空間留給數字 */
