@@ -596,7 +596,7 @@
                                         }
                                     },
                                     grid: {
-                                        top: 30,      // 徹底壓縮留白
+                                        top: 25,      // 徹底壓縮留白
                                         bottom: 15,  // 僅留底部給 Unknown 文字
                                         left: 20,     // 柱子直接貼到最左邊
                                         right: 10,    // 貼到最右邊
@@ -677,8 +677,17 @@
                                         return params[0].data.name + ': ' + val + ' (' + percent + ')';
                                     }
                                 },
+                                title: {
+                                    text: 'Top 10:',
+                                    left: 0,            // 靠最左
+                                    top: 0,             // 靠最上
+                                    textStyle: {
+                                        fontSize: 10,    // 字體大小
+                                        color: '#333'    // 深灰色文字
+                                    }
+                                },
                                 grid: {
-                                    top: 0,
+                                    top: 25,
                                     bottom: 15, 
                                     left: 20,
                                     right: 10,
