@@ -404,6 +404,7 @@
                                 axisLabel: {
                                     interval: 3, // 檢查每一個刻度
                                     rotate: 0,   // 文字不斜放
+                                    margin: 4,
                                     formatter: function (value) {
                                         var hour = parseInt(value);
                                         // 每 2 小時顯示一次 AM/PM 標籤
@@ -422,7 +423,7 @@
                             series: [{
                                 type: 'bar',
                                 data: rawData,
-                                barWidth: '80%',
+                                barWidth: '90%',
                                 itemStyle: {color: '#37A2DA',borderRadius: [2, 2, 0, 0]},
                                 emphasis: {
                                     disabled: false,
