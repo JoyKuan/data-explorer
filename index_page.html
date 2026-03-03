@@ -591,13 +591,13 @@
                                         left: 0,            // 靠最左
                                         top: 0,             // 靠最上
                                         textStyle: {
-                                            fontSize: 12,    // 字體大小
+                                            fontSize: 10,    // 字體大小
                                             color: '#333'    // 深灰色文字
                                         }
                                     },
                                     grid: {
-                                        top: 20,      // 徹底壓縮留白
-                                        bottom: 10,  // 僅留底部給 Unknown 文字
+                                        top: 30,      // 徹底壓縮留白
+                                        bottom: 15,  // 僅留底部給 Unknown 文字
                                         left: 20,     // 柱子直接貼到最左邊
                                         right: 10,    // 貼到最右邊
                                         containLabel: false // 關閉標籤佔位
@@ -608,7 +608,7 @@
                                         data: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1],
                                         axisLine: { show: false }, // 隱藏軸線
                                         axisTick: { show: false }, // 隱藏刻度
-                                        axisLabel: { show: false}
+                                        axisLabel: { show: true, interval: 0, color: '#666', fontSize: 8, margin: 5}
                                     },
                                     series: [{
                                         type: 'bar',
