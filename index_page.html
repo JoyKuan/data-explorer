@@ -183,6 +183,20 @@
             word-break: break-word;
             vertical-align: middle !important;
         }
+
+        th i {
+            width: 20px;               /* 固定寬度，避免圖示變換時標題跳動 */
+            text-align: center;
+            cursor: pointer;
+            margin-left: 5px !important;
+            color: #ccc;               /* 預設灰色 */
+            transition: 0.2s;
+        }
+        
+        /* 點擊後的顏色變深 (Bootstrap 藍) */
+        th i.fas:not(.fa-sort) {
+            color: #337ab7 !important; 
+        }
     </style>
 
     <!-- 引入 ECharts 文件 -->
@@ -262,14 +276,13 @@
             <thead>
                 <tr>
                     <th> </th>
-                    <!-- <th>sequence <i class="fas fa-sort-amount-down" onclick=""></i><i class="fas fa-caret-square-up" onclick=""></i></th> -->
-                    <th>START DATE <i class="fas fa-sort-amount-down" onclick="startdate_sort_down()"></i><i class="fas fa-sort-amount-up-alt" onclick="startdate_sort_up()"></i></th>
-                    <th>DURATION (Min) <i class="fas fa-sort-amount-down" onclick="duration_sort_down()"></i><i class="fas fa-sort-amount-up-alt" onclick="duration_sort_up()"></i></th>
-                    <th>CATEGORY <i class="fas fa-sort-amount-down" onclick="catalog_sort_down()"></i><i class="fas fa-sort-amount-up-alt" onclick="catalog_sort_up()"></i></th>
-                    <th>START LOCATION <i class="fas fa-sort-amount-down" onclick="start_sort_down()"></i><i class="fas fa-sort-amount-up-alt" onclick="start_sort_up()"></i></th>
-                    <th>END LOCATION <i class="fas fa-sort-amount-down" onclick="destination_sort_down()"></i><i class="fas fa-sort-amount-up-alt" onclick="destination_sort_up()"></i></th>
-                    <th>MILES <i class="fas fa-sort-amount-down" onclick="mile_sort_down()"></i><i class="fas fa-sort-amount-up-alt" onclick="mile_sort_up()"></i></th>
-                    <th>PURPOSE <i class="fas fa-sort-amount-down"onclick="purpose_sort_down()"></i><i class="fas fa-sort-amount-up-alt" onclick="purpose_sort_up()"></i></th>   
+                    <th>START DATE <i id="sort-date" class="fas fa-sort" onclick="toggleSort('START_DATE', this)"></i></th>
+                    <th>DURATION (Min) <i id="sort-duration" class="fas fa-sort" onclick="toggleSort('DURATION', this)"></i></th>
+                    <th>CATEGORY <i id="sort-category" class="fas fa-sort" onclick="toggleSort('CATEGORY', this)"></i></th>
+                    <th>START LOCATION <i id="sort-start" class="fas fa-sort" onclick="toggleSort('START', this)"></i></th>
+                    <th>END LOCATION <i id="sort-stop" class="fas fa-sort" onclick="toggleSort('STOP', this)"></i></th>
+                    <th>MILES <i id="sort-miles" class="fas fa-sort" onclick="toggleSort('MILES', this)"></i></th>
+                    <th>PURPOSE <i id="sort-purpose" class="fas fa-sort" onclick="toggleSort('PURPOSE', this)"></i></th>
                 </tr>
                 <!-- visual -->
                 <tr>
@@ -908,6 +921,52 @@
         });
     </script>
     <script>
+    function toggleSort(property, element) {
+        // 1. 檢查目前是否為「降序」圖示
+        var isDescending = element.classList.contains('fa-sort-amount-down');
+        
+        var rf = database.ref('/index');
+        rf.once('value', function(snapshot) {
+            var djson = jsonToArray(snapshot.val());
+            
+            // 2. 執行排序邏輯與圖示切換
+            if (isDescending) {
+                // 目前是降序 -> 改為升序
+                if (property === 'DURATION') {
+                    djson.sort(up_duration_compare());
+                } else if (property === 'START_DATE') {
+                    djson.sort(up_date(property));
+                } else {
+                    djson.sort(up_compare(property));
+                }
+                element.className = 'fas fa-sort-amount-up-alt'; // 切換圖示為升序 (三條線箭頭向上)
+            } else {
+                // 目前是升序或未排序 -> 改為降序
+                if (property === 'DURATION') {
+                    djson.sort(down_duration_compare());
+                } else if (property === 'START_DATE') {
+                    djson.sort(down_date(property));
+                } else {
+                    djson.sort(down_compare(property));
+                }
+                element.className = 'fas fa-sort-amount-down'; // 切換圖示為降序 (三條線箭頭向下)
+            }
+            
+            renderTable(djson);
+            resetOtherIcons(element.id); // 重置其他欄位的圖示
+        });
+    }
+    
+    // 輔助函式：確保同一時間只有一個欄位顯示排序圖示
+    function resetOtherIcons(currentId) {
+        var icons = document.querySelectorAll('th i');
+        icons.forEach(function(icon) {
+            if (icon.id !== currentId) {
+                icon.className = 'fas fa-sort'; // 回到預設狀態
+            }
+        });
+    }
+        
     //done
     function default_() {
         // 1. 回復 Miles 輸入框的顯示數值
