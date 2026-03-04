@@ -131,12 +131,13 @@
         
         /* 2. 讓箭頭緊隨文字，避免被擠壓 */
         th i {
-            font-size: 18px !important;    /* 放大箭頭，原本可能只有 10-12px */
-            margin-left: 6px !important;   /* 增加文字與箭頭間的距離 */
-            color: #333;                   /* 讓顏色深一點，看起來更清晰 */
-            display: inline-block !important;
-            vertical-align: middle !important;
-            transition: transform 0.2s;    /* 增加一點點平滑動畫效果 */
+            font-size: 16px !important;    /* 放大箭頭，原本可能只有 10-12px */
+            margin-left: 8px !important;   /* 增加文字與箭頭間的距離 */
+            cursor: pointer;
+            /* color: #333;                   /* 讓顏色深一點，看起來更清晰 */ */
+            /* display: inline-block !important; */
+            /* vertical-align: middle !important; */
+            /* transition: transform 0.2s;    /* 增加一點點平滑動畫效果 */ */
         }
         /* 當滑鼠移上去時變色，增加互動感 */
         th i:hover {
@@ -261,14 +262,14 @@
             <thead>
                 <tr>
                     <th> </th>
-                    <!-- <th>sequence <i class="fas fa-caret-square-down" onclick=""></i><i class="fas fa-caret-square-up" onclick=""></i></th> -->
-                    <th>START DATE <i class="fas fa-caret-square-down" onclick="startdate_sort_down()"></i><i class="fas fa-caret-square-up" onclick="startdate_sort_up()"></i></th>
-                    <th>DURATION (Min) <i class="fas fa-caret-square-down" onclick="duration_sort_down()"></i><i class="fas fa-caret-square-up" onclick="duration_sort_up()"></i></th>
-                    <th>CATEGORY <i class="fas fa-caret-square-down" onclick="catalog_sort_down()"></i><i class="fas fa-caret-square-up" onclick="catalog_sort_up()"></i></th>
-                    <th>START LOCATION <i class="fas fa-caret-square-down" onclick="start_sort_down()"></i><i class="fas fa-caret-square-up" onclick="start_sort_up()"></i></th>
-                    <th>END LOCATION <i class="fas fa-caret-square-down" onclick="destination_sort_down()"></i><i class="fas fa-caret-square-up" onclick="destination_sort_up()"></i></th>
-                    <th>MILES <i class="fas fa-caret-square-down" onclick="mile_sort_down()"></i><i class="fas fa-caret-square-up" onclick="mile_sort_up()"></i></th>
-                    <th>PURPOSE <i class="fas fa-caret-square-down"onclick="purpose_sort_down()"></i><i class="fas fa-caret-square-up" onclick="purpose_sort_up()"></i></th>   
+                    <!-- <th>sequence <i class="fas fa-sort-amount-down" onclick=""></i><i class="fas fa-caret-square-up" onclick=""></i></th> -->
+                    <th>START DATE <i class="fas fa-sort-amount-down" onclick="startdate_sort_down()"></i><i class="fas fa-sort-amount-up-alt" onclick="startdate_sort_up()"></i></th>
+                    <th>DURATION (Min) <i class="fas fa-sort-amount-down" onclick="duration_sort_down()"></i><i class="fas fa-sort-amount-up-alt" onclick="duration_sort_up()"></i></th>
+                    <th>CATEGORY <i class="fas fa-sort-amount-down" onclick="catalog_sort_down()"></i><i class="fas fa-sort-amount-up-alt" onclick="catalog_sort_up()"></i></th>
+                    <th>START LOCATION <i class="fas fa-sort-amount-down" onclick="start_sort_down()"></i><i class="fas fa-sort-amount-up-alt" onclick="start_sort_up()"></i></th>
+                    <th>END LOCATION <i class="fas fa-sort-amount-down" onclick="destination_sort_down()"></i><i class="fas fa-sort-amount-up-alt" onclick="destination_sort_up()"></i></th>
+                    <th>MILES <i class="fas fa-sort-amount-down" onclick="mile_sort_down()"></i><i class="fas fa-sort-amount-up-alt" onclick="mile_sort_up()"></i></th>
+                    <th>PURPOSE <i class="fas fa-sort-amount-down"onclick="purpose_sort_down()"></i><i class="fas fa-sort-amount-up-alt" onclick="purpose_sort_up()"></i></th>   
                 </tr>
                 <!-- visual -->
                 <tr>
