@@ -132,23 +132,37 @@
         }
         
         /* 2. 讓箭頭緊隨文字，避免被擠壓 */
+        /* 讓排序圖示緊隨文字，並隨視窗等比例縮放 */
         th i {
-            /* font-size: 20px !important; */
+            /* 1. 字體大小隨視窗變動 */
             font-size: clamp(12px, 1.3vw, 20px) !important;
-            margin-left: 4px !important;
+            
+            /* 2. 使用 em 單位讓間距隨字體同步縮小 */
+            margin-left: 0.2em !important; 
+            
+            /* 3. 使用 auto 或 em 寬度，避免固定 20px 造成的隱形隔閡 */
+            width: auto !important; 
+            
+            /* 4. 垂直位置微調 (依你之前的喜好設為 -2px) */
+            vertical-align: -2px !important;
+            
+            /* 5. 其他必要設定 */
+            display: inline-block;
             cursor: pointer;
-            display: inline-block;                /* 確保圖示可以跟著文字水平排列 */
-            vertical-align: -2px !important;       /* 確保箭頭跟文字對齊中線 */
-            /* width: 25px; */
-            width: auto;
             text-align: center;
-            color: #999;
+            color: #999; /* 稍微深一點的灰色 */
             transition: 0.2s;
         }
+        
         /* 當滑鼠移上去時變色，增加互動感 */
         th i:hover {
             color: #337ab7;                /* 變成 Bootstrap 的藍色 */
             transform: scale(1.2);         /* 滑鼠移上去再放大 20%，增加點擊反饋 */
+        }
+
+        /* 點擊後的顏色變深 (Bootstrap 藍) */
+        th i.fas:not(.fa-sort) {
+            color: #337ab7 !important; 
         }
                 
         /* 3. 修正表格容器，確保小螢幕可滑動但不擠壓內容 */
@@ -188,20 +202,6 @@
         #result td {
             word-break: break-word;
             vertical-align: middle !important;
-        }
-
-        th i {
-            width: 20px;               /* 固定寬度，避免圖示變換時標題跳動 */
-            text-align: center;
-            cursor: pointer;
-            margin-left: 3px !important;
-            color: #ccc;               /* 預設灰色 */
-            transition: 0.2s;
-        }
-        
-        /* 點擊後的顏色變深 (Bootstrap 藍) */
-        th i.fas:not(.fa-sort) {
-            color: #337ab7 !important; 
         }
     </style>
 
