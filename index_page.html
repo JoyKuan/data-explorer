@@ -1053,27 +1053,15 @@
 
     //done
     function mile_sort_up(){
-        var database = firebase.database();
-        var mile_ = database.ref('/index').orderByChild('MILES');
-
-        mile_.once('value', function(snapshot){
-            var djson_raw = snapshot.val();
-            var djson = jsonToArray(djson_raw);
-            djson.sort(up_compare("MILES"));
-            renderTable(djson);
-        });
+        var djson = [...currentDisplayData];
+        djson.sort(up_number("MILES")); 
+        renderTable(djson);
     }
     //done
     function mile_sort_down(){
-        var mile_ = database.ref('/index/').orderByChild('MILES');
-        var djson;
-
-        mile_.once('value', function(snapshot){
-            var djson_raw = snapshot.val();
-            djson = jsonToArray(djson_raw);
-            djson.sort(down_compare("MILES"));
-            renderTable(djson);
-        });
+        var djson = [...currentDisplayData];
+        djson.sort(down_number("MILES"));
+        renderTable(djson);
     }
 
     //done
