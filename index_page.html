@@ -937,7 +937,7 @@
                 } else if (property === 'START_DATE') {
                     djson.sort(up_date(property));
                 } else {
-                    djson.sort(up_compare(property));
+                    djson.sort(up_string(property));
                 }
                 element.className = 'fas fa-sort-amount-up-alt'; // 切換圖示為升序 (三條線箭頭向上)
             } else {
@@ -947,7 +947,7 @@
                 } else if (property === 'START_DATE') {
                     djson.sort(down_date(property));
                 } else {
-                    djson.sort(down_compare(property));
+                    djson.sort(down_string(property));
                 }
                 element.className = 'fas fa-sort-amount-down'; // 切換圖示為降序 (三條線箭頭向下)
             }
@@ -1153,16 +1153,20 @@
         
     function up_string(property){
         return function(obj1, obj2) {
-            var value1 = obj1[property];
-            var value2 = obj2[property];
-            return (value1 > value2)?1:-1;
+            var v1 = obj1[property] ? obj1[property].toString() : "";
+            var v2 = obj2[property] ? obj2[property].toString() : "";
+            if (v1 < v2) return -1;
+            if (v1 > v2) return 1;
+            return 0; // 相等時回傳 0
         }
     }
     function down_string(property){
         return function(obj1, obj2) {
-            var value1 = obj1[property];
-            var value2 = obj2[property];
-            return (value2 > value1)?1:-1;
+            var v1 = obj1[property] ? obj1[property].toString() : "";
+            var v2 = obj2[property] ? obj2[property].toString() : "";
+            if (v1 < v2) return 1;
+            if (v1 > v2) return -1;
+            return 0; // 相等時回傳 0
         }
     }
 
