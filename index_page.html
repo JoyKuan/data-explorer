@@ -906,6 +906,7 @@
             var diffMin = Math.round((end - start) / (1000 * 60));
             return (isNaN(diffMin) || diffMin < 0) ? "-" : diffMin;
         }
+        var currentDisplayData = [];       // 用來存放過濾後的結果
         var config = {
             apiKey: "AIzaSyA1VQOAtkGbdNbpQKVD9hI0VYtBmRq6j8I",
             authDomain: "project551.firebaseapp.com",
@@ -932,41 +933,37 @@
     function toggleSort(property, element) {
         // 1. 檢查目前是否為「降序」圖示
         var isDescending = element.classList.contains('fa-sort-amount-down');
-        
-        var rf = database.ref('/index');
-        rf.once('value', function(snapshot) {
-            var djson = jsonToArray(snapshot.val());
-            
-            // 2. 執行排序邏輯與圖示切換
-            if (isDescending) {
-                // 目前是降序 -> 改為升序
-                if (property === 'DURATION') {
-                    djson.sort(up_duration_compare());
-                } else if (property === 'START_DATE') {
-                    djson.sort(up_date(property));
-                } else if (property === 'MILES') {
-                    djson.sort(up_number(property)); // <--- 關鍵修改：用數字比法
-                } else {
-                    djson.sort(up_string(property));
-                }
-                element.className = 'fas fa-sort-amount-up-alt'; // 切換圖示為升序 (三條線箭頭向上)
+        var djson = [...currentDisplayData];
+
+        // 2. 執行排序邏輯與圖示切換
+        if (isDescending) {
+            // 目前是降序 -> 改為升序
+            if (property === 'DURATION') {
+                djson.sort(up_duration_compare());
+            } else if (property === 'START_DATE') {
+                djson.sort(up_date(property));
+            } else if (property === 'MILES') {
+                djson.sort(up_number(property)); 
             } else {
-                // 目前是升序或未排序 -> 改為降序
-                if (property === 'DURATION') {
-                    djson.sort(down_duration_compare());
-                } else if (property === 'START_DATE') {
-                    djson.sort(down_date(property));
-                } else if (property === 'MILES') {
-                    djson.sort(down_number(property)); // <--- 關鍵修改：用數字比法
-                } else {
-                    djson.sort(down_string(property));
-                }
-                element.className = 'fas fa-sort-amount-down'; // 切換圖示為降序 (三條線箭頭向下)
+                djson.sort(up_string(property));
             }
-            
-            renderTable(djson);
-            resetOtherIcons(element.id); // 重置其他欄位的圖示
-        });
+            element.className = 'fas fa-sort-amount-up-alt'; // 切換圖示
+        } else {
+            // 目前是升序或未排序 -> 改為降序
+            if (property === 'DURATION') {
+                djson.sort(down_duration_compare());
+            } else if (property === 'START_DATE') {
+                djson.sort(down_date(property));
+            } else if (property === 'MILES') {
+                djson.sort(down_number(property)); 
+            } else {
+                djson.sort(down_string(property));
+            }
+            element.className = 'fas fa-sort-amount-down'; // 切換圖示
+        }
+        // 渲染「排序後」的資料
+        renderTable(djson);
+        resetOtherIcons(element.id); // 重置其他欄位的圖示
     }
     
     // 輔助函式：確保同一時間只有一個欄位顯示排序圖示
@@ -1166,6 +1163,9 @@
     }
     
     function renderTable(dataArray) {
+        // 關鍵修改：每次渲染畫面時，都把這組資料存進全域變數
+        currentDisplayData = dataArray;
+        
         var tr = "";
         for (var i = 0; i < dataArray.length; i++) {
             if (dataArray[i] != null) {
