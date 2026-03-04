@@ -250,7 +250,7 @@
                     </tr>
                     <!-- visual -->
                     <tr>
-                        <!-- start date -->
+                        <!-- Start Date -->
                         <th style="width:240px;height:200px;padding:0;vertical-align:top;">
                             <div id="main" style="width: 100%; height: 180px;margin:auto;"></div>
                         </th>
@@ -268,7 +268,7 @@
                                     tooltip: {
                                         trigger: 'axis',
                                         axisPointer: { type: 'none' },
-                                        confine: true, // 確保小容器內 tooltip 不會被切掉
+                                        confine: true, 
                                         formatter: function (params) {
                                             var p = params[0];
                                             var hour = parseInt(p.name);
@@ -278,22 +278,16 @@
                                             return displayHour + ' ' + period + ': <b>' + p.value + '</b> (' + percent + '%)';
                                         }
                                     },
-                                    grid: {
-                                        left: 5,
-                                        right: 0,
-                                        bottom: 20,
-                                        top: 15,
-                                        containLabel: false
-                                    },
+                                    grid: {left: 5,right: 0,bottom: 20,top: 15,containLabel: false},
                                     xAxis: {
                                         type: 'category',
                                         data: hours,
-                                        axisLine: { show: false }, // 移除 X 軸黑線
+                                        axisLine: { show: false }, 
                                         axisTick: { show: false },
                                         axisLabel: {
-                                            interval: 3, // 檢查每一個刻度
-                                            rotate: 0,   // 文字不斜放
-                                            lineHeight: 8, // 設定行高讓換行更好看
+                                            interval: 3, 
+                                            rotate: 0,  
+                                            lineHeight: 8, 
                                             margin: 1,
                                             color: '#666',
                                             fontSize: 8,
@@ -311,18 +305,15 @@
                                         data: rawData,
                                         barWidth: '85%',
                                         itemStyle: { color: '#37A2DA', borderRadius: [2, 2, 0, 0] },
-                                        emphasis: {
-                                            disabled: false,
-                                            scale: false, // 禁用放大效果
-                                            itemStyle: { color: '#2a82b3' }
-                                        }
+                                        emphasis: {disabled: false,scale: false, itemStyle: { color: '#2a82b3'}}
                                     }]
                                 };
                                 myChart.setOption(option);
                                 window.addEventListener('resize', function () { myChart.resize(); });
                             });
                         </script>
-                        <!--1 DURATION -->
+                        
+                        <!--1 Duration -->
                         <th style="width: 160px; height: 180px; padding: 0; vertical-align: top;">
                             <div id="main1" style="width: 100%; height: 100%;"></div>
                             <script type="text/javascript">
@@ -338,7 +329,7 @@
                                         trigger: 'axis',
                                         backgroundColor: 'rgba(50, 50, 50, 0.8)',
                                         textStyle: { color: '#fff', fontSize: 11 },
-                                        axisPointer: { type: 'none' }, // 使用陰影指示器更像直方圖
+                                        axisPointer: { type: 'none' },
                                         confine: true,
                                         formatter: function (params) {
                                             var p = params[0];
@@ -346,24 +337,13 @@
                                             return p.name + ': ' + p.value + ' (' + percent + ')';
                                         }
                                     },
-                                    grid: {
-                                        top: 15,
-                                        bottom: 20,
-                                        left: 7,
-                                        right: 0,
-                                        containLabel: false
-                                    },
+                                    grid: {top: 15,bottom: 20,left: 7,right: 0,containLabel: false},
                                     xAxis: {
                                         type: 'category',
                                         data: binNames,
-                                        boundaryGap: true, // 關鍵：讓數據點（Bar 的左側）直接對齊刻度
+                                        boundaryGap: true, 
                                         axisLine: { show: true, lineStyle: { color: '#eee' } },
-                                        axisTick: {
-                                            show: true,
-                                            alignWithLabel: false, // 讓線出現在 Bar 與 Bar 之間
-                                            length: 4,            // 線的長度
-                                            lineStyle: { color: '#999', width: 1 } // 細黑色線
-                                        },
+                                        axisTick: { show: true, alignWithLabel: false, length: 4, lineStyle: { color: '#999', width: 1 }},
                                         axisLabel: {
                                             fontSize: 8,
                                             interval: 0,
@@ -390,17 +370,15 @@
                                 myChart1.setOption(option1);
                             </script>
                         </th>
-                        <!--2 catalogy -->
+                        
+                        <!--2 Category -->
                         <th style="width:160px; height:160px; padding:0; vertical-align:top;">
                             <div id="main2" style="width: 100%; height: 100%; margin: 0 auto;"></div>
                             <script type="text/javascript">
                                 var myChart2 = echarts.init(document.getElementById('main2'));
                                 var option2 = {
                                     title: {},
-                                    tooltip: {
-                                        trigger: 'item',
-                                        formatter: '{b}: {c} ({d}%)' // 滑鼠移上去時顯示詳細數據
-                                    },
+                                    tooltip: {trigger: 'item',formatter: '{b}: {c} ({d}%)'},
                                     legend: { show: false },
                                     grid: { top: 0, bottom: 0, left: 0, right: 0 },
                                     xAxis: { show: false },
@@ -413,29 +391,23 @@
                                         avoidLabelOverlap: false,
                                         label: { show: false },
                                         labelLine: { show: false },
-                                        emphasis: {
-                                            scale: true,
-                                            scaleSize: 5,
-                                            label: { show: false }
-                                        },
-                                        data: [
-                                            { value: 1078, name: 'Business' },
-                                            { value: 77, name: 'Personal' }
-                                        ]
+                                        emphasis: {scale: true,scaleSize: 5,label: { show: false }},
+                                        data: [{ value: 1078, name: 'Business' },{ value: 77, name: 'Personal' }]
                                     }]
                                 };
                                 myChart2.setOption(option2);
                             </script>
                         </th>
-                        <!-- 3 start -->
+                        
+                        <!-- 3 Start Location -->
                         <th style="width: 160px; height: 180px; padding: 0; vertical-align: top; position: relative;">
                             <div id="main3" style="width: 100%; height: 100%;"></div>
                             <div id="unknown-info" style="
                                 position: absolute; 
                                 bottom: 10px; 
-                                left: 50%;                   /* 定位在父容器 50% 的位置 */
-                                transform: translateX(-50%); /* 往回推自己寬度的一半，達成完美幾何置中 */
-                                white-space: nowrap;        /* 強制不換行，避免縮放時文字斷成兩行 */
+                                left: 50%;                  
+                                transform: translateX(-50%);
+                                white-space: nowrap;       
                                 font-size: 10px; 
                                 color: #999; 
                                 pointer-events: none;
@@ -443,25 +415,21 @@
                             </div>
                             <script type="text/javascript">
                                 var myChart3 = echarts.init(document.getElementById('main3'));
-
+                                
                                 var rawNames = ["Cary", "Unknown Location", "Morrisville", "Whitebridge", "Islamabad", "Durham", "Lahore", "Raleigh", "Karachi", "Apex", "Berkeley"];
                                 var rawValues = [201, 148, 85, 68, 57, 37, 36, 28, 27, 17, 16];
                                 var total = 1155;
 
-                                // 2. 計算比例
                                 var unknownIdx = rawNames.indexOf("Unknown Location");
                                 var unknownValue = unknownIdx > -1 ? rawValues[unknownIdx] : 0;
                                 var unknownPercent = ((unknownValue / total) * 100).toFixed(1) + '%';
-
-                                // 【關鍵修改：把文字塞進 HTML 標籤】
                                 document.getElementById('unknown-info').innerText = 'Unknown: ' + unknownValue + ' (' + unknownPercent + ')';
 
-                                // 3. 過濾 Unknown 並取前 10
                                 var filtered = [];
                                 rawNames.forEach((name, i) => {
                                     if (name !== "Unknown Location") filtered.push({ name: name, value: rawValues[i] });
                                 });
-                                var top10 = filtered.slice(0, 10).reverse(); // 反轉讓第一名在最上面
+                                var top10 = filtered.slice(0, 10).reverse(); 
 
                                 var option3 = {
                                     tooltip: {
@@ -475,81 +443,56 @@
                                             return params[0].name + ': ' + val + ' (' + percent + ')';
                                         }
                                     },
-                                    title: {
-                                        text: 'Top 10:',
-                                        left: 0,            // 靠最左
-                                        top: 0,             // 靠最上
-                                        textStyle: {
-                                            fontSize: 10,    // 字體大小
-                                            color: '#333'    // 深灰色文字
-                                        }
-                                    },
-                                    grid: {
-                                        top: 25,      // 徹底壓縮留白
-                                        bottom: 15,  // 僅留底部給 Unknown 文字
-                                        left: 20,     // 柱子直接貼到最左邊
-                                        right: 10,    // 貼到最右邊
-                                        containLabel: false // 關閉標籤佔位
-                                    },
+                                    title: {text: 'Top 10:',left: 0,top: 0, textStyle: {fontSize: 10, color: '#333'}},
+                                    grid: {top: 25,bottom: 15,left: 20,right: 10,containLabel: false},
                                     xAxis: { show: false, type: 'value' },
                                     yAxis: {
                                         type: 'category',
                                         data: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1],
-                                        axisLine: { show: false }, // 隱藏軸線
-                                        axisTick: { show: false }, // 隱藏刻度
+                                        axisLine: { show: false }, 
+                                        axisTick: { show: false }, 
                                         axisLabel: { show: true, interval: 0, color: '#666', fontSize: 8, margin: 5 }
                                     },
                                     series: [{
                                         type: 'bar',
                                         data: top10.map(item => ({ name: item.name, value: item.value })),
-                                        barWidth: '85%', // 加粗柱子，減少垂直空隙
-                                        itemStyle: {
-                                            color: '#37A2DA',
-                                            borderRadius: [0, 2, 2, 0]
-                                        },
+                                        barWidth: '85%', 
+                                        itemStyle: {color: '#37A2DA',borderRadius: [0, 2, 2, 0]},
                                         label: { show: false },
-                                        emphasis: {
-                                            itemStyle: {
-                                                disabled: false,
-                                                scale: false,
-                                                color: '#2a82b3'
-                                            } // 移上去時稍微改變顏色亮度即可，不需要灰色背景
-                                        }
+                                        emphasis: {itemStyle: {disabled: false,scale: false,color: '#2a82b3'}}
                                     }]
                                 };
                                 myChart3.setOption(option3);
                                 window.addEventListener('resize', function () { myChart3.resize(); });
                             </script>
                         </th>
-                        <!--4 end location -->
+                        <!--4 End Location -->
                         <th style="position: relative; width: 160px; height: 80px; padding: 0; vertical-align: top;">
                             <div id="main4" style="width: 100%; height: 100%;"></div>
                             <div id="unknown-info-end" style="
-                            position: absolute; 
-                            bottom: 10px; 
-                            left: 50%;                   /* 定位在父容器 50% 的位置 */
-                            transform: translateX(-50%); /* 往回推自己寬度的一半，達成完美幾何置中 */
-                            white-space: nowrap;        /* 強制不換行，避免縮放時文字斷成兩行 */
-                            font-size: 10px; 
-                            color: #999; 
-                            pointer-events: none;
-                            line-height: 12px;">
+                                position: absolute; 
+                                bottom: 10px; 
+                                left: 50%;                   
+                                transform: translateX(-50%); 
+                                white-space: nowrap;       
+                                font-size: 10px; 
+                                color: #999; 
+                                pointer-events: none;
+                                line-height: 12px;">
                             </div>
 
                             <script type="text/javascript">
                                 var myChart4 = echarts.init(document.getElementById('main4'));
-                                // 原始數據
+
                                 var rawNamesEnd = ["Cary", "Unknown Location", "Morrisville", "Whitebridge", "Islamabad", "Durham", "Lahore", "Raleigh", "Karachi", "Apex", "Berkeley"];
-                                var rawValuesEnd = [203, 149, 84, 65, 58, 36, 35, 29, 26, 17, 16]; // 這裡稍微修正了你的原始數據格式
+                                var rawValuesEnd = [203, 149, 84, 65, 58, 36, 35, 29, 26, 17, 16]; 
                                 var total = 1155;
 
-                                // 1. 處理 Unknown 資訊
                                 var unkIdxEnd = rawNamesEnd.indexOf("Unknown Location");
                                 var unkValEnd = unkIdxEnd > -1 ? rawValuesEnd[unkIdxEnd] : 0;
                                 var unkPctEnd = ((unkValEnd / total) * 100).toFixed(1) + '%';
                                 document.getElementById('unknown-info-end').innerText = 'Unknown: ' + unkValEnd + ' (' + unkPctEnd + ')';
 
-                                // 2. 過濾並取前 10 (由小到大排，讓最大在上面)
                                 var filteredEnd = [];
                                 rawNamesEnd.forEach((name, i) => {
                                     if (name !== "Unknown Location") filteredEnd.push({ name: name, value: rawValuesEnd[i] });
@@ -568,22 +511,8 @@
                                             return params[0].data.name + ': ' + val + ' (' + percent + ')';
                                         }
                                     },
-                                    title: {
-                                        text: 'Top 10:',
-                                        left: 0,            // 靠最左
-                                        top: 0,             // 靠最上
-                                        textStyle: {
-                                            fontSize: 10,    // 字體大小
-                                            color: '#333'    // 深灰色文字
-                                        }
-                                    },
-                                    grid: {
-                                        top: 25,
-                                        bottom: 15,
-                                        left: 20,
-                                        right: 10,
-                                        containLabel: false
-                                    },
+                                    title: {text: 'Top 10:',left: 0,top: 0, textStyle: {fontSize: 10,color: '#333'}},
+                                    grid: {top: 25,bottom: 15,left: 20,right: 10,containLabel: false},
                                     xAxis: { show: false, type: 'value' },
                                     yAxis: {
                                         type: 'category',
@@ -596,25 +525,17 @@
                                         type: 'bar',
                                         data: top10End.map(item => ({ name: item.name, value: item.value })),
                                         barWidth: '85%',
-                                        itemStyle: {
-                                            color: '#37A2DA',
-                                            borderRadius: [0, 2, 2, 0]
-                                        },
+                                        itemStyle: {color: '#37A2DA',borderRadius: [0, 2, 2, 0]},
                                         label: { show: false },
-                                        emphasis: {
-                                            disabled: false,
-                                            scale: false,
-                                            itemStyle: {
-                                                color: '#2a82b3'
-                                            }
-                                        }
+                                        emphasis: {disabled: false,scale: false,itemStyle: {color: '#2a82b3'}}
                                     }]
                                 };
                                 myChart4.setOption(option4);
                                 window.addEventListener('resize', function () { myChart4.resize(); });
                             </script>
                         </th>
-                        <!--5 miles -->
+                        
+                        <!--5 Miles -->
                         <th style="position: relative; width: 180px; height: 100px; padding: 0; vertical-align: top;">
                             <div id="main5" style="width: 100%; height: 100%;"></div>
                             <script type="text/javascript">
@@ -638,38 +559,30 @@
                                             return formattedLabel + ': ' + params.value + ' (' + params.percent + '%)';
                                         }
                                     },
-                                    // --- 關鍵修正：調整 Grid 留白 ---
-                                    grid: {
-                                        top: 5,
-                                        bottom: 5,
-                                        left: 5,     // 左右各留 5px 的緩衝空間
-                                        right: 8,    // 右邊稍微留多一點點給紅色區塊
-                                        containLabel: false
-                                    },
+                                    grid: {top: 5, bottom: 5, left: 5, right: 8, containLabel: false},
                                     series: [{
                                         name: 'Miles Distribution',
                                         type: 'pie',
                                         roseType: 'radius',
-                                        radius: ['15%', '85%'], // 內徑與外徑，讓圖表更大
+                                        radius: ['15%', '85%'], 
                                         center: ['50%', '55%'],
                                         avoidLabelOverlap: false,
                                         label: { show: false },
                                         itemStyle: { borderRadius: 4 },
-                                        emphasis: {
-                                            focus: 'self', itemStyle: { shadowBlur: 10, shadowOffsetX: 0, shadowColor: 'rgba(0,0,0,0.5)', scaleSize: 8 }
-                                        },
+                                        emphasis: {focus: 'self', itemStyle: { shadowBlur: 10, shadowOffsetX: 0, shadowColor: 'rgba(0,0,0,0.5)', scaleSize: 8 }},
                                         data: milesData
                                     }]
                                 };
                                 myChart5.setOption(option5);
                             </script>
                         </th>
-                        <!--6 purpose -->
+                        
+                        <!--6 Purpose -->
                         <th style="position: relative; width: 160px; height: 100px; padding: 0; vertical-align: top;">
                             <div id="main6" style="width: 100%; height: 100%;"></div>
                             <script type="text/javascript">
                                 var myChart6 = echarts.init(document.getElementById('main6'));
-                                // 1. 資料定義
+
                                 var purposeData = [
                                     { name: "Other", value: 502 },
                                     { name: "Meeting", value: 187 },
@@ -685,8 +598,6 @@
                                 ];
 
                                 var totalPurpose = 1155;
-
-                                // 2. 排序並取 Top 10
                                 purposeData.sort((a, b) => b.value - a.value);
                                 var top10 = purposeData.slice(0, 10);
 
@@ -704,53 +615,23 @@
                                             return top10[i].name + ': ' + val + ' (' + percent + ')';
                                         },
                                     },
-                                    title: {
-                                        text: 'Top 10:',
-                                        left: 0,            
-                                        top: 0,             
-                                        textStyle: {
-                                            fontSize: 10,    
-                                            color: '#333'    
-                                        }
-                                    },
-                                    grid: {
-                                        top: 5,
-                                        bottom: 18, 
-                                        left: 2,
-                                        right: 2,
-                                        containLabel: false
-                                    },
+                                    title: {text: 'Top 10:',left: 0,top: 0,textStyle: {fontSize: 10, color: '#333'}},
+                                    grid: {top: 5,bottom: 18, left: 2,right: 2,containLabel: false},
                                     xAxis: {
                                         type: 'category',
                                         data: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
-                                        axisLabel: {
-                                            show: true,
-                                            fontSize: 8,
-                                            color: '#666',
-                                            interval: 0,
-                                            margin: 4
-                                        },
+                                        axisLabel: {show: true,fontSize: 8,color: '#666',interval: 0,margin: 4},
                                         axisLine: { show: false },
                                         axisTick: { show: false }
                                     },
-                                    yAxis: {
-                                        show: false,
-                                        type: 'value'
-                                    },
+                                    yAxis: {show: false,type: 'value'},
                                     series: [{
                                         name: 'Purpose',
                                         type: 'bar',
                                         data: top10.map(item => item.value),
                                         barWidth: '85%',
-                                        itemStyle: {
-                                            color: '#37A2DA',
-                                            borderRadius: [2, 2, 0, 0]
-                                        },
-                                        emphasis: {
-                                            disabled: false,
-                                            scale: false,
-                                            itemStyle: { color: '#2a82b3' }
-                                        }
+                                        itemStyle: {color: '#37A2DA',borderRadius: [2, 2, 0, 0]},
+                                        emphasis: {disabled: false,scale: false,itemStyle: { color: '#2a82b3' }}
                                     }]
                                 };
                                 myChart6.setOption(option6);
@@ -770,7 +651,7 @@
             var diffMin = Math.round((end - start) / (1000 * 60));
             return (isNaN(diffMin) || diffMin < 0) ? "-" : diffMin;
         }
-        var currentDisplayData = [];       // 用來存放過濾後的結果
+        var currentDisplayData = [];       // Variable to store the filtered dataset
         var config = {
             apiKey: "AIzaSyA1VQOAtkGbdNbpQKVD9hI0VYtBmRq6j8I",
             authDomain: "project551.firebaseapp.com",
