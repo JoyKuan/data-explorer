@@ -254,18 +254,18 @@
                                 "use strict";
                                 function Slider(slider) {
                                     this.slider = slider;
-                                    var sldinput = this.slider.querySelector('.slider-input');//input
-                                    var sldthumb = this.slider.querySelector('.slider-thumb');//中间按钮
-                                    var sldlevel = this.slider.querySelector('.slider-level');//当前值显示的进度
+                                    var sldinput = this.slider.querySelector('.slider-input');
+                                    var sldthumb = this.slider.querySelector('.slider-thumb');
+                                    var sldlevel = this.slider.querySelector('.slider-level');
                                     this.slider.addEventListener('input', function () {
                                         this.updateSliderLevel();
                                     }.bind(this), false);
 
                                     this.updateSliderLevel = function () {
                                         var val = parseInt(sldinput.value);
-                                        sldthumb.style.left = val + '%';//更新按钮的位置
-                                        sldthumb.textContent = val;   //更新近钮上显示的值
-                                        sldlevel.style.width = val + '%';//更新进度条的长度
+                                        sldthumb.style.left = val + '%';
+                                        sldthumb.textContent = val;   
+                                        sldlevel.style.width = val + '%';
                                     }
                                 }
                                 var volumeSlider = document.getElementById('volume');
@@ -550,6 +550,7 @@
                                 window.addEventListener('resize', function () { myChart3.resize(); });
                             </script>
                         </th>
+                        
                         <!--4 End Location -->
                         <th style="position: relative; width: 160px; height: 80px; padding: 0; vertical-align: top;">
                             <div id="main4" style="width: 100%; height: 100%;"></div>
@@ -760,13 +761,11 @@
     </script>
     <script>
         function toggleSort(property, element) {
-            // 1. 檢查目前是否為「降序」圖示
             var isDescending = element.classList.contains('fa-sort-amount-down');
             var djson = [...currentDisplayData];
 
-            // 2. 執行排序邏輯與圖示切換
             if (isDescending) {
-                // 目前是降序 -> 改為升序
+                // Dec to Asc
                 if (property === 'DURATION') {
                     djson.sort(up_duration_compare());
                 } else if (property === 'START_DATE') {
@@ -776,9 +775,9 @@
                 } else {
                     djson.sort(up_string(property));
                 }
-                element.className = 'fas fa-sort-amount-up-alt'; // 切換圖示
+                element.className = 'fas fa-sort-amount-up-alt'; 
             } else {
-                // 目前是升序或未排序 -> 改為降序
+                // Asc to Dec
                 if (property === 'DURATION') {
                     djson.sort(down_duration_compare());
                 } else if (property === 'START_DATE') {
@@ -788,45 +787,38 @@
                 } else {
                     djson.sort(down_string(property));
                 }
-                element.className = 'fas fa-sort-amount-down'; // 切換圖示
+                element.className = 'fas fa-sort-amount-down'; 
             }
-            // 渲染「排序後」的資料
             renderTable(djson);
-            resetOtherIcons(element.id); // 重置其他欄位的圖示
+            resetOtherIcons(element.id); 
         }
 
-        // 輔助函式：確保同一時間只有一個欄位顯示排序圖示
+        // Ensure only one column shows a sort icon at a time
         function resetOtherIcons(currentId) {
             var icons = document.querySelectorAll('th i');
-            icons.forEach(function (icon) {
-                if (icon.id !== currentId) {
-                    icon.className = 'fas fa-sort'; // 回到預設狀態
-                }
-            });
+            icons.forEach(function (icon) {if (icon.id !== currentId) {icon.className = 'fas fa-sort';}});
         }
-
-        //done
         function default_() {
-            // 1. 回復 Miles 輸入框的顯示數值
+            // 1. Miles 
             document.getElementById("small_").value = 0;
             document.getElementById("big_").value = 500;
 
-            // 2. 回復 Purpose 下拉選單的顯示文字
+            // 2. Purpose
             var selectedText = document.getElementById('selected_purpose_text');
             if (selectedText) { selectedText.innerHTML = "Select Purpose"; }
 
-            // 3. 清空隱藏的搜尋數值 (search_item_2)
+            // 3. Clear the hidden search value
             var hiddenInput = document.getElementById("search_item_2");
             if (hiddenInput) { hiddenInput.value = ""; }
 
-            // 4. 回復所有排序圖示為預設雙箭頭
+            // 4. Reset all sort icons to the default
             var icons = document.querySelectorAll('th i');
             icons.forEach(function (icon) {
-                icon.className = 'fas fa-sort'; // 強制所有 Icon 回到預設狀態
-                icon.style.color = '#999';      // 如果你有改顏色，也一併還原
+                icon.className = 'fas fa-sort'; // Force all icons back to default
+                icon.style.color = '#999';      // Reset color to neutral gray
             });
 
-            // 5. 執行原有的資料重載邏輯
+            // 5. Initialize data fetching
             var index_ = database.ref('/index');
             index_.once('value', function (snapshot) {
                 var rawData = snapshot.val();
@@ -834,16 +826,13 @@
                 renderTable(djson);
             });
         }
-        // #升序
         function up_compare(property) {
             return function (obj1, obj2) {
                 var value1 = obj1[property];
                 var value2 = obj2[property];
                 return value1 - value2;
             }
-            // var sortObj = infoObj.sort(compare())
         }
-        // #降序
         function down_compare(property) {
             return function (obj1, obj2) {
                 var value1 = obj1[property];
@@ -851,7 +840,6 @@
                 return value2 - value1;
             }
         }
-        // 字典跟array的exchange
         function jsonToArray(obj) {
             const result = [];
             for (let key in obj) {
@@ -859,11 +847,11 @@
             }
             return result;
         }
+        // Use parseFloat to ensure "5.1" is converted to a numeric value (5.1)
+        // || 0: The "OR 0" handles "NaN", null, or empty strings to prevent errors.
         function up_number(property) {
             return function (obj1, obj2) {
-                // parseFloat 確保把 "5.1" 轉成數字 5.1
-                // || 0 是防呆，如果資料是空的就當作 0
-                var v1 = parseFloat(obj1[property]) || 0;
+                var v1 = parseFloat(obj1[property]) || 0;   
                 var v2 = parseFloat(obj2[property]) || 0;
                 return v1 - v2;
             }
@@ -875,7 +863,6 @@
                 return v2 - v1;
             }
         }
-        //done
         function up_date(property) {
             return function (obj1, obj2) {
                 var v1 = new Date(obj1[property]);
@@ -883,7 +870,6 @@
                 return v1 - v2;
             }
         }
-        //done
         function down_date(property) {
             return function (obj1, obj2) {
                 var v1 = new Date(obj1[property]);
@@ -897,7 +883,7 @@
                 var v2 = obj2[property] ? obj2[property].toString() : "";
                 if (v1 < v2) return -1;
                 if (v1 > v2) return 1;
-                return 0; // 相等時回傳 0
+                return 0; 
             }
         }
         function down_string(property) {
@@ -906,7 +892,7 @@
                 var v2 = obj2[property] ? obj2[property].toString() : "";
                 if (v1 < v2) return 1;
                 if (v1 > v2) return -1;
-                return 0; // 相等時回傳 0
+                return 0; 
             }
         }
         function up_duration_compare() {
@@ -972,7 +958,6 @@
     </script>
 
     <script>
-        // 1. 當網頁載入完成後，自動把選項塞進下拉選單
         window.addEventListener('load', function () {
             var purposes = [
                 "Other", "Meeting", "Meal/Entertain", "Errand/Supplies",
@@ -987,7 +972,6 @@
                     var a = document.createElement('a');
                     a.href = "javascript:void(0)";
                     a.innerHTML = item;
-                    // 點擊選項時執行 selectPurpose 函數
                     a.onclick = function () { selectPurpose(item); };
                     li.appendChild(a);
                     listContainer.appendChild(li);
@@ -995,22 +979,12 @@
             }
         });
 
-        // 2. 定義點擊選項後的動作
         function selectPurpose(val) {
-            // 更新按鈕文字
             document.getElementById('selected_purpose_text').innerHTML = val ? val : "Select Purpose";
-            // 把值存入隱藏的 input，讓 Firebase 邏輯能抓到
             document.getElementById('search_item_2').value = val;
 
-            // 觸發搜尋
-            if (val === "") {
-                default_();
-            } else {
-                search_purpose();
-            }
+            if (val === "") {default_();} else {search_purpose();}
         }
-
-        // 3. 原有的視窗縮放邏輯
         window.addEventListener('resize', function () {
             if (typeof myChart !== 'undefined') myChart.resize();
             if (typeof myChart1 !== 'undefined') myChart1.resize();
