@@ -569,9 +569,15 @@
                             <div id="unknown-info" style="
                                 position: absolute; 
                                 bottom: 10px; 
-                                width: 100%; 
+                                
+                                /* width: 100%; 
                                 text-align: right; 
-                                padding-left: 20px;
+                                padding-left: 20px; */
+
+                                left: 50%;                 /* 定位在父容器 50% 的位置 */
+                                transform: translateX(-50%); /* 往回推自己寬度的一半，達成完美幾何置中 */
+                                
+                                white-space: nowrap;       /* 強制不換行，避免縮放時文字斷成兩行 */
                                 font-size: 10px; 
                                 color: #999; 
                                 pointer-events: none;
