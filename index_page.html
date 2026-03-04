@@ -1132,7 +1132,7 @@
                 
                 var matchMiles = (miles >= small_ && miles <= big_);
                 var matchPurpose = (currentPurpose === "" || purpose === currentPurpose);
-                return matchMiles && matchPurpose && matchCategory;
+                return matchMiles && matchPurpose;
             });
             renderTable(filteredData);
         });
