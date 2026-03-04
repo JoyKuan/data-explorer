@@ -30,33 +30,33 @@
     <script src="https://kit.fontawesome.com/afa3fff295.js" crossorigin="anonymous"></script>
 
     <style>
-        /* --- 1. Navbar Compact UI --- */
-        /* 1. Global Navbar Height Adjustment (Default is 50px) */
+        /* --- 1. Layout & Banner: Responsive Spacing --- */
+        body {padding: 0; margin: 0; background-color: #f5f5f5;}
+        .main-container {padding: 15px;}     /* Dynamic padding based on screen size */
+        @media (min-width: 768px) {.main-container {padding: 30px 50px;}}
+        
+        /* --- 2. Navbar Compact UI --- */
+        /* Global Navbar Height Adjustment (Default is 50px) */
         .navbar {min-height: 40px !important;}
 
-        /* 2. Adjust "My Uber" font size and spacing */
+        /* Adjust "My Uber" font size and spacing */
         .navbar-brand {
             font-size: 14px !important;
             padding: 10px 15px !important;
             height: 40px !important;
         }
 
-        /* 3. Optimize "DATASET" menu font and padding */
+        /* Optimize "DATASET" menu font and padding */
         .navbar-nav>li>a {
             font-size: 13px !important;
             padding-top: 10px !important;
             padding-bottom: 10px !important;
         }
 
-        /* 4. Search Form */
+        /* Search Form */
         .navbar-form {margin-top: 3px !important;margin-bottom: 3px !important;}
         .navbar-form .form-control {height: 30px;}
         .navbar-form .btn {padding: 4px 10px;}
-
-        /* --- 2. Layout & Banner: Responsive Spacing --- */
-        body {padding: 0; margin: 0; background-color: #f5f5f5;}
-        .main-container {padding: 15px;}     /* Dynamic padding based on screen size */
-        @media (min-width: 768px) {.main-container {padding: 30px 50px;}}
 
         /* Banner: Responsive image scaling */
         .banner-wrapper {
