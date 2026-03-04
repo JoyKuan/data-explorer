@@ -1001,14 +1001,22 @@
         });
     
         // 5. 執行原有的資料重載邏輯
-        setTimeout(function() {
+        window.requestAnimationFrame(function() {
             var index_ = database.ref('/index');
             index_.once('value', function(snapshot) {
                 var rawData = snapshot.val();
                 var djson = jsonToArray(rawData);
                 renderTable(djson);
             });
-        }, 100); // 微小的 10ms 延遲，肉眼無感，但能解決渲染阻塞
+        });
+        // setTimeout(function() {
+        //     var index_ = database.ref('/index');
+        //     index_.once('value', function(snapshot) {
+        //         var rawData = snapshot.val();
+        //         var djson = jsonToArray(rawData);
+        //         renderTable(djson);
+        //     });
+        // }, 0); // 微小的 10ms 延遲，肉眼無感，但能解決渲染阻塞
         // var index_ = database.ref('/index');
         // index_.once('value', function(snapshot) {
         //     var rawData = snapshot.val();
