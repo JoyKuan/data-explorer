@@ -899,7 +899,6 @@
         </div>
     </div>
     <script>
-        // --- 在這裡貼上您的 getDuration 函數 ---
         function getDuration(startStr, endStr) {
             var start = new Date(startStr);
             var end = new Date(endStr);
@@ -1005,7 +1004,6 @@
             renderTable(djson);
         });
     }
-
     // #升序
     function up_compare(property){
         return function(obj1, obj2) {
@@ -1023,7 +1021,6 @@
             return value2 - value1;
         }
     }
-
     // 字典跟array的exchange
     function jsonToArray (obj) {
         const result = [];
@@ -1032,7 +1029,6 @@
         }
         return result;
     }
-
     function up_number(property) {
         return function(obj1, obj2) {
             // parseFloat 確保把 "5.1" 轉成數字 5.1
@@ -1042,7 +1038,6 @@
             return v1 - v2; 
         }
     }
-
     function down_number(property) {
         return function(obj1, obj2) {
             var v1 = parseFloat(obj1[property]) || 0;
@@ -1050,20 +1045,6 @@
             return v2 - v1;
         }
     }
-
-    //done
-    function mile_sort_up(){
-        var djson = [...currentDisplayData];
-        djson.sort(up_number("MILES")); 
-        renderTable(djson);
-    }
-    //done
-    function mile_sort_down(){
-        var djson = [...currentDisplayData];
-        djson.sort(down_number("MILES"));
-        renderTable(djson);
-    }
-
     //done
     function up_date(property){
         return function(obj1, obj2) {
@@ -1079,77 +1060,40 @@
             var v2 = new Date(obj2[property]);
             return v2 - v1;
         }
+    }  
+    function up_string(property){
+        return function(obj1, obj2) {
+            var v1 = obj1[property] ? obj1[property].toString() : "";
+            var v2 = obj2[property] ? obj2[property].toString() : "";
+            if (v1 < v2) return -1;
+            if (v1 > v2) return 1;
+            return 0; // 相等時回傳 0
+        }
     }
-    //done
-    function startdate_sort_up(){
-        var mile_ = database.ref('/index').orderByChild('START_DATE');
-        var djson;
-        
-        mile_.once('value', function(snapshot){
-            var djson_raw = snapshot.val();
-            djson = jsonToArray(djson_raw);
-            djson.sort(up_date("START_DATE"));
-            renderTable(djson);
-        });
+    function down_string(property){
+        return function(obj1, obj2) {
+            var v1 = obj1[property] ? obj1[property].toString() : "";
+            var v2 = obj2[property] ? obj2[property].toString() : "";
+            if (v1 < v2) return 1;
+            if (v1 > v2) return -1;
+            return 0; // 相等時回傳 0
+        }
     }
-    //done
-    function startdate_sort_down(){
-        var database = firebase.database();
-        var myuber = database.ref('/index/').orderByChild('START_DATE');
-        var djson;
-
-        myuber.once('value', function(snapshot){
-            var djson_raw = snapshot.val();
-            djson = jsonToArray(djson_raw);
-            djson.sort(down_date("START_DATE"));
-            renderTable(djson);
-        });
-    }
-
-    //done
-    function catalog_sort_up(){
-        var catalog_ = database.ref('/index').orderByChild('CATEGORY');
-        var djson;
-
-        catalog_.once('value', function(snapshot){
-            var djson_raw = snapshot.val();
-            djson = jsonToArray(djson_raw);
-            djson.sort(up_string("CATEGORY"));
-            renderTable(djson);
-        });
-    }
-    //done
-    function catalog_sort_down(){
-        var catalog_ = database.ref('/index').orderByChild('CATEGORY');
-        var djson;
-
-        catalog_.once('value', function(snapshot){
-            var djson_raw = snapshot.val();
-            djson = jsonToArray(djson_raw);
-            djson.sort(down_string("CATEGORY"));
-            renderTable(djson);
-        });
-    }
-        
-    //done
-    function duration_sort_up() {
-    var rf = database.ref('/index'); 
-    rf.once('value', function(snapshot) {
-        var djson = jsonToArray(snapshot.val());
-        djson.sort(up_duration_compare());
-        renderTable(djson); 
-        });
-    }
-
-    function duration_sort_down() {
-        var rf = database.ref('/index');
-        rf.once('value', function(snapshot) {
-            var djson = jsonToArray(snapshot.val());
-            djson.sort(down_duration_compare());
-            renderTable(djson);
-        });
+    function up_duration_compare() {
+        return function(obj1, obj2) {
+            var val1 = parseFloat(getDuration(obj1["START_DATE"], obj1["END_DATE"])) || 0;
+            var val2 = parseFloat(getDuration(obj2["START_DATE"], obj2["END_DATE"])) || 0;
+            return val1 - val2;
+        };
     }
     
+    function down_duration_compare() {
+        return function(obj1, obj2) {
+            var val1 = parseFloat(getDuration(obj1["START_DATE"], obj1["END_DATE"])) || 0;
+            var val2 = parseFloat(getDuration(obj2["START_DATE"], obj2["END_DATE"])) || 0;
+            return val2 - val1;
+        };
+    }
     function renderTable(dataArray) {
         // 關鍵修改：每次渲染畫面時，都把這組資料存進全域變數
         currentDisplayData = dataArray;
@@ -1171,245 +1115,31 @@
         }
         document.querySelector("table tbody").innerHTML = tr;
     }
-        
-    function up_string(property){
-        return function(obj1, obj2) {
-            var v1 = obj1[property] ? obj1[property].toString() : "";
-            var v2 = obj2[property] ? obj2[property].toString() : "";
-            if (v1 < v2) return -1;
-            if (v1 > v2) return 1;
-            return 0; // 相等時回傳 0
-        }
-    }
-    function down_string(property){
-        return function(obj1, obj2) {
-            var v1 = obj1[property] ? obj1[property].toString() : "";
-            var v2 = obj2[property] ? obj2[property].toString() : "";
-            if (v1 < v2) return 1;
-            if (v1 > v2) return -1;
-            return 0; // 相等時回傳 0
-        }
-    }
-
-    function up_duration_compare() {
-        return function(obj1, obj2) {
-            var val1 = parseFloat(getDuration(obj1["START_DATE"], obj1["END_DATE"])) || 0;
-            var val2 = parseFloat(getDuration(obj2["START_DATE"], obj2["END_DATE"])) || 0;
-            return val1 - val2;
-        };
-    }
-    
-    function down_duration_compare() {
-        return function(obj1, obj2) {
-            var val1 = parseFloat(getDuration(obj1["START_DATE"], obj1["END_DATE"])) || 0;
-            var val2 = parseFloat(getDuration(obj2["START_DATE"], obj2["END_DATE"])) || 0;
-            return val2 - val1;
-        };
-    }
-
-    //done
-    function purpose_sort_up(){
-        var purpose_ = database.ref('/index').orderByChild('PURPOSE');
-        var djson;
-
-        purpose_.once('value', function(snapshot){
-            var djson_raw = snapshot.val();
-            djson = jsonToArray(djson_raw);
-            djson.sort(up_string("PURPOSE"));
-
-            var tr = "";
-            for(var i = 0; i < djson.length; i++){
-               if(djson[i] != null){
-                    tr += "<tr>";
-                    tr += "<td>"+(i + 1)+"</td>";
-                    tr += "<td>"+djson[i]["START_DATE"]+"</td>";
-                    tr += "<td>" + getDuration(djson[i]["START_DATE"], djson[i]["END_DATE"]) + "</td>";
-                    tr += "<td>"+djson[i]["CATEGORY"]+"</td>";
-                    tr += "<td>"+djson[i]["START"]+"</td>";
-                    tr += "<td>"+djson[i]["STOP"]+"</td>";
-                    tr += "<td>"+djson[i]["MILES"]+"</td>";
-                    tr += "<td>"+djson[i]["PURPOSE"]+"</td>";
-                    tr += "</tr>";
-                }    
-            }
-            document.querySelector("table tbody").innerHTML = tr;
-        });
-    } 
-    //done
-    function purpose_sort_down(){
-        var purpose_ = database.ref('/index').orderByChild('PURPOSE');
-        var djson;
-
-        purpose_.once('value', function(snapshot){
-            var djson_raw = snapshot.val();
-            djson = jsonToArray(djson_raw);
-            djson.sort(down_string("PURPOSE"));
-            
-            var tr = "";
-            for(var i = 0; i < djson.length; i++){ 
-                if(djson[i] != null){
-                    tr += "<tr>";
-                    tr += "<td>"+(i + 1)+"</td>"; // 排序後的序號
-                    tr += "<td>"+djson[i]["START_DATE"]+"</td>";
-                    tr += "<td>" + getDuration(djson[i]["START_DATE"], djson[i]["END_DATE"]) + "</td>";
-                    tr += "<td>"+djson[i]["CATEGORY"]+"</td>";
-                    tr += "<td>"+djson[i]["START"]+"</td>";
-                    tr += "<td>"+djson[i]["STOP"]+"</td>";
-                    tr += "<td>"+djson[i]["MILES"]+"</td>";
-                    tr += "<td>"+djson[i]["PURPOSE"]+"</td>";
-                    tr += "</tr>";
-                }    
-            }
-            document.querySelector("table tbody").innerHTML = tr;
-        });
-    } 
-    //done
-    function start_sort_up(){
-        var purpose_ = database.ref('/index/').orderByChild('START');
-        var djson;
-
-        purpose_.once('value', function(snapshot){
-            var djson_raw = snapshot.val();
-            djson = jsonToArray(djson_raw);
-            djson.sort(up_string("START"));
-            renderTable(djson);
-        });
-    } 
-    //done
-    function start_sort_down(){
-        var purpose_ = database.ref('/index/').orderByChild('START');
-        var djson;
-
-        purpose_.once('value', function(snapshot){
-            var djson_raw = snapshot.val();
-            djson = jsonToArray(djson_raw);
-            djson.sort(down_string("START"));
-            renderTable(djson);
-        });
-    }
-
-    //done
-    function destination_sort_up(){
-        var purpose_ = database.ref('/index/').orderByChild('STOP');
-        var djson;
-
-        purpose_.once('value', function(snapshot){
-            var djson_raw = snapshot.val();
-            djson = jsonToArray(djson_raw);
-            djson.sort(up_string("STOP"));
-            renderTable(djson);
-        });
-    } 
-    //done
-    function destination_sort_down(){
-        var purpose_ = database.ref('/index/').orderByChild('STOP');
-        var djson;
-
-        purpose_.once('value', function(snapshot){
-            var djson_raw = snapshot.val();
-            djson = jsonToArray(djson_raw);
-            djson.sort(down_string("STOP"));
-            renderTable(djson);
-        });
-    } 
-
-    function search_catalogy(){
-        var srearchItem = document.getElementById("search_item_1").value;
-        var purpose_ = database.ref('/index').orderByChild('CATEGORY').equalTo(srearchItem);
-        var djson;
-
-        purpose_.once('value', function(snapshot){
-            var djson_raw = snapshot.val();
-            djson = jsonToArray(djson_raw);
-            renderTable(djson);
-        });
-    }
-    //done
-    function search_purpose() {
-        // 1. 獲取當前選中的 Purpose
-        var searchItem = document.getElementById("search_item_2").value;
-        // 2. 獲取當前 Miles 的範圍
+    function filter_all_data() {
         var small_ = parseFloat(document.getElementById("small_").value) || 0;
         var big_ = parseFloat(document.getElementById("big_").value) || 99999;
-    
-        // 如果沒選 Purpose，就視同執行 Miles Filter
-        if (searchItem === "") {
-            range_(); 
-            return;
-        }
-
-        var purpose_ = database.ref('/index').orderByChild('PURPOSE').equalTo(searchItem);
-    
-        purpose_.once('value', function(snapshot) {
-            var djson_raw = snapshot.val();
-            var djson = jsonToArray(djson_raw);
-            var tr = "";
-            var displayCount = 1;
-            
-            for (var i = 0; i < djson.length; i++) {
-                if (djson[i] != null) {
-                    // --- 關鍵修改：在這裡同時判斷 Miles 範圍 ---
-                    var miles = parseFloat(djson[i]["MILES"]);
-                    if (miles >= small_ && miles <= big_) {
-                        tr += "<tr>";
-                        tr += "<td>" + displayCount + "</td>";
-                        tr += "<td>" + djson[i]["START_DATE"] + "</td>";
-                        tr += "<td>" + getDuration(djson[i]["START_DATE"], djson[i]["END_DATE"]) + "</td>";
-                        tr += "<td>" + djson[i]["CATEGORY"] + "</td>";
-                        tr += "<td>" + djson[i]["START"] + "</td>";
-                        tr += "<td>" + djson[i]["STOP"] + "</td>";
-                        tr += "<td>" + djson[i]["MILES"] + "</td>";
-                        tr += "<td>" + djson[i]["PURPOSE"] + "</td>";
-                        tr += "</tr>";
-                        displayCount++;
-                    }
-                }
-            }
-            document.querySelector("table tbody").innerHTML = tr;
-        });
-    }
-
-    function range_() {
-        var small_ = parseFloat(document.getElementById("small_").value) || 0;
-        var big_ = parseFloat(document.getElementById("big_").value) || 99999;
-        // 獲取當前選單的值
         var currentPurpose = document.getElementById("search_item_2").value;
     
         var range_val = database.ref('/index');
         range_val.once('value', function(snapshot) {
             var djson_raw = snapshot.val();
             var djson = jsonToArray(djson_raw);
-            
-            var tr = "";
-            var displayCount = 1; // 用來顯示正確的表格序號
 
-            for (var i = 0; i < djson.length; i++) {
-                if (djson[i] != null) {
-                    var miles = parseFloat(djson[i]["MILES"]);
-                    var purpose = djson[i]["PURPOSE"];
-    
-                    // --- 同時判斷 Miles 和 Purpose ---
-                    var matchMiles = (miles >= small_ && miles <= big_);
-                    var matchPurpose = (currentPurpose === "" || purpose === currentPurpose);
-    
-                    if (matchMiles && matchPurpose) {
-                        tr += "<tr>";
-                        tr += "<td>" + displayCount + "</td>";
-                        tr += "<td>" + djson[i]["START_DATE"] + "</td>";
-                        tr += "<td>" + getDuration(djson[i]["START_DATE"], djson[i]["END_DATE"]) + "</td>";
-                        tr += "<td>" + djson[i]["CATEGORY"] + "</td>";
-                        tr += "<td>" + djson[i]["START"] + "</td>";
-                        tr += "<td>" + djson[i]["STOP"] + "</td>";
-                        tr += "<td>" + djson[i]["MILES"] + "</td>";
-                        tr += "<td>" + djson[i]["PURPOSE"] + "</td>";
-                        tr += "</tr>";
-                        displayCount++; // 符合條件才增加序號
-                    }
-                }
-            }
-            document.querySelector("table tbody").innerHTML = tr;
+            var filteredData = djson.filter(function(item) {
+                if (!item) return false;
+                var miles = parseFloat(item["MILES"]);
+                var purpose = item["PURPOSE"];
+                
+                var matchMiles = (miles >= small_ && miles <= big_);
+                var matchPurpose = (currentPurpose === "" || purpose === currentPurpose);
+                return matchMiles && matchPurpose && matchCategory;
+            });
+            renderTable(filteredData);
         });
     }
+    // 讓原本的函數都指向同一個邏輯
+    function range_() { filter_all_data(); }
+    function search_purpose() { filter_all_data(); }
     </script>
 
     <script>
