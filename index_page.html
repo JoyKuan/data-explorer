@@ -987,15 +987,11 @@
     
         // 2. 回復 Purpose 下拉選單的顯示文字
         var selectedText = document.getElementById('selected_purpose_text');
-        if (selectedText) {
-            selectedText.innerHTML = "Select Purpose";
-        }
+        if (selectedText) {selectedText.innerHTML = "Select Purpose";}
     
         // 3. 清空隱藏的搜尋數值 (search_item_2)
         var hiddenInput = document.getElementById("search_item_2");
-        if (hiddenInput) {
-            hiddenInput.value = "";
-        }
+        if (hiddenInput) {hiddenInput.value = "";}
 
         // 4. 回復所有排序圖示為預設雙箭頭
         var icons = document.querySelectorAll('th i');
@@ -1005,12 +1001,20 @@
         });
     
         // 5. 執行原有的資料重載邏輯
-        var index_ = database.ref('/index');
-        index_.once('value', function(snapshot) {
-            var rawData = snapshot.val();
-            var djson = jsonToArray(rawData);
-            renderTable(djson);
-        });
+        setTimeout(function() {
+            var index_ = database.ref('/index');
+            index_.once('value', function(snapshot) {
+                var rawData = snapshot.val();
+                var djson = jsonToArray(rawData);
+                renderTable(djson);
+            });
+        }, 10); // 微小的 10ms 延遲，肉眼無感，但能解決渲染阻塞
+        // var index_ = database.ref('/index');
+        // index_.once('value', function(snapshot) {
+        //     var rawData = snapshot.val();
+        //     var djson = jsonToArray(rawData);
+        //     renderTable(djson);
+        // });
     }
 
     // #升序
