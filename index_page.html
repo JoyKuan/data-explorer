@@ -7,10 +7,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <!-- Bootstrap v3.3.7 Core CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css"
         integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <!-- 可选的 Bootstrap 主题文件 -->
+    <!-- Bootstrap Theme CSS (Optional) -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap-theme.min.css"
         integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
 
@@ -18,7 +18,7 @@
     <script src="https://code.jquery.com/jquery-1.9.1.min.js"
         integrity="sha256-wS9gmOZBqsqWxgIVgA8Y9WcQOa7PgSIX+rPA0VL2rbQ=" crossorigin="anonymous"></script>
 
-    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <!-- Bootstrap Core JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"
         integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
         crossorigin="anonymous"></script>
@@ -30,59 +30,61 @@
     <script src="https://kit.fontawesome.com/afa3fff295.js" crossorigin="anonymous"></script>
 
     <style>
-        /* 移除 body 的固定 padding，改由 container 控制 */
-        body {
-            padding: 0;
-            margin: 0;
-            background-color: #f5f5f5;
+        /* --- 1. Navbar Compact UI --- */
+        /* 1. Global Navbar Height Adjustment (Default is 50px) */
+        .navbar {min-height: 40px !important;}
+
+        /* 2. Adjust "My Uber" font size and spacing */
+        .navbar-brand {
+            font-size: 14px !important;
+            padding: 10px 15px !important;
+            height: 40px !important;
         }
 
-        /* 這是內容容器，在手機上間距變小，大螢幕變大 */
-        .main-container {
-            padding: 15px;
+        /* 3. Optimize "DATASET" menu font and padding */
+        .navbar-nav>li>a {
+            font-size: 13px !important;
+            padding-top: 10px !important;
+            padding-bottom: 10px !important;
         }
 
-        @media (min-width: 768px) {
-            .main-container {
-                padding: 30px 50px;
-            }
-        }
+        /* 4. Search Form */
+        .navbar-form {margin-top: 3px !important;margin-bottom: 3px !important;}
+        .navbar-form .form-control {height: 30px;}
+        .navbar-form .btn {padding: 4px 10px;}
 
-        /* 讓 Banner 容器黑底，確保圖片沒填滿時不露白 */
+        /* --- 2. Layout & Banner: Responsive Spacing --- */
+        body {padding: 0; margin: 0; background-color: #f5f5f5;}
+        .main-container {padding: 15px;}     /* Dynamic padding based on screen size */
+        @media (min-width: 768px) {.main-container {padding: 30px 50px;}}
+
+        /* Banner: Responsive image scaling */
         .banner-wrapper {
             background-color: black;
             width: 100%;
             overflow: hidden;
             text-align: center;
         }
-
-        /* 讓 Banner 圖片能隨螢幕寬度縮放 */
         .banner-img {
             width: 100%;
             max-width: 1200px;
-            /* 限制最大寬度，避免在大螢幕過度拉伸 */
             height: 250px;
             object-fit: contain;
-            /* 關鍵：等比例縮放填滿，不壓扁 */
             margin: 0 auto;
             display: block;
         }
+        @media (max-width: 768px) {.banner-img {height: 150px;}}
 
-        /* 強制功能列容器字體正常，避免繼承 36px */
+        /* Filter Row: Flexbox alignment for search tools */
         .filter-row {
             margin-top: 30px;
             padding: 0 15px;
             display: flex;
             flex-wrap: wrap;
             align-items: center;
-            /* 垂直居中 */
             justify-content: center;
-            /* 水平居中 */
             font-size: 14px;
-            /* 重設正常字體大小 */
         }
-
-        /* 讓 col 區塊在 Flex 模式下不要亂跑 */
         .filter-item {
             margin-bottom: 15px;
             padding: 0 10px;
@@ -90,67 +92,26 @@
             align-items: center;
         }
 
-        /* 手機版響應式：螢幕窄時，高度可以縮小一點，才不會佔滿整個手機畫面 */
-        @media (max-width: 768px) {
-            .banner-img {
-                height: 150px;
-            }
-        }
-
-        /* 讓表格在手機上可以橫向滑動，不會撐破版面 */
+        /* --- 3. Table & Scroll: Data Grid Stability --- */
+        /* Enable horizontal scrolling on mobile without squeezing content */
         .table-responsive {
-            border: none;
+            width: 100%;
+            overflow-x: auto !important;
+            -webkit-overflow-scrolling: touch;
             margin-top: 20px;
+            border: none;
         }
-
-        i {
-            cursor: pointer;
+        
+        /* Prevents column squeezing and ensures consistent width */
+        #result {
+            width: 95% !important;
+            margin: 20px auto !important;
+            min-width: 1050px !important;
+            table-layout: fixed !important;
+            border-collapse: collapse !important;
         }
-
-        /* --- 導覽列縮減樣式 --- */
-
-        /* 1. 調整導覽列整體最小高度 (原本預設是 50px) */
-        .navbar {
-            min-height: 40px !important;
-        }
-
-        /* 2. 縮小左側 "My Uber" 的字體與邊距 */
-        .navbar-brand {
-            font-size: 14px !important;
-            /* 縮小字體 */
-            padding: 10px 15px !important;
-            /* 縮減上下內邊距 (10px) */
-            height: 40px !important;
-            /* 配合 navbar 高度 */
-        }
-
-        /* 3. 縮小 "DATASET" 選單的字體與邊距 */
-        .navbar-nav>li>a {
-            font-size: 13px !important;
-            /* 縮小字體 */
-            padding-top: 10px !important;
-            /* 縮減上方間距 */
-            padding-bottom: 10px !important;
-            /* 縮減下方間距 */
-        }
-
-        /* 4. 修正右側搜尋框的位置，讓它在變窄的導覽列中垂直置中 */
-        .navbar-form {
-            margin-top: 3px !important;
-            margin-bottom: 3px !important;
-        }
-
-        .navbar-form .form-control {
-            height: 30px;
-            /* 搜尋框也稍微變矮一點點才協調 */
-        }
-
-        .navbar-form .btn {
-            padding: 4px 10px;
-            /* 搜尋按鈕也稍微縮小 */
-        }
-
-        /* 1. 強制讓表格標題內的文字和箭頭圖示永遠排在同一行 */
+        /* Fluid font & no-wrap layout */
+        i {cursor: pointer;} 
         th {
             white-space: nowrap !important;
             font-size: clamp(10px, 1.1vw, 15px) !important;
@@ -159,108 +120,38 @@
             padding: 8px 10px !important;
             background-color: #eee;
         }
-
-        /* 2. 讓箭頭緊隨文字，避免被擠壓 */
-        /* 讓排序圖示緊隨文字，並隨視窗等比例縮放 */
+        /* Sort Icons: Fluid scaling & alignment */
         th i {
-            /* 1. 字體大小隨視窗變動 */
             font-size: clamp(12px, 1.3vw, 20px) !important;
-
-            /* 2. 使用 em 單位讓間距隨字體同步縮小 */
             margin-left: 0.2em !important;
-
-            /* 3. 使用 auto 或 em 寬度，避免固定 20px 造成的隱形隔閡 */
             width: auto !important;
             vertical-align: -2px !important;
-
             display: inline-block;
             cursor: pointer;
             text-align: center;
             color: #999 !important;
             transition: 0.2s;
         }
+        /* Hover effect */
+        th i:hover {color: #337ab7;transform: scale(1.2);}
+        
+        /* Apply Bootstrap primary blue to active sort icons */
+        th i.fas:not(.fa-sort) {color: #337ab7 !important;}
 
-        /* 當滑鼠移上去時變色，增加互動感 */
-        th i:hover {
-            color: #337ab7;
-            /* 變成 Bootstrap 的藍色 */
-            transform: scale(1.2);
-            /* 滑鼠移上去再放大 20%，增加點擊反饋 */
-        }
-
-        /* 點擊後的顏色變深 (Bootstrap 藍) */
-        th i.fas:not(.fa-sort) {
-            color: #337ab7 !important;
-        }
-
-        /* 3. 修正表格容器，確保小螢幕可滑動但不擠壓內容 */
-        .table-responsive {
-            width: 100%;
-            overflow-x: auto !important;
-            -webkit-overflow-scrolling: touch;
-            margin-top: 20px;
-        }
-
-        /* 4. 給表格一個最小寬度，防止 8 個欄位擠在一起 */
-        #result {
-            width: 95% !important;
-            margin: 20px auto !important;
-            min-width: 1050px !important;
-            table-layout: fixed !important;
-            border-collapse: collapse !important;
-        }
-
-        /* 固定每一欄的最小寬度，防止 Reset 時數據長短造成表格跳動 */
+        /* Set minimum column widths to prevent layout shifting during data resets. */
         #result th:nth-child(1),
-        #result td:nth-child(1) {
-            width: 50px !important;
-            white-space: nowrap !important;
-            text-align: center !important;
-            padding: 10px 5px !important;
-        }
-
-        #result th:nth-child(2) {
-            min-width: 180px;
-        }
-
-        /* START DATE */
-        #result th:nth-child(3) {
-            min-width: 180px;
-        }
-
-        /* DURATION */
-        #result th:nth-child(4) {
-            min-width: 120px;
-        }
-
-        /* CATEGORY */
-        #result th:nth-child(5) {
-            min-width: 180px;
-        }
-
-        /* START LOCATION */
-        #result th:nth-child(6) {
-            min-width: 180px;
-        }
-
-        /* END LOCATION */
-        #result th:nth-child(7) {
-            min-width: 150px;
-        }
-
-        /* MILES */
-        #result th:nth-child(8) {
-            min-width: 180px;
-        }
-
-        /* PURPOSE */
-        #result td {
-            word-break: break-word;
-            vertical-align: middle !important;
-        }
+        #result td:nth-child(1) {width: 50px !important;white-space: nowrap !important;text-align: center !important;padding: 10px 5px !important;}  /* Index */
+        #result th:nth-child(2) {min-width: 180px;}  /* START DATE */
+        #result th:nth-child(3) {min-width: 180px;}  /* DURATION */
+        #result th:nth-child(4) {min-width: 120px;}  /* CATEGORY */
+        #result th:nth-child(5) {min-width: 180px;}  /* START LOCATION */
+        #result th:nth-child(6) {min-width: 180px;}  /* END LOCATION */
+        #result th:nth-child(7) {min-width: 150px;}  /* MILES */
+        #result th:nth-child(8) {min-width: 180px;}  /* PURPOSE */
+        #result td {word-break: break-word;vertical-align: middle !important;}  
     </style>
 
-    <!-- 引入 ECharts 文件 -->
+    <!-- ECharts Visualization Core -->
     <script src="echarts.min.js"></script>
 
 </head>
@@ -348,108 +239,17 @@
                 <thead>
                     <tr>
                         <th> </th>
-                        <th>START DATE <i id="sort-date" class="fas fa-sort"
-                                onclick="toggleSort('START_DATE', this)"></i></th>
-                        <th>DURATION (Min) <i id="sort-duration" class="fas fa-sort"
-                                onclick="toggleSort('DURATION', this)"></i></th>
-                        <th>CATEGORY <i id="sort-category" class="fas fa-sort"
-                                onclick="toggleSort('CATEGORY', this)"></i></th>
-                        <th>START LOCATION <i id="sort-start" class="fas fa-sort"
-                                onclick="toggleSort('START', this)"></i></th>
-                        <th>END LOCATION <i id="sort-stop" class="fas fa-sort" onclick="toggleSort('STOP', this)"></i>
-                        </th>
+                        <th>START DATE <i id="sort-date" class="fas fa-sort" onclick="toggleSort('START_DATE', this)"></i></th>
+                        <th>DURATION (Min) <i id="sort-duration" class="fas fa-sort" onclick="toggleSort('DURATION', this)"></i></th>
+                        <th>CATEGORY <i id="sort-category" class="fas fa-sort" onclick="toggleSort('CATEGORY', this)"></i></th>
+                        <th>START LOCATION <i id="sort-start" class="fas fa-sort" onclick="toggleSort('START', this)"></i></th>
+                        <th>END LOCATION <i id="sort-stop" class="fas fa-sort" onclick="toggleSort('STOP', this)"></i></th>
                         <th>MILES <i id="sort-miles" class="fas fa-sort" onclick="toggleSort('MILES', this)"></i></th>
                         <th>PURPOSE <i id="sort-purpose" class="fas fa-sort" onclick="toggleSort('PURPOSE', this)"></i>
                         </th>
                     </tr>
                     <!-- visual -->
                     <tr>
-                        <!-- SLIDER -->
-                        <th>
-                            <script>
-                                "use strict";
-                                function Slider(slider) {
-                                    this.slider = slider;
-                                    var sldinput = this.slider.querySelector('.slider-input');//input
-                                    var sldthumb = this.slider.querySelector('.slider-thumb');//中间按钮
-                                    var sldlevel = this.slider.querySelector('.slider-level');//当前值显示的进度
-                                    this.slider.addEventListener('input', function () {
-                                        this.updateSliderLevel();
-                                    }.bind(this), false);
-
-                                    this.updateSliderLevel = function () {
-                                        var val = parseInt(sldinput.value);
-                                        sldthumb.style.left = val + '%';//更新按钮的位置
-                                        sldthumb.textContent = val;   //更新近钮上显示的值
-                                        sldlevel.style.width = val + '%';//更新进度条的长度
-                                    }
-                                }
-                                var volumeSlider = document.getElementById('volume');
-                                new Slider(volumeSlider);
-
-                                function slider_() {
-                                    var volumn = 0;
-                                    volumn = document.querySelector('#volume .slider-input').value;
-                                    var num = 0;
-                                    if (volumn != 0) { num = Math.round(1155 * (volumn * 0.01)); }
-                                    if (num == 0) {
-                                        var srearchItem = "HELLO"
-                                        var purpose_ = database.ref('/index').orderByChild('PURPOSE').equalTo(srearchItem);
-                                        var djson;
-
-                                        purpose_.once('value', function (snapshot) {
-                                            djson_ = JSON.parse(JSON.stringify(snapshot.val()));
-                                            djson = jsonToArray(djson_)
-
-                                            var tr = "";
-                                            var i = 1;
-                                            for (x in djson) {
-                                                if (djson[x] != null) {
-                                                    tr += "<tr>";
-                                                    tr += "<td>" + i + "</td>";
-                                                    tr += "<td>" + djson[x]["START_DATE"] + "</td>";
-                                                    tr += "<td>" + getDuration(djson[x]["START_DATE"], djson[x]["END_DATE"]) + "</td>"; // 改這行
-                                                    tr += "<td>" + djson[x]["CATEGORY"] + "</td>";
-                                                    tr += "<td>" + djson[x]["START"] + "</td>";
-                                                    tr += "<td>" + djson[x]["STOP"] + "</td>";
-                                                    tr += "<td>" + djson[x]["MILES"] + "</td>";
-                                                    tr += "<td>" + djson[x]["PURPOSE"] + "</td>";
-                                                    tr += "</tr>";
-                                                    i++;
-                                                }
-                                            }
-                                            document.querySelector("table tbody").innerHTML = tr;
-                                        });
-                                    }
-                                    else {
-                                        var prec_ = database.ref('/index').orderByChild('MILES').limitToFirst(num);
-                                        prec_.once('value', function (snapshot) {
-                                            var djson_raw = snapshot.val();
-                                            var djson = jsonToArray(djson_raw);
-
-                                            var tr = "";
-                                            var i = 1;
-                                            for (x in djson) {
-                                                if (djson[x] != null) {
-                                                    tr += "<tr>";
-                                                    tr += "<td>" + i + "</td>";
-                                                    tr += "<td>" + djson[x]["START_DATE"] + "</td>";
-                                                    tr += "<td>" + getDuration(djson[x]["START_DATE"], djson[x]["END_DATE"]) + "</td>";
-                                                    tr += "<td>" + djson[x]["CATEGORY"] + "</td>";
-                                                    tr += "<td>" + djson[x]["START"] + "</td>";
-                                                    tr += "<td>" + djson[x]["STOP"] + "</td>";
-                                                    tr += "<td>" + djson[x]["MILES"] + "</td>";
-                                                    tr += "<td>" + djson[x]["PURPOSE"] + "</td>";
-                                                    tr += "</tr>";
-                                                    i++;
-                                                }
-                                            }
-                                            document.querySelector("table tbody").innerHTML = tr;
-                                        });
-                                    }
-                                }
-                            </script>
-                        </th>
                         <!-- start date -->
                         <th style="width:240px;height:200px;padding:0;vertical-align:top;">
                             <div id="main" style="width: 100%; height: 180px;margin:auto;"></div>
@@ -1160,7 +960,7 @@
             };
         }
         function renderTable(dataArray) {
-            // 關鍵修改：每次渲染畫面時，都把這組資料存進全域變數
+            // Sync current data to global state for sorting consistency
             currentDisplayData = dataArray;
 
             var tr = "";
@@ -1202,7 +1002,6 @@
                 renderTable(filteredData);
             });
         }
-        // 讓原本的函數都指向同一個邏輯
         function range_() { filter_all_data(); }
         function search_purpose() { filter_all_data(); }
     </script>
