@@ -523,7 +523,7 @@
                                     name: 'Category',
                                     type: 'pie',
                                     center: ['50%', '50%'],
-                                    radius: ['55%', '80%'], 
+                                    radius: ['55%', '100%'], 
                                     avoidLabelOverlap: false,
                                     label: {show: false},
                                     labelLine: {show: false},
@@ -813,6 +813,15 @@
                                             var percent = ((val / totalPurpose) * 100).toFixed(2) + '%';
                                             return top10[i].name + ': ' + val + ' (' + percent + ')';
                                         },
+                                    },
+                                    title: {
+                                        text: 'Top 10:',
+                                        left: 0,            // 靠最左
+                                        top: 0,             // 靠最上
+                                        textStyle: {
+                                            fontSize: 10,    // 字體大小
+                                            color: '#333'    // 深灰色文字
+                                        }
                                     },
                                     grid: {
                                         top: 5,
