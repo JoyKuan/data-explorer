@@ -248,6 +248,92 @@
                     </tr>
                     <!-- visual -->
                     <tr>
+                        <!-- SLIDER -->
+                        <th>
+                            <script>
+                                "use strict";
+                                function Slider(slider) {
+                                    this.slider = slider;
+                                    var sldinput = this.slider.querySelector('.slider-input');//input
+                                    var sldthumb = this.slider.querySelector('.slider-thumb');//中间按钮
+                                    var sldlevel = this.slider.querySelector('.slider-level');//当前值显示的进度
+                                    this.slider.addEventListener('input', function () {
+                                        this.updateSliderLevel();
+                                    }.bind(this), false);
+
+                                    this.updateSliderLevel = function () {
+                                        var val = parseInt(sldinput.value);
+                                        sldthumb.style.left = val + '%';//更新按钮的位置
+                                        sldthumb.textContent = val;   //更新近钮上显示的值
+                                        sldlevel.style.width = val + '%';//更新进度条的长度
+                                    }
+                                }
+                                var volumeSlider = document.getElementById('volume');
+                                new Slider(volumeSlider);
+
+                                function slider_() {
+                                    var volumn = 0;
+                                    volumn = document.querySelector('#volume .slider-input').value;
+                                    var num = 0;
+                                    if (volumn != 0) { num = Math.round(1155 * (volumn * 0.01)); }
+                                    if (num == 0) {
+                                        var srearchItem = "HELLO"
+                                        var purpose_ = database.ref('/index').orderByChild('PURPOSE').equalTo(srearchItem);
+                                        var djson;
+
+                                        purpose_.once('value', function (snapshot) {
+                                            djson_ = JSON.parse(JSON.stringify(snapshot.val()));
+                                            djson = jsonToArray(djson_)
+
+                                            var tr = "";
+                                            var i = 1;
+                                            for (x in djson) {
+                                                if (djson[x] != null) {
+                                                    tr += "<tr>";
+                                                    tr += "<td>" + i + "</td>";
+                                                    tr += "<td>" + djson[x]["START_DATE"] + "</td>";
+                                                    tr += "<td>" + getDuration(djson[x]["START_DATE"], djson[x]["END_DATE"]) + "</td>"; // 改這行
+                                                    tr += "<td>" + djson[x]["CATEGORY"] + "</td>";
+                                                    tr += "<td>" + djson[x]["START"] + "</td>";
+                                                    tr += "<td>" + djson[x]["STOP"] + "</td>";
+                                                    tr += "<td>" + djson[x]["MILES"] + "</td>";
+                                                    tr += "<td>" + djson[x]["PURPOSE"] + "</td>";
+                                                    tr += "</tr>";
+                                                    i++;
+                                                }
+                                            }
+                                            document.querySelector("table tbody").innerHTML = tr;
+                                        });
+                                    }
+                                    else {
+                                        var prec_ = database.ref('/index').orderByChild('MILES').limitToFirst(num);
+                                        prec_.once('value', function (snapshot) {
+                                            var djson_raw = snapshot.val();
+                                            var djson = jsonToArray(djson_raw);
+
+                                            var tr = "";
+                                            var i = 1;
+                                            for (x in djson) {
+                                                if (djson[x] != null) {
+                                                    tr += "<tr>";
+                                                    tr += "<td>" + i + "</td>";
+                                                    tr += "<td>" + djson[x]["START_DATE"] + "</td>";
+                                                    tr += "<td>" + getDuration(djson[x]["START_DATE"], djson[x]["END_DATE"]) + "</td>";
+                                                    tr += "<td>" + djson[x]["CATEGORY"] + "</td>";
+                                                    tr += "<td>" + djson[x]["START"] + "</td>";
+                                                    tr += "<td>" + djson[x]["STOP"] + "</td>";
+                                                    tr += "<td>" + djson[x]["MILES"] + "</td>";
+                                                    tr += "<td>" + djson[x]["PURPOSE"] + "</td>";
+                                                    tr += "</tr>";
+                                                    i++;
+                                                }
+                                            }
+                                            document.querySelector("table tbody").innerHTML = tr;
+                                        });
+                                    }
+                                }
+                            </script>
+                        </th>
                         <!-- Start Date -->
                         <th style="width:240px;height:200px;padding:0;vertical-align:top;">
                             <div id="main" style="width: 100%; height: 180px;margin:auto;"></div>
