@@ -101,15 +101,6 @@
             margin-top: 20px;
             border: none;
         }
-        
-        /* Prevents column squeezing and ensures consistent width */
-        #result {
-            width: 95% !important;
-            margin: 20px auto !important;
-            min-width: 1050px !important;
-            table-layout: fixed !important;
-            border-collapse: collapse !important;
-        }
         /* Fluid font & no-wrap layout */
         i {cursor: pointer;} 
         th {
@@ -137,6 +128,15 @@
         
         /* Apply Bootstrap primary blue to active sort icons */
         th i.fas:not(.fa-sort) {color: #337ab7 !important;}
+
+        /* Prevents column squeezing and ensures consistent width */
+        #result {
+            width: 95% !important;
+            margin: 20px auto !important;
+            min-width: 1050px !important;
+            table-layout: fixed !important;
+            border-collapse: collapse !important;
+        }
 
         /* Set minimum column widths to prevent layout shifting during data resets. */
         #result th:nth-child(1),
