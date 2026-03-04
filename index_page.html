@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Uber Trip Data</title>
     <meta charset="utf-8">
@@ -7,33 +8,45 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <!-- <link href="slider.css" rel="stylesheet" type="text/css" />  -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css"
+        integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <!-- 可选的 Bootstrap 主题文件 -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap-theme.min.css"
+        integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
     <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-1.9.1.min.js" integrity="sha256-wS9gmOZBqsqWxgIVgA8Y9WcQOa7PgSIX+rPA0VL2rbQ=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-1.9.1.min.js"
+        integrity="sha256-wS9gmOZBqsqWxgIVgA8Y9WcQOa7PgSIX+rPA0VL2rbQ=" crossorigin="anonymous"></script>
 
     <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"
+        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous"></script>
 
     <script src="https://www.gstatic.com/firebasejs/7.2.2/firebase-analytics.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.2.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.2.1/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.2.1/firebase-database.js"></script>
     <script src="https://kit.fontawesome.com/afa3fff295.js" crossorigin="anonymous"></script>
-   
+
     <style>
         /* 移除 body 的固定 padding，改由 container 控制 */
-        body { 
-            padding: 0; 
-            margin: 0; 
-            background-color: #f5f5f5; 
+        body {
+            padding: 0;
+            margin: 0;
+            background-color: #f5f5f5;
         }
+
         /* 這是內容容器，在手機上間距變小，大螢幕變大 */
-        .main-container {padding: 15px;}
-        @media (min-width: 768px) {.main-container { padding: 30px 50px; }}
+        .main-container {
+            padding: 15px;
+        }
+
+        @media (min-width: 768px) {
+            .main-container {
+                padding: 30px 50px;
+            }
+        }
 
         /* 讓 Banner 容器黑底，確保圖片沒填滿時不露白 */
         .banner-wrapper {
@@ -46,9 +59,11 @@
         /* 讓 Banner 圖片能隨螢幕寬度縮放 */
         .banner-img {
             width: 100%;
-            max-width: 1200px;  /* 限制最大寬度，避免在大螢幕過度拉伸 */
+            max-width: 1200px;
+            /* 限制最大寬度，避免在大螢幕過度拉伸 */
             height: 250px;
-            object-fit: contain;     /* 關鍵：等比例縮放填滿，不壓扁 */
+            object-fit: contain;
+            /* 關鍵：等比例縮放填滿，不壓扁 */
             margin: 0 auto;
             display: block;
         }
@@ -59,11 +74,14 @@
             padding: 0 15px;
             display: flex;
             flex-wrap: wrap;
-            align-items: center;    /* 垂直居中 */
-            justify-content: center; /* 水平居中 */
-            font-size: 14px;         /* 重設正常字體大小 */
+            align-items: center;
+            /* 垂直居中 */
+            justify-content: center;
+            /* 水平居中 */
+            font-size: 14px;
+            /* 重設正常字體大小 */
         }
-    
+
         /* 讓 col 區塊在 Flex 模式下不要亂跑 */
         .filter-item {
             margin-bottom: 15px;
@@ -84,7 +102,10 @@
             border: none;
             margin-top: 20px;
         }
-        i{cursor: pointer;}
+
+        i {
+            cursor: pointer;
+        }
 
         /* --- 導覽列縮減樣式 --- */
 
@@ -95,16 +116,22 @@
 
         /* 2. 縮小左側 "My Uber" 的字體與邊距 */
         .navbar-brand {
-            font-size: 14px !important;    /* 縮小字體 */
-            padding: 10px 15px !important; /* 縮減上下內邊距 (10px) */
-            height: 40px !important;       /* 配合 navbar 高度 */
+            font-size: 14px !important;
+            /* 縮小字體 */
+            padding: 10px 15px !important;
+            /* 縮減上下內邊距 (10px) */
+            height: 40px !important;
+            /* 配合 navbar 高度 */
         }
 
         /* 3. 縮小 "DATASET" 選單的字體與邊距 */
-        .navbar-nav > li > a {
-            font-size: 13px !important;    /* 縮小字體 */
-            padding-top: 10px !important;    /* 縮減上方間距 */
-            padding-bottom: 10px !important; /* 縮減下方間距 */
+        .navbar-nav>li>a {
+            font-size: 13px !important;
+            /* 縮小字體 */
+            padding-top: 10px !important;
+            /* 縮減上方間距 */
+            padding-bottom: 10px !important;
+            /* 縮減下方間距 */
         }
 
         /* 4. 修正右側搜尋框的位置，讓它在變窄的導覽列中垂直置中 */
@@ -112,59 +139,60 @@
             margin-top: 3px !important;
             margin-bottom: 3px !important;
         }
-        
+
         .navbar-form .form-control {
-            height: 30px; /* 搜尋框也稍微變矮一點點才協調 */
+            height: 30px;
+            /* 搜尋框也稍微變矮一點點才協調 */
         }
-        
+
         .navbar-form .btn {
-            padding: 4px 10px; /* 搜尋按鈕也稍微縮小 */
+            padding: 4px 10px;
+            /* 搜尋按鈕也稍微縮小 */
         }
 
         /* 1. 強制讓表格標題內的文字和箭頭圖示永遠排在同一行 */
         th {
-            white-space: nowrap !important; /* 確保不換行 */
+            white-space: nowrap !important;
             font-size: clamp(10px, 1.1vw, 15px) !important;
             vertical-align: middle !important;
-            text-align: center !important;    /* <--- 加入這一行讓文字水平置中 */
-            padding: 8px 10px !important;   /* 增加一點寬度空間 */
-            background-color: #eee;         /* 給標題一個淺灰色底，更有表格層次感 */
+            text-align: center !important;
+            padding: 8px 10px !important;
+            background-color: #eee;
         }
-        
+
         /* 2. 讓箭頭緊隨文字，避免被擠壓 */
         /* 讓排序圖示緊隨文字，並隨視窗等比例縮放 */
         th i {
             /* 1. 字體大小隨視窗變動 */
             font-size: clamp(12px, 1.3vw, 20px) !important;
-            
+
             /* 2. 使用 em 單位讓間距隨字體同步縮小 */
-            margin-left: 0.2em !important; 
-            
+            margin-left: 0.2em !important;
+
             /* 3. 使用 auto 或 em 寬度，避免固定 20px 造成的隱形隔閡 */
-            width: auto !important; 
-            
-            /* 4. 垂直位置微調 (依你之前的喜好設為 -2px) */
+            width: auto !important;
             vertical-align: -2px !important;
-            
-            /* 5. 其他必要設定 */
+
             display: inline-block;
             cursor: pointer;
             text-align: center;
-            color: #999 !important; /* 稍微深一點的灰色 */
+            color: #999 !important;
             transition: 0.2s;
         }
-        
+
         /* 當滑鼠移上去時變色，增加互動感 */
         th i:hover {
-            color: #337ab7;                /* 變成 Bootstrap 的藍色 */
-            transform: scale(1.2);         /* 滑鼠移上去再放大 20%，增加點擊反饋 */
+            color: #337ab7;
+            /* 變成 Bootstrap 的藍色 */
+            transform: scale(1.2);
+            /* 滑鼠移上去再放大 20%，增加點擊反饋 */
         }
 
         /* 點擊後的顏色變深 (Bootstrap 藍) */
         th i.fas:not(.fa-sort) {
-            color: #337ab7 !important; 
+            color: #337ab7 !important;
         }
-                
+
         /* 3. 修正表格容器，確保小螢幕可滑動但不擠壓內容 */
         .table-responsive {
             width: 100%;
@@ -172,33 +200,60 @@
             -webkit-overflow-scrolling: touch;
             margin-top: 20px;
         }
-        
+
         /* 4. 給表格一個最小寬度，防止 8 個欄位擠在一起 */
         #result {
             width: 95% !important;
             margin: 20px auto !important;
-            min-width: 1050px !important; /* 稍微加大一點總寬度 */
-            table-layout: fixed !important; /* 強制執行固定寬度分配 */
+            min-width: 1050px !important;
+            table-layout: fixed !important;
             border-collapse: collapse !important;
         }
 
         /* 固定每一欄的最小寬度，防止 Reset 時數據長短造成表格跳動 */
-        #result th:nth-child(1), 
-        #result td:nth-child(1) { 
-            width: 50px !important;        /* 這裡用 width 代替 min-width */
-            white-space: nowrap !important; /* 強制禁止換行，這是解決 2-6-1 變垂直的關鍵 */
-            text-align: center !important; 
-            padding: 10px 5px !important;  /* 稍微縮減內邊距，把空間留給數字 */
-        }     
-        #result th:nth-child(2) { min-width: 180px; }      /* START DATE */
-        #result th:nth-child(3) { min-width: 180px; }      /* DURATION */
-        #result th:nth-child(4) { min-width: 120px; }      /* CATEGORY */
-        #result th:nth-child(5) { min-width: 180px; }      /* START LOCATION */
-        #result th:nth-child(6) { min-width: 180px; }      /* END LOCATION */
-        #result th:nth-child(7) { min-width: 150px; }      /* MILES */
-        #result th:nth-child(8) { min-width: 180px; }      /* PURPOSE */
-        
-        /* 確保內容如果太長會自動換行，不會撐開欄位 */
+        #result th:nth-child(1),
+        #result td:nth-child(1) {
+            width: 50px !important;
+            white-space: nowrap !important;
+            text-align: center !important;
+            padding: 10px 5px !important;
+        }
+
+        #result th:nth-child(2) {
+            min-width: 180px;
+        }
+
+        /* START DATE */
+        #result th:nth-child(3) {
+            min-width: 180px;
+        }
+
+        /* DURATION */
+        #result th:nth-child(4) {
+            min-width: 120px;
+        }
+
+        /* CATEGORY */
+        #result th:nth-child(5) {
+            min-width: 180px;
+        }
+
+        /* START LOCATION */
+        #result th:nth-child(6) {
+            min-width: 180px;
+        }
+
+        /* END LOCATION */
+        #result th:nth-child(7) {
+            min-width: 150px;
+        }
+
+        /* MILES */
+        #result th:nth-child(8) {
+            min-width: 180px;
+        }
+
+        /* PURPOSE */
         #result td {
             word-break: break-word;
             vertical-align: middle !important;
@@ -226,18 +281,21 @@
                 </div>
                 <!-- 引入 GOOGLE SEARCH -->
                 <script>
-                    var domainroot="http://www.google.com"  //Enter domain of site to search.
-                    function Gsitesearch(curobj){ curobj.q.value = curobj.qfront.value } 
-                </script> 
-                <form class="search navbar-form navbar-right" action="https://www.google.com/search" method="get" role="search" target="_blank" onSubmit="Gsitesearch(this)"> 
-                    <div class="input-group"> <input name="q" type="hidden" /> 
-                        <input class="form-control" name="qfront" type="search" required class="searchField" placeholder="Search Google" maxlength="50"/> 
-                        <span class="input-group-btn"> <button type="submit" class="search-button btn btn-primary"> <span class="glyphicon glyphicon-search"></span> </button> </span> 
-                    </div> 
+                    var domainroot = "http://www.google.com"  //Enter domain of site to search.
+                    function Gsitesearch(curobj) { curobj.q.value = curobj.qfront.value } 
+                </script>
+                <form class="search navbar-form navbar-right" action="https://www.google.com/search" method="get"
+                    role="search" target="_blank" onSubmit="Gsitesearch(this)">
+                    <div class="input-group"> <input name="q" type="hidden" />
+                        <input class="form-control" name="qfront" type="search" required class="searchField"
+                            placeholder="Search Google" maxlength="50" />
+                        <span class="input-group-btn"> <button type="submit" class="search-button btn btn-primary">
+                                <span class="glyphicon glyphicon-search"></span> </button> </span>
+                    </div>
                 </form>
                 <!-- GOOGLE SEARCH END -->
             </div>
-        </nav> 
+        </nav>
     </header>
 
     <!-- Dataset Area -->
@@ -247,261 +305,267 @@
                 <img src="uber_pic.png" class="banner-img" alt="Uber Trip Banner">
             </div>
             <div style="width: 80%; margin: 0 auto;">
-                <div class="row" style="margin-top: 30px; padding: 0 15px; display: flex; flex-wrap: wrap; align-items: center; justify-content: center;">
-                
+                <div class="row"
+                    style="margin-top: 30px; padding: 0 15px; display: flex; flex-wrap: wrap; align-items: center; justify-content: center;">
+
                     <div class="col-md-2 col-xs-12" style="margin-bottom: 15px;">
-                        <button type="button" class="btn btn-default btn-block" onclick="default_()" style="height: 34px;">Reset</button>
+                        <button type="button" class="btn btn-default btn-block" onclick="default_()"
+                            style="height: 34px;">Reset</button>
                     </div>
-    
+
                     <div class="col-md-4 col-xs-12" style="margin-bottom: 15px;">
                         <div class="dropdown">
-                            <button class="btn btn-primary dropdown-toggle btn-block" type="button" data-toggle="dropdown" style="height: 34px;">
+                            <button class="btn btn-primary dropdown-toggle btn-block" type="button"
+                                data-toggle="dropdown" style="height: 34px;">
                                 <span id="selected_purpose_text">Select Purpose</span>
                                 <span class="caret"></span>
                             </button>
-                            <ul class="dropdown-menu" id="purpose_list" style="width: 100%; max-height: 300px; overflow-y: auto;">
+                            <ul class="dropdown-menu" id="purpose_list"
+                                style="width: 100%; max-height: 300px; overflow-y: auto;">
                                 <li><a href="javascript:void(0)" onclick="selectPurpose('')">-- All Purposes --</a></li>
                                 <li role="separator" class="divider"></li>
                             </ul>
                             <input type="hidden" id="search_item_2" value="">
                         </div>
                     </div>
-    
+
                     <div class="col-md-4 col-xs-12" style="margin-bottom: 15px;">
                         <div style="display: flex; align-items: center; gap: 5px; height: 34px;">
-                            <input id="small_" type="number" class="form-control" style="width: 80px; height: 34px;" value="0">
+                            <input id="small_" type="number" class="form-control" style="width: 80px; height: 34px;"
+                                value="0">
                             <span style="font-size: 18px; line-height: 1;">~</span>
-                            <input id="big_" type="number" class="form-control" style="width: 80px; height: 34px;" value="500">
-                            <button class="btn btn-info" type="button" onclick="range_()" style="height: 34px;">Miles Filter</button>
+                            <input id="big_" type="number" class="form-control" style="width: 80px; height: 34px;"
+                                value="500">
+                            <button class="btn btn-info" type="button" onclick="range_()" style="height: 34px;">Miles
+                                Filter</button>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <table id="result" class ="table table-bordered" style="margin-top: 3%;width:80%;font-size:16px;margin-left:auto;margin-right:auto;">
-            <thead>
-                <tr>
-                    <th> </th>
-                    <th>START DATE <i id="sort-date" class="fas fa-sort" onclick="toggleSort('START_DATE', this)"></i></th>
-                    <th>DURATION (Min) <i id="sort-duration" class="fas fa-sort" onclick="toggleSort('DURATION', this)"></i></th>
-                    <th>CATEGORY <i id="sort-category" class="fas fa-sort" onclick="toggleSort('CATEGORY', this)"></i></th>
-                    <th>START LOCATION <i id="sort-start" class="fas fa-sort" onclick="toggleSort('START', this)"></i></th>
-                    <th>END LOCATION <i id="sort-stop" class="fas fa-sort" onclick="toggleSort('STOP', this)"></i></th>
-                    <th>MILES <i id="sort-miles" class="fas fa-sort" onclick="toggleSort('MILES', this)"></i></th>
-                    <th>PURPOSE <i id="sort-purpose" class="fas fa-sort" onclick="toggleSort('PURPOSE', this)"></i></th>
-                </tr>
-                <!-- visual -->
-                <tr>
-                    <!-- SLIDER -->
-                    <th>
-                        <!-- <button class="btn btn-default" type="submit" onclick="slider_()">%</button>
-                        <div id='volume' class='slider' > 
-                            <div class='slider-track'>
-                                <div class='slider-thumb'>100</div>
-                                <div class='slider-level'></div>
-                            </div>
-                            <input class='slider-input' type='range' value='100' min='0' max='100' />
-                        </div> -->
+            <table id="result" class="table table-bordered"
+                style="margin-top: 3%;width:80%;font-size:16px;margin-left:auto;margin-right:auto;">
+                <thead>
+                    <tr>
+                        <th> </th>
+                        <th>START DATE <i id="sort-date" class="fas fa-sort"
+                                onclick="toggleSort('START_DATE', this)"></i></th>
+                        <th>DURATION (Min) <i id="sort-duration" class="fas fa-sort"
+                                onclick="toggleSort('DURATION', this)"></i></th>
+                        <th>CATEGORY <i id="sort-category" class="fas fa-sort"
+                                onclick="toggleSort('CATEGORY', this)"></i></th>
+                        <th>START LOCATION <i id="sort-start" class="fas fa-sort"
+                                onclick="toggleSort('START', this)"></i></th>
+                        <th>END LOCATION <i id="sort-stop" class="fas fa-sort" onclick="toggleSort('STOP', this)"></i>
+                        </th>
+                        <th>MILES <i id="sort-miles" class="fas fa-sort" onclick="toggleSort('MILES', this)"></i></th>
+                        <th>PURPOSE <i id="sort-purpose" class="fas fa-sort" onclick="toggleSort('PURPOSE', this)"></i>
+                        </th>
+                    </tr>
+                    <!-- visual -->
+                    <tr>
+                        <!-- SLIDER -->
+                        <th>
+                            <script>
+                                "use strict";
+                                function Slider(slider) {
+                                    this.slider = slider;
+                                    var sldinput = this.slider.querySelector('.slider-input');//input
+                                    var sldthumb = this.slider.querySelector('.slider-thumb');//中间按钮
+                                    var sldlevel = this.slider.querySelector('.slider-level');//当前值显示的进度
+                                    this.slider.addEventListener('input', function () {
+                                        this.updateSliderLevel();
+                                    }.bind(this), false);
+
+                                    this.updateSliderLevel = function () {
+                                        var val = parseInt(sldinput.value);
+                                        sldthumb.style.left = val + '%';//更新按钮的位置
+                                        sldthumb.textContent = val;   //更新近钮上显示的值
+                                        sldlevel.style.width = val + '%';//更新进度条的长度
+                                    }
+                                }
+                                var volumeSlider = document.getElementById('volume');
+                                new Slider(volumeSlider);
+
+                                function slider_() {
+                                    var volumn = 0;
+                                    volumn = document.querySelector('#volume .slider-input').value;
+                                    var num = 0;
+                                    if (volumn != 0) { num = Math.round(1155 * (volumn * 0.01)); }
+                                    if (num == 0) {
+                                        var srearchItem = "HELLO"
+                                        var purpose_ = database.ref('/index').orderByChild('PURPOSE').equalTo(srearchItem);
+                                        var djson;
+
+                                        purpose_.once('value', function (snapshot) {
+                                            djson_ = JSON.parse(JSON.stringify(snapshot.val()));
+                                            djson = jsonToArray(djson_)
+
+                                            var tr = "";
+                                            var i = 1;
+                                            for (x in djson) {
+                                                if (djson[x] != null) {
+                                                    tr += "<tr>";
+                                                    tr += "<td>" + i + "</td>";
+                                                    tr += "<td>" + djson[x]["START_DATE"] + "</td>";
+                                                    tr += "<td>" + getDuration(djson[x]["START_DATE"], djson[x]["END_DATE"]) + "</td>"; // 改這行
+                                                    tr += "<td>" + djson[x]["CATEGORY"] + "</td>";
+                                                    tr += "<td>" + djson[x]["START"] + "</td>";
+                                                    tr += "<td>" + djson[x]["STOP"] + "</td>";
+                                                    tr += "<td>" + djson[x]["MILES"] + "</td>";
+                                                    tr += "<td>" + djson[x]["PURPOSE"] + "</td>";
+                                                    tr += "</tr>";
+                                                    i++;
+                                                }
+                                            }
+                                            document.querySelector("table tbody").innerHTML = tr;
+                                        });
+                                    }
+                                    else {
+                                        var prec_ = database.ref('/index').orderByChild('MILES').limitToFirst(num);
+                                        prec_.once('value', function (snapshot) {
+                                            var djson_raw = snapshot.val();
+                                            var djson = jsonToArray(djson_raw);
+
+                                            var tr = "";
+                                            var i = 1;
+                                            for (x in djson) {
+                                                if (djson[x] != null) {
+                                                    tr += "<tr>";
+                                                    tr += "<td>" + i + "</td>";
+                                                    tr += "<td>" + djson[x]["START_DATE"] + "</td>";
+                                                    tr += "<td>" + getDuration(djson[x]["START_DATE"], djson[x]["END_DATE"]) + "</td>";
+                                                    tr += "<td>" + djson[x]["CATEGORY"] + "</td>";
+                                                    tr += "<td>" + djson[x]["START"] + "</td>";
+                                                    tr += "<td>" + djson[x]["STOP"] + "</td>";
+                                                    tr += "<td>" + djson[x]["MILES"] + "</td>";
+                                                    tr += "<td>" + djson[x]["PURPOSE"] + "</td>";
+                                                    tr += "</tr>";
+                                                    i++;
+                                                }
+                                            }
+                                            document.querySelector("table tbody").innerHTML = tr;
+                                        });
+                                    }
+                                }
+                            </script>
+                        </th>
+                        <!-- start date -->
+                        <th style="width:240px;height:200px;padding:0;vertical-align:top;">
+                            <div id="main" style="width: 100%; height: 180px;margin:auto;"></div>
+                        </th>
+
                         <script>
-                            "use strict";
-                            function Slider(slider){
-                            this.slider = slider;
-                            var sldinput= this.slider.querySelector('.slider-input');//input
-                            var sldthumb= this.slider.querySelector('.slider-thumb');//中间按钮
-                            var sldlevel= this.slider.querySelector('.slider-level');//当前值显示的进度
-                            this.slider.addEventListener('input', function() {
-                                    this.updateSliderLevel();
-                                }.bind(this), false);
-                            
-                            this.updateSliderLevel =function() {
-                                var val=parseInt(sldinput.value);
-                                sldthumb.style.left = val + '%';//更新按钮的位置
-                                sldthumb.textContent = val;   //更新近钮上显示的值
-                                sldlevel.style.width = val + '%';//更新进度条的长度
-                            }
-                            }
-                            var volumeSlider =document.getElementById('volume');
-                            new Slider(volumeSlider);
+                            document.addEventListener("DOMContentLoaded", function () {
+                                var chartDom = document.getElementById('main');
+                                var myChart = echarts.init(chartDom);
 
-                            function slider_(){
-                                var volumn = 0;
-                                volumn = document.querySelector('#volume .slider-input').value;
-                                var num=0;
-                                if(volumn != 0){num = Math.round(1155*(volumn*0.01));}
-                            if(num == 0){
-                                var srearchItem = "HELLO"
-                                var purpose_ = database.ref('/index').orderByChild('PURPOSE').equalTo(srearchItem);
-                                var djson;
+                                var rawData = [19, 5, 2, 3, 0, 4, 4, 13, 35, 51, 65, 72, 77, 94, 89, 98, 88, 95, 94, 68, 71, 51, 31, 26];
+                                var hours = Array.from({ length: 24 }, (_, i) => i < 10 ? '0' + i : '' + i);
+                                var totalTrips = 1155;
 
-                                purpose_.once('value', function(snapshot){
-                                    djson_ = JSON.parse(JSON.stringify(snapshot.val()));
-                                    djson = jsonToArray(djson_)
-                                    
-                                    var tr = "";
-                                    var i = 1;
-                                    for(x in djson){
-                                        if(djson[x] != null){
-                                            tr += "<tr>";
-                                            tr += "<td>"+i+"</td>";
-                                            tr += "<td>"+djson[x]["START_DATE"]+"</td>";
-                                            tr += "<td>"+getDuration(djson[x]["START_DATE"], djson[x]["END_DATE"])+"</td>"; // 改這行
-                                            tr += "<td>"+djson[x]["CATEGORY"]+"</td>";
-                                            tr += "<td>"+djson[x]["START"]+"</td>";
-                                            tr += "<td>"+djson[x]["STOP"]+"</td>";
-                                            tr += "<td>"+djson[x]["MILES"]+"</td>";
-                                            tr += "<td>"+djson[x]["PURPOSE"]+"</td>";
-                                            tr += "</tr>";
-                                            i ++; 
-                                        }    
-                                    }
-                                    document.querySelector("table tbody").innerHTML = tr;
-                                });
-                            }
-                            else {
-                                var prec_ = database.ref('/index').orderByChild('MILES').limitToFirst(num);
-                                prec_.once('value', function(snapshot){
-                                    var djson_raw = snapshot.val();
-                                    var djson = jsonToArray(djson_raw);
-                                    
-                                    var tr = "";
-                                    var i = 1;
-                                    for(x in djson){
-                                        if(djson[x] != null){
-                                            tr += "<tr>";
-                                            tr += "<td>"+i+"</td>";
-                                            tr += "<td>"+djson[x]["START_DATE"]+"</td>";
-                                            tr += "<td>"+getDuration(djson[x]["START_DATE"], djson[x]["END_DATE"])+"</td>";
-                                            tr += "<td>"+djson[x]["CATEGORY"]+"</td>";
-                                            tr += "<td>"+djson[x]["START"]+"</td>";
-                                            tr += "<td>"+djson[x]["STOP"]+"</td>";
-                                            tr += "<td>"+djson[x]["MILES"]+"</td>";
-                                            tr += "<td>"+djson[x]["PURPOSE"]+"</td>";
-                                            tr += "</tr>";
-                                            i ++; 
-                                        }    
-                                    }
-                                    document.querySelector("table tbody").innerHTML = tr;
-                                });  
-                            }
-                        }
-                        </script>
-                    </th>
-                    <!-- start date -->
-                    <th style="width:240px;height:200px;padding:0;vertical-align:top;">
-                        <div id="main" style="width: 100%; height: 180px;margin:auto;"></div>
-                    </th>
-                    
-                    <script>
-                    document.addEventListener("DOMContentLoaded", function () {
-                        var chartDom = document.getElementById('main');
-                        var myChart = echarts.init(chartDom);
-                    
-                        var rawData = [19,5,2,3,0,4,4,13,35,51,65,72,77,94,89,98,88,95,94,68,71,51,31,26];
-                        var hours = Array.from({length:24}, (_,i)=> i<10 ? '0'+i : ''+i);
-                        var totalTrips = 1155;
-                        
-                        var option = {
-                            tooltip: {
-                                trigger: 'axis',
-                                axisPointer: { type: 'none' }, 
-                                confine: true, // 確保小容器內 tooltip 不會被切掉
-                                formatter: function (params) {
-                                    var p = params[0];
-                                    var hour = parseInt(p.name);
-                                    var period = hour < 12 ? 'AM' : 'PM';
-                                    var displayHour = hour % 12 === 0 ? 12 : hour % 12;
-                                    var percent = ((p.value / totalTrips) * 100).toFixed(2);
-                                    return displayHour + ' ' + period + ': <b>' + p.value + '</b> (' + percent + '%)';
-                                }
-                            },
-                            grid: {
-                                left: 5,
-                                right: 0,
-                                bottom: 20,
-                                top: 15,
-                                containLabel: false
-                            },
-                            xAxis: {
-                                type: 'category',
-                                data: hours,
-                                axisLine: {show: false}, // 移除 X 軸黑線
-                                axisTick: {show: false},
-                                axisLabel: {
-                                    interval: 3, // 檢查每一個刻度
-                                    rotate: 0,   // 文字不斜放
-                                    lineHeight: 8, // 設定行高讓換行更好看
-                                    margin: 1,
-                                    color: '#666',
-                                    fontSize: 8,
-                                    formatter: function (value) {
-                                        var hour = parseInt(value);
-                                        var period = hour < 12 ? 'AM' : 'PM';
-                                        var displayHour = hour % 12 === 0 ? 12 : hour % 12;
-                                        return displayHour + '\n' + period;
+                                var option = {
+                                    tooltip: {
+                                        trigger: 'axis',
+                                        axisPointer: { type: 'none' },
+                                        confine: true, // 確保小容器內 tooltip 不會被切掉
+                                        formatter: function (params) {
+                                            var p = params[0];
+                                            var hour = parseInt(p.name);
+                                            var period = hour < 12 ? 'AM' : 'PM';
+                                            var displayHour = hour % 12 === 0 ? 12 : hour % 12;
+                                            var percent = ((p.value / totalTrips) * 100).toFixed(2);
+                                            return displayHour + ' ' + period + ': <b>' + p.value + '</b> (' + percent + '%)';
+                                        }
                                     },
-                                }
-                            },
-                            yAxis: {show: false},
-                            series: [{
-                                type: 'bar',
-                                data: rawData,
-                                barWidth: '85%',
-                                itemStyle: {color: '#37A2DA',borderRadius: [2, 2, 0, 0]},
-                                emphasis: {
-                                    disabled: false,
-                                    scale: false, // 禁用放大效果
-                                    itemStyle: {color: '#2a82b3'}
-                               }
-                            }]
-                        };
-                        myChart.setOption(option);
-                        window.addEventListener('resize', function(){myChart.resize();});
-                    });
-                    </script>
-                    <!--1 DURATION -->
-                    <th style="width: 160px; height: 180px; padding: 0; vertical-align: top;">
+                                    grid: {
+                                        left: 5,
+                                        right: 0,
+                                        bottom: 20,
+                                        top: 15,
+                                        containLabel: false
+                                    },
+                                    xAxis: {
+                                        type: 'category',
+                                        data: hours,
+                                        axisLine: { show: false }, // 移除 X 軸黑線
+                                        axisTick: { show: false },
+                                        axisLabel: {
+                                            interval: 3, // 檢查每一個刻度
+                                            rotate: 0,   // 文字不斜放
+                                            lineHeight: 8, // 設定行高讓換行更好看
+                                            margin: 1,
+                                            color: '#666',
+                                            fontSize: 8,
+                                            formatter: function (value) {
+                                                var hour = parseInt(value);
+                                                var period = hour < 12 ? 'AM' : 'PM';
+                                                var displayHour = hour % 12 === 0 ? 12 : hour % 12;
+                                                return displayHour + '\n' + period;
+                                            },
+                                        }
+                                    },
+                                    yAxis: { show: false },
+                                    series: [{
+                                        type: 'bar',
+                                        data: rawData,
+                                        barWidth: '85%',
+                                        itemStyle: { color: '#37A2DA', borderRadius: [2, 2, 0, 0] },
+                                        emphasis: {
+                                            disabled: false,
+                                            scale: false, // 禁用放大效果
+                                            itemStyle: { color: '#2a82b3' }
+                                        }
+                                    }]
+                                };
+                                myChart.setOption(option);
+                                window.addEventListener('resize', function () { myChart.resize(); });
+                            });
+                        </script>
+                        <!--1 DURATION -->
+                        <th style="width: 160px; height: 180px; padding: 0; vertical-align: top;">
                             <div id="main1" style="width: 100%; height: 100%;"></div>
                             <script type="text/javascript">
                                 var myChart1 = echarts.init(document.getElementById('main1'));
                                 var totalTrips = 1155;
                                 var durationValues = [55, 215, 215, 203, 135, 88, 107, 57, 26, 18, 6, 30];
                                 var binNames = [
-                                    '[0, 5)', '[5, 10)', '[10, 15)', '[15, 20)', '[20, 25)', '[25, 30)', 
+                                    '[0, 5)', '[5, 10)', '[10, 15)', '[15, 20)', '[20, 25)', '[25, 30)',
                                     '[30, 40)', '[40, 50)', '[50, 60)', '[60, 80)', '[80, 100)', '[100, ∞)'
                                 ];
                                 var option1 = {
                                     tooltip: {
                                         trigger: 'axis',
                                         backgroundColor: 'rgba(50, 50, 50, 0.8)',
-                                        textStyle: { color: '#fff', fontSize: 11},
+                                        textStyle: { color: '#fff', fontSize: 11 },
                                         axisPointer: { type: 'none' }, // 使用陰影指示器更像直方圖
                                         confine: true,
-                                        formatter: function(params) {
+                                        formatter: function (params) {
                                             var p = params[0];
                                             var percent = ((p.value / totalTrips) * 100).toFixed(2) + '%';
                                             return p.name + ': ' + p.value + ' (' + percent + ')';
                                         }
                                     },
-                                    grid: { 
-                                        top: 15, 
-                                        bottom:20, 
-                                        left: 7, 
+                                    grid: {
+                                        top: 15,
+                                        bottom: 20,
+                                        left: 7,
                                         right: 0,
-                                        containLabel: false 
+                                        containLabel: false
                                     },
                                     xAxis: {
                                         type: 'category',
                                         data: binNames,
                                         boundaryGap: true, // 關鍵：讓數據點（Bar 的左側）直接對齊刻度
-                                        axisLine: { show: true, lineStyle: { color: '#eee' } }, 
-                                        axisTick: { 
-                                            show: true, 
+                                        axisLine: { show: true, lineStyle: { color: '#eee' } },
+                                        axisTick: {
+                                            show: true,
                                             alignWithLabel: false, // 讓線出現在 Bar 與 Bar 之間
                                             length: 4,            // 線的長度
                                             lineStyle: { color: '#999', width: 1 } // 細黑色線
                                         },
-                                        axisLabel: { 
-                                            fontSize: 8, 
+                                        axisLabel: {
+                                            fontSize: 8,
                                             interval: 0,
                                             color: '#666',
                                             align: 'right',
@@ -513,60 +577,60 @@
                                             }
                                         },
                                     },
-                                    yAxis: { show: false},
+                                    yAxis: { show: false },
                                     series: [{
                                         type: 'bar',
                                         data: durationValues,
                                         barWidth: '100%',
                                         customValues: durationValues,
-                                        itemStyle: { color: '#37A2DA', borderWidth: 0.5, borderRadius: 0, borderColor: '#37A2DA'},
-                                        emphasis: {disabled: false, scale: false, itemStyle: {color: '#2a82b3'}}
+                                        itemStyle: { color: '#37A2DA', borderWidth: 0.5, borderRadius: 0, borderColor: '#37A2DA' },
+                                        emphasis: { disabled: false, scale: false, itemStyle: { color: '#2a82b3' } }
                                     }]
                                 };
                                 myChart1.setOption(option1);
                             </script>
                         </th>
-                    <!--2 catalogy -->
-                    <th style="width:160px; height:160px; padding:0; vertical-align:top;">
-                        <div id="main2" style="width: 100%; height: 100%; margin: 0 auto;"></div>
-                        <script type="text/javascript">
-                            var myChart2 = echarts.init(document.getElementById('main2'));
-                            var option2 = {
-                                title: {},
-                                tooltip: {
-                                    trigger: 'item',
-                                    formatter: '{b}: {c} ({d}%)' // 滑鼠移上去時顯示詳細數據
-                                },
-                                legend: {show: false},
-                                grid: {top: 0,bottom: 0,left: 0,right: 0},
-                                xAxis: {show: false},
-                                yAxis: {show: false},
-                                series: [{
-                                    name: 'Category',
-                                    type: 'pie',
-                                    center: ['50%', '50%'],
-                                    radius: ['40%', '70%'], 
-                                    avoidLabelOverlap: false,
-                                    label: {show: false},
-                                    labelLine: {show: false},
-                                    emphasis: {
-                                        scale: true, 
-                                        scaleSize: 5,
-                                        label: {show: false}
+                        <!--2 catalogy -->
+                        <th style="width:160px; height:160px; padding:0; vertical-align:top;">
+                            <div id="main2" style="width: 100%; height: 100%; margin: 0 auto;"></div>
+                            <script type="text/javascript">
+                                var myChart2 = echarts.init(document.getElementById('main2'));
+                                var option2 = {
+                                    title: {},
+                                    tooltip: {
+                                        trigger: 'item',
+                                        formatter: '{b}: {c} ({d}%)' // 滑鼠移上去時顯示詳細數據
                                     },
-                                    data: [
-                                        {value: 1078, name: 'Business'},
-                                        {value: 77, name: 'Personal'}
-                                    ]
-                                }]
-                            };
-                            myChart2.setOption(option2);
-                        </script>
-                    </th>
-                    <!-- 3 start -->
-                    <th style="width: 160px; height: 180px; padding: 0; vertical-align: top; position: relative;">
-                        <div id="main3" style="width: 100%; height: 100%;"></div>
-                        <div id="unknown-info" style="
+                                    legend: { show: false },
+                                    grid: { top: 0, bottom: 0, left: 0, right: 0 },
+                                    xAxis: { show: false },
+                                    yAxis: { show: false },
+                                    series: [{
+                                        name: 'Category',
+                                        type: 'pie',
+                                        center: ['50%', '50%'],
+                                        radius: ['40%', '70%'],
+                                        avoidLabelOverlap: false,
+                                        label: { show: false },
+                                        labelLine: { show: false },
+                                        emphasis: {
+                                            scale: true,
+                                            scaleSize: 5,
+                                            label: { show: false }
+                                        },
+                                        data: [
+                                            { value: 1078, name: 'Business' },
+                                            { value: 77, name: 'Personal' }
+                                        ]
+                                    }]
+                                };
+                                myChart2.setOption(option2);
+                            </script>
+                        </th>
+                        <!-- 3 start -->
+                        <th style="width: 160px; height: 180px; padding: 0; vertical-align: top; position: relative;">
+                            <div id="main3" style="width: 100%; height: 100%;"></div>
+                            <div id="unknown-info" style="
                                 position: absolute; 
                                 bottom: 10px; 
                                 left: 50%;                   /* 定位在父容器 50% 的位置 */
@@ -576,14 +640,14 @@
                                 color: #999; 
                                 pointer-events: none;
                                 line-height: 12px;">
-                        </div>
-                        <script type="text/javascript">
+                            </div>
+                            <script type="text/javascript">
                                 var myChart3 = echarts.init(document.getElementById('main3'));
 
                                 var rawNames = ["Cary", "Unknown Location", "Morrisville", "Whitebridge", "Islamabad", "Durham", "Lahore", "Raleigh", "Karachi", "Apex", "Berkeley"];
                                 var rawValues = [201, 148, 85, 68, 57, 37, 36, 28, 27, 17, 16];
-                                var total = 1155; 
-                                
+                                var total = 1155;
+
                                 // 2. 計算比例
                                 var unknownIdx = rawNames.indexOf("Unknown Location");
                                 var unknownValue = unknownIdx > -1 ? rawValues[unknownIdx] : 0;
@@ -591,21 +655,21 @@
 
                                 // 【關鍵修改：把文字塞進 HTML 標籤】
                                 document.getElementById('unknown-info').innerText = 'Unknown: ' + unknownValue + ' (' + unknownPercent + ')';
-                                
+
                                 // 3. 過濾 Unknown 並取前 10
                                 var filtered = [];
                                 rawNames.forEach((name, i) => {
-                                    if (name !== "Unknown Location") filtered.push({name: name, value: rawValues[i]});
+                                    if (name !== "Unknown Location") filtered.push({ name: name, value: rawValues[i] });
                                 });
                                 var top10 = filtered.slice(0, 10).reverse(); // 反轉讓第一名在最上面
-                                
+
                                 var option3 = {
-                                    tooltip: { 
+                                    tooltip: {
                                         trigger: 'axis',
                                         backgroundColor: 'rgba(50, 50, 50, 0.8)',
                                         textStyle: { color: '#fff', fontSize: 11 },
                                         axisPointer: { type: 'none' },
-                                        formatter: function(params) {
+                                        formatter: function (params) {
                                             var val = params[0].value;
                                             var percent = ((val / total) * 100).toFixed(2) + '%';
                                             return params[0].name + ': ' + val + ' (' + percent + ')';
@@ -633,33 +697,34 @@
                                         data: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1],
                                         axisLine: { show: false }, // 隱藏軸線
                                         axisTick: { show: false }, // 隱藏刻度
-                                        axisLabel: { show: true, interval: 0, color: '#666', fontSize: 8, margin: 5}
+                                        axisLabel: { show: true, interval: 0, color: '#666', fontSize: 8, margin: 5 }
                                     },
                                     series: [{
                                         type: 'bar',
-                                        data: top10.map(item => ({name: item.name, value: item.value})),
+                                        data: top10.map(item => ({ name: item.name, value: item.value })),
                                         barWidth: '85%', // 加粗柱子，減少垂直空隙
-                                        itemStyle: { 
-                                            color: '#37A2DA', 
-                                            borderRadius: [0, 2, 2, 0] 
+                                        itemStyle: {
+                                            color: '#37A2DA',
+                                            borderRadius: [0, 2, 2, 0]
                                         },
-                                        label: {show: false},
+                                        label: { show: false },
                                         emphasis: {
-                                            itemStyle: { 
+                                            itemStyle: {
                                                 disabled: false,
                                                 scale: false,
-                                                color: '#2a82b3' } // 移上去時稍微改變顏色亮度即可，不需要灰色背景
+                                                color: '#2a82b3'
+                                            } // 移上去時稍微改變顏色亮度即可，不需要灰色背景
                                         }
                                     }]
                                 };
-                            myChart3.setOption(option3);
-                            window.addEventListener('resize', function(){myChart3.resize();});
-                        </script>
-                    </th>
-                    <!--4 end location -->
-                    <th style="position: relative; width: 160px; height: 80px; padding: 0; vertical-align: top;">
-                        <div id="main4" style="width: 100%; height: 100%;"></div>
-                        <div id="unknown-info-end" style="
+                                myChart3.setOption(option3);
+                                window.addEventListener('resize', function () { myChart3.resize(); });
+                            </script>
+                        </th>
+                        <!--4 end location -->
+                        <th style="position: relative; width: 160px; height: 80px; padding: 0; vertical-align: top;">
+                            <div id="main4" style="width: 100%; height: 100%;"></div>
+                            <div id="unknown-info-end" style="
                             position: absolute; 
                             bottom: 10px; 
                             left: 50%;                   /* 定位在父容器 50% 的位置 */
@@ -669,174 +734,39 @@
                             color: #999; 
                             pointer-events: none;
                             line-height: 12px;">
-                        </div>
-                        
-                        <script type="text/javascript">
-                            var myChart4 = echarts.init(document.getElementById('main4'));
-                            // 原始數據
-                            var rawNamesEnd = ["Cary","Unknown Location","Morrisville","Whitebridge","Islamabad","Durham","Lahore","Raleigh","Karachi","Apex", "Berkeley"];
-                            var rawValuesEnd = [203, 149, 84, 65, 58, 36, 35, 29, 26, 17, 16]; // 這裡稍微修正了你的原始數據格式
-                            var total = 1155; 
-                    
-                            // 1. 處理 Unknown 資訊
-                            var unkIdxEnd = rawNamesEnd.indexOf("Unknown Location");
-                            var unkValEnd = unkIdxEnd > -1 ? rawValuesEnd[unkIdxEnd] : 0;
-                            var unkPctEnd = ((unkValEnd / total) * 100).toFixed(1) + '%';
-                            document.getElementById('unknown-info-end').innerText = 'Unknown: ' + unkValEnd + ' (' + unkPctEnd + ')';
-                    
-                            // 2. 過濾並取前 10 (由小到大排，讓最大在上面)
-                            var filteredEnd = [];
-                            rawNamesEnd.forEach((name, i) => {
-                                if (name !== "Unknown Location") filteredEnd.push({name: name, value: rawValuesEnd[i]});
-                            });
-                            var top10End = filteredEnd.slice(0, 10).reverse();
-                    
-                            var option4 = {
-                                tooltip: { 
-                                    trigger: 'axis',
-                                    backgroundColor: 'rgba(50, 50, 50, 0.8)',
-                                    textStyle: { color: '#fff', fontSize: 11 },
-                                    axisPointer: { type: 'none' },
-                                    formatter: function(params) {
-                                        var val = params[0].value;
-                                        var percent = ((val / total) * 100).toFixed(2) + '%';
-                                        return params[0].data.name + ': ' + val + ' (' + percent + ')';
-                                    }
-                                },
-                                title: {
-                                    text: 'Top 10:',
-                                    left: 0,            // 靠最左
-                                    top: 0,             // 靠最上
-                                    textStyle: {
-                                        fontSize: 10,    // 字體大小
-                                        color: '#333'    // 深灰色文字
-                                    }
-                                },
-                                grid: {
-                                    top: 25,
-                                    bottom: 15, 
-                                    left: 20,
-                                    right: 10,
-                                    containLabel: false
-                                },
-                                xAxis: { show: false, type: 'value' },
-                                yAxis: {
-                                    type: 'category',
-                                    data: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1],
-                                    axisLine: { show: false },
-                                    axisTick: { show: false },
-                                    axisLabel: { show: true, interval: 0, color: '#666', fontSize: 8, margin: 5}
-                                },
-                                series: [{
-                                    type: 'bar',
-                                    data: top10End.map(item => ({ name: item.name, value: item.value })),
-                                    barWidth: '85%', 
-                                    itemStyle: { 
-                                        color: '#37A2DA', 
-                                        borderRadius: [0, 2, 2, 0] 
-                                    },
-                                    label: {show: false},
-                                    emphasis: {
-                                        disabled: false,
-                                        scale: false,
-                                        itemStyle: {
-                                            color: '#2a82b3' 
-                                        }
-                                    }
-                                }]
-                            };
-                            myChart4.setOption(option4);
-                            window.addEventListener('resize', function(){myChart4.resize();});
-                        </script>             
-                    </th>
-                    <!--5 miles -->
-                    <th style="position: relative; width: 180px; height: 100px; padding: 0; vertical-align: top;">
-                        <div id="main5" style="width: 100%; height: 100%;"></div>
-                        <script type="text/javascript">
-                            var myChart5 = echarts.init(document.getElementById('main5'));
-                            var milesData = [
-                                        {value: 496, name: '0-5 miles'},
-                                        {value: 341, name: '5-10 miles'},
-                                        {value: 234, name: '10-20 miles'},
-                                        {value: 57, name: '20-50 miles'},
-                                        {value: 27, name: '50+ miles'}];
+                            </div>
 
-                            var option5 = {
-                                tooltip: {
-                                    trigger: 'item',
-                                    backgroundColor: 'rgba(50, 50, 50, 0.8)',
-                                    textStyle: { color: '#fff', fontSize: 11 },
-                                    confine: true,
-                                    formatter: function(params) {
-                                        var label = params.name.split(' ')[0]; 
-                                        var formattedLabel = '[' + label.replace('-', ', ') + ')'; 
-                                        return formattedLabel + ': ' + params.value + ' (' + params.percent + '%)';
-                                    }
-                                },
-                                // --- 關鍵修正：調整 Grid 留白 ---
-                                grid: {
-                                    top: 5,      
-                                    bottom: 5,
-                                    left: 5,     // 左右各留 5px 的緩衝空間
-                                    right: 8,    // 右邊稍微留多一點點給紅色區塊
-                                    containLabel: false
-                                },
-                                series: [{
-                                    name: 'Miles Distribution',
-                                    type: 'pie',
-                                    roseType: 'radius',
-                                    radius: ['15%', '85%'], // 內徑與外徑，讓圖表更大
-                                    center: ['50%', '55%'],
-                                    avoidLabelOverlap: false,
-                                    label: { show: false },
-                                    itemStyle: {borderRadius: 4},
-                                    emphasis: {focus: 'self', itemStyle: {shadowBlur: 10, shadowOffsetX: 0, shadowColor: 'rgba(0,0,0,0.5)', scaleSize: 8}
-                                    },
-                                    data: milesData
-                                }]
-                            };
-                            myChart5.setOption(option5);
-                        </script>
-                    </th>
-                    <!--6 purpose -->
-                    <th style="position: relative; width: 160px; height: 100px; padding: 0; vertical-align: top;">
-                            <div id="main6" style="width: 100%; height: 100%;"></div>
                             <script type="text/javascript">
-                                var myChart6 = echarts.init(document.getElementById('main6'));
-                                // 1. 資料定義
-                                var purposeData = [
-                                    {name: "Other", value: 502},
-                                    {name: "Meeting", value: 187},
-                                    {name: "Meal/Entertain", value: 160},
-                                    {name: "Errand/Supplies", value: 128},
-                                    {name: "Customer Visit", value: 101},
-                                    {name: "Temporary Site", value: 50},
-                                    {name: "Between Offices", value: 18},
-                                    {name: "Moving", value: 4},
-                                    {name: "Airport/Travel", value: 3},
-                                    {name: "Charity", value: 1},
-                                    {name: "Commute", value: 1}
-                                ];
+                                var myChart4 = echarts.init(document.getElementById('main4'));
+                                // 原始數據
+                                var rawNamesEnd = ["Cary", "Unknown Location", "Morrisville", "Whitebridge", "Islamabad", "Durham", "Lahore", "Raleigh", "Karachi", "Apex", "Berkeley"];
+                                var rawValuesEnd = [203, 149, 84, 65, 58, 36, 35, 29, 26, 17, 16]; // 這裡稍微修正了你的原始數據格式
+                                var total = 1155;
 
-                                var totalPurpose = 1155;
+                                // 1. 處理 Unknown 資訊
+                                var unkIdxEnd = rawNamesEnd.indexOf("Unknown Location");
+                                var unkValEnd = unkIdxEnd > -1 ? rawValuesEnd[unkIdxEnd] : 0;
+                                var unkPctEnd = ((unkValEnd / total) * 100).toFixed(1) + '%';
+                                document.getElementById('unknown-info-end').innerText = 'Unknown: ' + unkValEnd + ' (' + unkPctEnd + ')';
 
-                                // 2. 排序並取 Top 10
-                                purposeData.sort((a, b) => b.value - a.value);
-                                var top10 = purposeData.slice(0, 10);
-                                
-                                var option6 = {
+                                // 2. 過濾並取前 10 (由小到大排，讓最大在上面)
+                                var filteredEnd = [];
+                                rawNamesEnd.forEach((name, i) => {
+                                    if (name !== "Unknown Location") filteredEnd.push({ name: name, value: rawValuesEnd[i] });
+                                });
+                                var top10End = filteredEnd.slice(0, 10).reverse();
+
+                                var option4 = {
                                     tooltip: {
                                         trigger: 'axis',
                                         backgroundColor: 'rgba(50, 50, 50, 0.8)',
                                         textStyle: { color: '#fff', fontSize: 11 },
                                         axisPointer: { type: 'none' },
-                                        confine: true,
-                                        formatter: function(params) {
-                                            var i = params[0].dataIndex;
-                                            var val = top10[i].value;
-                                            var percent = ((val / totalPurpose) * 100).toFixed(2) + '%';
-                                            return top10[i].name + ': ' + val + ' (' + percent + ')';
-                                        },
+                                        formatter: function (params) {
+                                            var val = params[0].value;
+                                            var percent = ((val / total) * 100).toFixed(2) + '%';
+                                            return params[0].data.name + ': ' + val + ' (' + percent + ')';
+                                        }
                                     },
                                     title: {
                                         text: 'Top 10:',
@@ -848,8 +778,144 @@
                                         }
                                     },
                                     grid: {
+                                        top: 25,
+                                        bottom: 15,
+                                        left: 20,
+                                        right: 10,
+                                        containLabel: false
+                                    },
+                                    xAxis: { show: false, type: 'value' },
+                                    yAxis: {
+                                        type: 'category',
+                                        data: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1],
+                                        axisLine: { show: false },
+                                        axisTick: { show: false },
+                                        axisLabel: { show: true, interval: 0, color: '#666', fontSize: 8, margin: 5 }
+                                    },
+                                    series: [{
+                                        type: 'bar',
+                                        data: top10End.map(item => ({ name: item.name, value: item.value })),
+                                        barWidth: '85%',
+                                        itemStyle: {
+                                            color: '#37A2DA',
+                                            borderRadius: [0, 2, 2, 0]
+                                        },
+                                        label: { show: false },
+                                        emphasis: {
+                                            disabled: false,
+                                            scale: false,
+                                            itemStyle: {
+                                                color: '#2a82b3'
+                                            }
+                                        }
+                                    }]
+                                };
+                                myChart4.setOption(option4);
+                                window.addEventListener('resize', function () { myChart4.resize(); });
+                            </script>
+                        </th>
+                        <!--5 miles -->
+                        <th style="position: relative; width: 180px; height: 100px; padding: 0; vertical-align: top;">
+                            <div id="main5" style="width: 100%; height: 100%;"></div>
+                            <script type="text/javascript">
+                                var myChart5 = echarts.init(document.getElementById('main5'));
+                                var milesData = [
+                                    { value: 496, name: '0-5 miles' },
+                                    { value: 341, name: '5-10 miles' },
+                                    { value: 234, name: '10-20 miles' },
+                                    { value: 57, name: '20-50 miles' },
+                                    { value: 27, name: '50+ miles' }];
+
+                                var option5 = {
+                                    tooltip: {
+                                        trigger: 'item',
+                                        backgroundColor: 'rgba(50, 50, 50, 0.8)',
+                                        textStyle: { color: '#fff', fontSize: 11 },
+                                        confine: true,
+                                        formatter: function (params) {
+                                            var label = params.name.split(' ')[0];
+                                            var formattedLabel = '[' + label.replace('-', ', ') + ')';
+                                            return formattedLabel + ': ' + params.value + ' (' + params.percent + '%)';
+                                        }
+                                    },
+                                    // --- 關鍵修正：調整 Grid 留白 ---
+                                    grid: {
                                         top: 5,
-                                        bottom: 18, // 留空間給 1-10 數字
+                                        bottom: 5,
+                                        left: 5,     // 左右各留 5px 的緩衝空間
+                                        right: 8,    // 右邊稍微留多一點點給紅色區塊
+                                        containLabel: false
+                                    },
+                                    series: [{
+                                        name: 'Miles Distribution',
+                                        type: 'pie',
+                                        roseType: 'radius',
+                                        radius: ['15%', '85%'], // 內徑與外徑，讓圖表更大
+                                        center: ['50%', '55%'],
+                                        avoidLabelOverlap: false,
+                                        label: { show: false },
+                                        itemStyle: { borderRadius: 4 },
+                                        emphasis: {
+                                            focus: 'self', itemStyle: { shadowBlur: 10, shadowOffsetX: 0, shadowColor: 'rgba(0,0,0,0.5)', scaleSize: 8 }
+                                        },
+                                        data: milesData
+                                    }]
+                                };
+                                myChart5.setOption(option5);
+                            </script>
+                        </th>
+                        <!--6 purpose -->
+                        <th style="position: relative; width: 160px; height: 100px; padding: 0; vertical-align: top;">
+                            <div id="main6" style="width: 100%; height: 100%;"></div>
+                            <script type="text/javascript">
+                                var myChart6 = echarts.init(document.getElementById('main6'));
+                                // 1. 資料定義
+                                var purposeData = [
+                                    { name: "Other", value: 502 },
+                                    { name: "Meeting", value: 187 },
+                                    { name: "Meal/Entertain", value: 160 },
+                                    { name: "Errand/Supplies", value: 128 },
+                                    { name: "Customer Visit", value: 101 },
+                                    { name: "Temporary Site", value: 50 },
+                                    { name: "Between Offices", value: 18 },
+                                    { name: "Moving", value: 4 },
+                                    { name: "Airport/Travel", value: 3 },
+                                    { name: "Charity", value: 1 },
+                                    { name: "Commute", value: 1 }
+                                ];
+
+                                var totalPurpose = 1155;
+
+                                // 2. 排序並取 Top 10
+                                purposeData.sort((a, b) => b.value - a.value);
+                                var top10 = purposeData.slice(0, 10);
+
+                                var option6 = {
+                                    tooltip: {
+                                        trigger: 'axis',
+                                        backgroundColor: 'rgba(50, 50, 50, 0.8)',
+                                        textStyle: { color: '#fff', fontSize: 11 },
+                                        axisPointer: { type: 'none' },
+                                        confine: true,
+                                        formatter: function (params) {
+                                            var i = params[0].dataIndex;
+                                            var val = top10[i].value;
+                                            var percent = ((val / totalPurpose) * 100).toFixed(2) + '%';
+                                            return top10[i].name + ': ' + val + ' (' + percent + ')';
+                                        },
+                                    },
+                                    title: {
+                                        text: 'Top 10:',
+                                        left: 0,            
+                                        top: 0,             
+                                        textStyle: {
+                                            fontSize: 10,    
+                                            color: '#333'    
+                                        }
+                                    },
+                                    grid: {
+                                        top: 5,
+                                        bottom: 18, 
                                         left: 2,
                                         right: 2,
                                         containLabel: false
@@ -883,19 +949,18 @@
                                         emphasis: {
                                             disabled: false,
                                             scale: false,
-                                            itemStyle: {color: '#2a82b3'}
+                                            itemStyle: { color: '#2a82b3' }
                                         }
                                     }]
                                 };
                                 myChart6.setOption(option6);
                             </script>
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-            </tbody>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
             </table>
-
         </div>
     </div>
     <script>
@@ -922,278 +987,274 @@
         var myuber = database.ref('/index/');
         var djson;
 
-        myuber.once('value', function(snapshot){
+        myuber.once('value', function (snapshot) {
             var rawData = snapshot.val();
             djson = jsonToArray(rawData);
             renderTable(djson);
         });
     </script>
     <script>
-    function toggleSort(property, element) {
-        // 1. 檢查目前是否為「降序」圖示
-        var isDescending = element.classList.contains('fa-sort-amount-down');
-        var djson = [...currentDisplayData];
+        function toggleSort(property, element) {
+            // 1. 檢查目前是否為「降序」圖示
+            var isDescending = element.classList.contains('fa-sort-amount-down');
+            var djson = [...currentDisplayData];
 
-        // 2. 執行排序邏輯與圖示切換
-        if (isDescending) {
-            // 目前是降序 -> 改為升序
-            if (property === 'DURATION') {
-                djson.sort(up_duration_compare());
-            } else if (property === 'START_DATE') {
-                djson.sort(up_date(property));
-            } else if (property === 'MILES') {
-                djson.sort(up_number(property)); 
+            // 2. 執行排序邏輯與圖示切換
+            if (isDescending) {
+                // 目前是降序 -> 改為升序
+                if (property === 'DURATION') {
+                    djson.sort(up_duration_compare());
+                } else if (property === 'START_DATE') {
+                    djson.sort(up_date(property));
+                } else if (property === 'MILES') {
+                    djson.sort(up_number(property));
+                } else {
+                    djson.sort(up_string(property));
+                }
+                element.className = 'fas fa-sort-amount-up-alt'; // 切換圖示
             } else {
-                djson.sort(up_string(property));
+                // 目前是升序或未排序 -> 改為降序
+                if (property === 'DURATION') {
+                    djson.sort(down_duration_compare());
+                } else if (property === 'START_DATE') {
+                    djson.sort(down_date(property));
+                } else if (property === 'MILES') {
+                    djson.sort(down_number(property));
+                } else {
+                    djson.sort(down_string(property));
+                }
+                element.className = 'fas fa-sort-amount-down'; // 切換圖示
             }
-            element.className = 'fas fa-sort-amount-up-alt'; // 切換圖示
-        } else {
-            // 目前是升序或未排序 -> 改為降序
-            if (property === 'DURATION') {
-                djson.sort(down_duration_compare());
-            } else if (property === 'START_DATE') {
-                djson.sort(down_date(property));
-            } else if (property === 'MILES') {
-                djson.sort(down_number(property)); 
-            } else {
-                djson.sort(down_string(property));
-            }
-            element.className = 'fas fa-sort-amount-down'; // 切換圖示
-        }
-        // 渲染「排序後」的資料
-        renderTable(djson);
-        resetOtherIcons(element.id); // 重置其他欄位的圖示
-    }
-    
-    // 輔助函式：確保同一時間只有一個欄位顯示排序圖示
-    function resetOtherIcons(currentId) {
-        var icons = document.querySelectorAll('th i');
-        icons.forEach(function(icon) {
-            if (icon.id !== currentId) {
-                icon.className = 'fas fa-sort'; // 回到預設狀態
-            }
-        });
-    }
-        
-    //done
-    function default_() {
-        // 1. 回復 Miles 輸入框的顯示數值
-        document.getElementById("small_").value = 0;
-        document.getElementById("big_").value = 500;
-    
-        // 2. 回復 Purpose 下拉選單的顯示文字
-        var selectedText = document.getElementById('selected_purpose_text');
-        if (selectedText) {selectedText.innerHTML = "Select Purpose";}
-    
-        // 3. 清空隱藏的搜尋數值 (search_item_2)
-        var hiddenInput = document.getElementById("search_item_2");
-        if (hiddenInput) {hiddenInput.value = "";}
-
-        // 4. 回復所有排序圖示為預設雙箭頭
-        var icons = document.querySelectorAll('th i');
-        icons.forEach(function(icon) {
-            icon.className = 'fas fa-sort'; // 強制所有 Icon 回到預設狀態
-            icon.style.color = '#999';      // 如果你有改顏色，也一併還原
-        });
-    
-        // 5. 執行原有的資料重載邏輯
-        var index_ = database.ref('/index');
-        index_.once('value', function(snapshot) {
-            var rawData = snapshot.val();
-            var djson = jsonToArray(rawData);
+            // 渲染「排序後」的資料
             renderTable(djson);
-        });
-    }
-    // #升序
-    function up_compare(property){
-        return function(obj1, obj2) {
-            var value1 = obj1[property];
-            var value2 = obj2[property];
-            return value1 - value2;
+            resetOtherIcons(element.id); // 重置其他欄位的圖示
         }
-        // var sortObj = infoObj.sort(compare())
-    }
-    // #降序
-    function down_compare(property){
-        return function(obj1, obj2) {
-            var value1 = obj1[property];
-            var value2 = obj2[property];
-            return value2 - value1;
+
+        // 輔助函式：確保同一時間只有一個欄位顯示排序圖示
+        function resetOtherIcons(currentId) {
+            var icons = document.querySelectorAll('th i');
+            icons.forEach(function (icon) {
+                if (icon.id !== currentId) {
+                    icon.className = 'fas fa-sort'; // 回到預設狀態
+                }
+            });
         }
-    }
-    // 字典跟array的exchange
-    function jsonToArray (obj) {
-        const result = [];
-        for (let key in obj) {
-            result.push(obj[key]);
+
+        //done
+        function default_() {
+            // 1. 回復 Miles 輸入框的顯示數值
+            document.getElementById("small_").value = 0;
+            document.getElementById("big_").value = 500;
+
+            // 2. 回復 Purpose 下拉選單的顯示文字
+            var selectedText = document.getElementById('selected_purpose_text');
+            if (selectedText) { selectedText.innerHTML = "Select Purpose"; }
+
+            // 3. 清空隱藏的搜尋數值 (search_item_2)
+            var hiddenInput = document.getElementById("search_item_2");
+            if (hiddenInput) { hiddenInput.value = ""; }
+
+            // 4. 回復所有排序圖示為預設雙箭頭
+            var icons = document.querySelectorAll('th i');
+            icons.forEach(function (icon) {
+                icon.className = 'fas fa-sort'; // 強制所有 Icon 回到預設狀態
+                icon.style.color = '#999';      // 如果你有改顏色，也一併還原
+            });
+
+            // 5. 執行原有的資料重載邏輯
+            var index_ = database.ref('/index');
+            index_.once('value', function (snapshot) {
+                var rawData = snapshot.val();
+                var djson = jsonToArray(rawData);
+                renderTable(djson);
+            });
         }
-        return result;
-    }
-    function up_number(property) {
-        return function(obj1, obj2) {
-            // parseFloat 確保把 "5.1" 轉成數字 5.1
-            // || 0 是防呆，如果資料是空的就當作 0
-            var v1 = parseFloat(obj1[property]) || 0;
-            var v2 = parseFloat(obj2[property]) || 0;
-            return v1 - v2; 
+        // #升序
+        function up_compare(property) {
+            return function (obj1, obj2) {
+                var value1 = obj1[property];
+                var value2 = obj2[property];
+                return value1 - value2;
+            }
+            // var sortObj = infoObj.sort(compare())
         }
-    }
-    function down_number(property) {
-        return function(obj1, obj2) {
-            var v1 = parseFloat(obj1[property]) || 0;
-            var v2 = parseFloat(obj2[property]) || 0;
-            return v2 - v1;
-        }
-    }
-    //done
-    function up_date(property){
-        return function(obj1, obj2) {
-            var v1 = new Date(obj1[property]);
-            var v2 = new Date(obj2[property]);
-            return v1 - v2;
-        }
-    }
-    //done
-    function down_date(property){
-        return function(obj1, obj2) {
-            var v1 = new Date(obj1[property]);
-            var v2 = new Date(obj2[property]);
-            return v2 - v1;
-        }
-    }  
-    function up_string(property){
-        return function(obj1, obj2) {
-            var v1 = obj1[property] ? obj1[property].toString() : "";
-            var v2 = obj2[property] ? obj2[property].toString() : "";
-            if (v1 < v2) return -1;
-            if (v1 > v2) return 1;
-            return 0; // 相等時回傳 0
-        }
-    }
-    function down_string(property){
-        return function(obj1, obj2) {
-            var v1 = obj1[property] ? obj1[property].toString() : "";
-            var v2 = obj2[property] ? obj2[property].toString() : "";
-            if (v1 < v2) return 1;
-            if (v1 > v2) return -1;
-            return 0; // 相等時回傳 0
-        }
-    }
-    function up_duration_compare() {
-        return function(obj1, obj2) {
-            var val1 = parseFloat(getDuration(obj1["START_DATE"], obj1["END_DATE"])) || 0;
-            var val2 = parseFloat(getDuration(obj2["START_DATE"], obj2["END_DATE"])) || 0;
-            return val1 - val2;
-        };
-    }
-    
-    function down_duration_compare() {
-        return function(obj1, obj2) {
-            var val1 = parseFloat(getDuration(obj1["START_DATE"], obj1["END_DATE"])) || 0;
-            var val2 = parseFloat(getDuration(obj2["START_DATE"], obj2["END_DATE"])) || 0;
-            return val2 - val1;
-        };
-    }
-    function renderTable(dataArray) {
-        // 關鍵修改：每次渲染畫面時，都把這組資料存進全域變數
-        currentDisplayData = dataArray;
-        
-        var tr = "";
-        for (var i = 0; i < dataArray.length; i++) {
-            if (dataArray[i] != null) {
-                tr += "<tr>";
-                tr += "<td>" + (i + 1) + "</td>";
-                tr += "<td>" + dataArray[i]["START_DATE"] + "</td>";
-                tr += "<td>" + getDuration(dataArray[i]["START_DATE"], dataArray[i]["END_DATE"]) + "</td>";
-                tr += "<td>" + dataArray[i]["CATEGORY"] + "</td>";
-                tr += "<td>" + dataArray[i]["START"] + "</td>";
-                tr += "<td>" + dataArray[i]["STOP"] + "</td>";
-                tr += "<td>" + dataArray[i]["MILES"] + "</td>";
-                tr += "<td>" + dataArray[i]["PURPOSE"] + "</td>";
-                tr += "</tr>";
+        // #降序
+        function down_compare(property) {
+            return function (obj1, obj2) {
+                var value1 = obj1[property];
+                var value2 = obj2[property];
+                return value2 - value1;
             }
         }
-        document.querySelector("table tbody").innerHTML = tr;
-    }
-    function filter_all_data() {
-        var small_ = parseFloat(document.getElementById("small_").value) || 0;
-        var big_ = parseFloat(document.getElementById("big_").value) || 99999;
-        var currentPurpose = document.getElementById("search_item_2").value;
-    
-        var range_val = database.ref('/index');
-        range_val.once('value', function(snapshot) {
-            var djson_raw = snapshot.val();
-            var djson = jsonToArray(djson_raw);
+        // 字典跟array的exchange
+        function jsonToArray(obj) {
+            const result = [];
+            for (let key in obj) {
+                result.push(obj[key]);
+            }
+            return result;
+        }
+        function up_number(property) {
+            return function (obj1, obj2) {
+                // parseFloat 確保把 "5.1" 轉成數字 5.1
+                // || 0 是防呆，如果資料是空的就當作 0
+                var v1 = parseFloat(obj1[property]) || 0;
+                var v2 = parseFloat(obj2[property]) || 0;
+                return v1 - v2;
+            }
+        }
+        function down_number(property) {
+            return function (obj1, obj2) {
+                var v1 = parseFloat(obj1[property]) || 0;
+                var v2 = parseFloat(obj2[property]) || 0;
+                return v2 - v1;
+            }
+        }
+        //done
+        function up_date(property) {
+            return function (obj1, obj2) {
+                var v1 = new Date(obj1[property]);
+                var v2 = new Date(obj2[property]);
+                return v1 - v2;
+            }
+        }
+        //done
+        function down_date(property) {
+            return function (obj1, obj2) {
+                var v1 = new Date(obj1[property]);
+                var v2 = new Date(obj2[property]);
+                return v2 - v1;
+            }
+        }
+        function up_string(property) {
+            return function (obj1, obj2) {
+                var v1 = obj1[property] ? obj1[property].toString() : "";
+                var v2 = obj2[property] ? obj2[property].toString() : "";
+                if (v1 < v2) return -1;
+                if (v1 > v2) return 1;
+                return 0; // 相等時回傳 0
+            }
+        }
+        function down_string(property) {
+            return function (obj1, obj2) {
+                var v1 = obj1[property] ? obj1[property].toString() : "";
+                var v2 = obj2[property] ? obj2[property].toString() : "";
+                if (v1 < v2) return 1;
+                if (v1 > v2) return -1;
+                return 0; // 相等時回傳 0
+            }
+        }
+        function up_duration_compare() {
+            return function (obj1, obj2) {
+                var val1 = parseFloat(getDuration(obj1["START_DATE"], obj1["END_DATE"])) || 0;
+                var val2 = parseFloat(getDuration(obj2["START_DATE"], obj2["END_DATE"])) || 0;
+                return val1 - val2;
+            };
+        }
 
-            var filteredData = djson.filter(function(item) {
-                if (!item) return false;
-                var miles = parseFloat(item["MILES"]);
-                var purpose = item["PURPOSE"];
-                
-                var matchMiles = (miles >= small_ && miles <= big_);
-                var matchPurpose = (currentPurpose === "" || purpose === currentPurpose);
-                return matchMiles && matchPurpose;
+        function down_duration_compare() {
+            return function (obj1, obj2) {
+                var val1 = parseFloat(getDuration(obj1["START_DATE"], obj1["END_DATE"])) || 0;
+                var val2 = parseFloat(getDuration(obj2["START_DATE"], obj2["END_DATE"])) || 0;
+                return val2 - val1;
+            };
+        }
+        function renderTable(dataArray) {
+            // 關鍵修改：每次渲染畫面時，都把這組資料存進全域變數
+            currentDisplayData = dataArray;
+
+            var tr = "";
+            for (var i = 0; i < dataArray.length; i++) {
+                if (dataArray[i] != null) {
+                    tr += "<tr>";
+                    tr += "<td>" + (i + 1) + "</td>";
+                    tr += "<td>" + dataArray[i]["START_DATE"] + "</td>";
+                    tr += "<td>" + getDuration(dataArray[i]["START_DATE"], dataArray[i]["END_DATE"]) + "</td>";
+                    tr += "<td>" + dataArray[i]["CATEGORY"] + "</td>";
+                    tr += "<td>" + dataArray[i]["START"] + "</td>";
+                    tr += "<td>" + dataArray[i]["STOP"] + "</td>";
+                    tr += "<td>" + dataArray[i]["MILES"] + "</td>";
+                    tr += "<td>" + dataArray[i]["PURPOSE"] + "</td>";
+                    tr += "</tr>";
+                }
+            }
+            document.querySelector("table tbody").innerHTML = tr;
+        }
+        function filter_all_data() {
+            var small_ = parseFloat(document.getElementById("small_").value) || 0;
+            var big_ = parseFloat(document.getElementById("big_").value) || 99999;
+            var currentPurpose = document.getElementById("search_item_2").value;
+
+            var range_val = database.ref('/index');
+            range_val.once('value', function (snapshot) {
+                var djson_raw = snapshot.val();
+                var djson = jsonToArray(djson_raw);
+
+                var filteredData = djson.filter(function (item) {
+                    if (!item) return false;
+                    var miles = parseFloat(item["MILES"]);
+                    var purpose = item["PURPOSE"];
+
+                    var matchMiles = (miles >= small_ && miles <= big_);
+                    var matchPurpose = (currentPurpose === "" || purpose === currentPurpose);
+                    return matchMiles && matchPurpose;
+                });
+                renderTable(filteredData);
             });
-            renderTable(filteredData);
-        });
-    }
-    // 讓原本的函數都指向同一個邏輯
-    function range_() { filter_all_data(); }
-    function search_purpose() { filter_all_data(); }
+        }
+        // 讓原本的函數都指向同一個邏輯
+        function range_() { filter_all_data(); }
+        function search_purpose() { filter_all_data(); }
     </script>
 
     <script>
-    // 1. 當網頁載入完成後，自動把選項塞進下拉選單
-    window.addEventListener('load', function() {
-        var purposes = [
-            "Other", "Meeting", "Meal/Entertain", "Errand/Supplies", 
-            "Customer Visit", "Temporary Site", "Between Offices", 
-            "Moving", "Airport/Travel", "Charity", "Commute"
-        ];
+        // 1. 當網頁載入完成後，自動把選項塞進下拉選單
+        window.addEventListener('load', function () {
+            var purposes = [
+                "Other", "Meeting", "Meal/Entertain", "Errand/Supplies",
+                "Customer Visit", "Temporary Site", "Between Offices",
+                "Moving", "Airport/Travel", "Charity", "Commute"
+            ];
 
-        var listContainer = document.getElementById('purpose_list');
-        if (listContainer) {
-            purposes.forEach(function(item) {
-                var li = document.createElement('li');
-                var a = document.createElement('a');
-                a.href = "javascript:void(0)";
-                a.innerHTML = item;
-                // 點擊選項時執行 selectPurpose 函數
-                a.onclick = function() { selectPurpose(item); };
-                li.appendChild(a);
-                listContainer.appendChild(li);
-            });
+            var listContainer = document.getElementById('purpose_list');
+            if (listContainer) {
+                purposes.forEach(function (item) {
+                    var li = document.createElement('li');
+                    var a = document.createElement('a');
+                    a.href = "javascript:void(0)";
+                    a.innerHTML = item;
+                    // 點擊選項時執行 selectPurpose 函數
+                    a.onclick = function () { selectPurpose(item); };
+                    li.appendChild(a);
+                    listContainer.appendChild(li);
+                });
+            }
+        });
+
+        // 2. 定義點擊選項後的動作
+        function selectPurpose(val) {
+            // 更新按鈕文字
+            document.getElementById('selected_purpose_text').innerHTML = val ? val : "Select Purpose";
+            // 把值存入隱藏的 input，讓 Firebase 邏輯能抓到
+            document.getElementById('search_item_2').value = val;
+
+            // 觸發搜尋
+            if (val === "") {
+                default_();
+            } else {
+                search_purpose();
+            }
         }
-    });
 
-    // 2. 定義點擊選項後的動作
-    function selectPurpose(val) {
-        // 更新按鈕文字
-        document.getElementById('selected_purpose_text').innerHTML = val ? val : "Select Purpose";
-        // 把值存入隱藏的 input，讓 Firebase 邏輯能抓到
-        document.getElementById('search_item_2').value = val;
-        
-        // 觸發搜尋
-        if (val === "") {
-            default_(); 
-        } else {
-            search_purpose(); 
-        }
-    }
-
-    // 3. 原有的視窗縮放邏輯
-    window.addEventListener('resize', function() {
-        if (typeof myChart !== 'undefined') myChart.resize();
-        if (typeof myChart1 !== 'undefined') myChart1.resize();
-        if (typeof myChart2 !== 'undefined') myChart2.resize();
-        if (typeof myChart4 !== 'undefined') myChart4.resize();
-        if (typeof myChart5 !== 'undefined') myChart5.resize();
-        if (typeof myChart6 !== 'undefined') myChart6.resize();
-    });
+        // 3. 原有的視窗縮放邏輯
+        window.addEventListener('resize', function () {
+            if (typeof myChart !== 'undefined') myChart.resize();
+            if (typeof myChart1 !== 'undefined') myChart1.resize();
+            if (typeof myChart2 !== 'undefined') myChart2.resize();
+            if (typeof myChart4 !== 'undefined') myChart4.resize();
+            if (typeof myChart5 !== 'undefined') myChart5.resize();
+            if (typeof myChart6 !== 'undefined') myChart6.resize();
+        });
     </script>
-
-
 </body>
 </html>
-
-
