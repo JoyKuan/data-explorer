@@ -936,6 +936,8 @@
                     djson.sort(up_duration_compare());
                 } else if (property === 'START_DATE') {
                     djson.sort(up_date(property));
+                } else if (property === 'MILES') {
+                    djson.sort(up_number(property)); // <--- 關鍵修改：用數字比法
                 } else {
                     djson.sort(up_string(property));
                 }
@@ -946,6 +948,8 @@
                     djson.sort(down_duration_compare());
                 } else if (property === 'START_DATE') {
                     djson.sort(down_date(property));
+                } else if (property === 'MILES') {
+                    djson.sort(down_number(property)); // <--- 關鍵修改：用數字比法
                 } else {
                     djson.sort(down_string(property));
                 }
@@ -1019,6 +1023,24 @@
             result.push(obj[key]);
         }
         return result;
+    }
+
+    function up_number(property) {
+        return function(obj1, obj2) {
+            // parseFloat 確保把 "5.1" 轉成數字 5.1
+            // || 0 是防呆，如果資料是空的就當作 0
+            var v1 = parseFloat(obj1[property]) || 0;
+            var v2 = parseFloat(obj2[property]) || 0;
+            return v1 - v2; 
+        }
+    }
+
+    function down_number(property) {
+        return function(obj1, obj2) {
+            var v1 = parseFloat(obj1[property]) || 0;
+            var v2 = parseFloat(obj2[property]) || 0;
+            return v2 - v1;
+        }
     }
 
     //done
