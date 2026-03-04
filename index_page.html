@@ -996,8 +996,15 @@
         if (hiddenInput) {
             hiddenInput.value = "";
         }
+
+        // 4. 回復所有排序圖示為預設雙箭頭
+        var icons = document.querySelectorAll('th i');
+        icons.forEach(function(icon) {
+            icon.className = 'fas fa-sort'; // 強制所有 Icon 回到預設狀態
+            icon.style.color = '#ccc';      // 如果你有改顏色，也一併還原
+        });
     
-        // 4. 執行原有的資料重載邏輯
+        // 5. 執行原有的資料重載邏輯
         var index_ = database.ref('/index');
         index_.once('value', function(snapshot) {
             var rawData = snapshot.val();
