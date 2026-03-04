@@ -125,19 +125,22 @@
         th {
             white-space: nowrap !important; /* 確保不換行 */
             vertical-align: middle !important;
+            text-align: center !important;    /* <--- 加入這一行讓文字水平置中 */
             padding: 15px 10px !important;   /* 增加一點寬度空間 */
             background-color: #eee;         /* 給標題一個淺灰色底，更有表格層次感 */
         }
         
         /* 2. 讓箭頭緊隨文字，避免被擠壓 */
         th i {
-            font-size: 16px !important;    /* 放大箭頭，原本可能只有 10-12px */
-            margin-left: 8px !important;   /* 增加文字與箭頭間的距離 */
-            cursor: pointer;
-            /* color: #333;                   /* 讓顏色深一點，看起來更清晰 */ */
-            /* display: inline-block !important; */
-            /* vertical-align: middle !important; */
-            /* transition: transform 0.2s;    /* 增加一點點平滑動畫效果 */ */
+                font-size: 16px !important;
+                margin-left: 5px !important;
+                cursor: pointer;
+                display: inline-block;          /* 確保圖示可以跟著文字水平排列 */
+                vertical-align: middle;         /* 確保箭頭跟文字對齊中線 */
+                width: 20px;
+                text-align: center;
+                color: #ccc;
+                transition: 0.2s;
         }
         /* 當滑鼠移上去時變色，增加互動感 */
         th i:hover {
