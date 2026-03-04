@@ -378,6 +378,7 @@
                     
                         var rawData = [19,5,2,3,0,4,4,13,35,51,65,72,77,94,89,98,88,95,94,68,71,51,31,26];
                         var hours = Array.from({length:24}, (_,i)=> i<10 ? '0'+i : ''+i);
+                        var totalTrips = 1155;
                         
                         var option = {
                             tooltip: {
@@ -389,7 +390,8 @@
                                     var hour = parseInt(p.name);
                                     var period = hour < 12 ? 'AM' : 'PM';
                                     var displayHour = hour % 12 === 0 ? 12 : hour % 12;
-                                    return displayHour + ' ' + period + ': <b>' + p.value + '</b>';
+                                    var percent = ((p.value / totalTrips) * 100).toFixed(2);
+                                    return displayHour + ' ' + period + ': <b>' + p.value + '</b> (' + percent + '%)';
                                 }
                             },
                             grid: {
@@ -505,8 +507,8 @@
                             </script>
                         </th>
                     <!--2 catalogy -->
-                    <th style="width:160px; height:160px; padding:0; vertical-align:top;">
-                        <div id="main2" style="width: 100px; height: 120px; margin: 0 auto;"></div>
+                    <th style="width:180px; height:180px; padding:0; vertical-align:top;">
+                        <div id="main2" style="width: 100%; height: 100%; margin: 0 auto;"></div>
                         <script type="text/javascript">
                             var myChart2 = echarts.init(document.getElementById('main2'));
                             var option2 = {
